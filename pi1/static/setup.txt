@@ -1,0 +1,151 @@
+plugin.tx_multicolumn_pi1 {
+		# internal do not remove
+	includeFromStatic = 1
+	
+		# column container
+	columnContainer = COA
+	columnContainer {
+		if.isTrue.field = content
+		
+		1 = LOAD_REGISTER
+		1 {
+			width =	width: {field:containerWidth}{field:containerMeasure};
+			width {
+				insertData = 1
+				if.isTrue.field = containerWidth
+			}
+				# to do add configuration option to prevent clear
+			clearfix = clearfix
+			
+				# layout class
+			layout = multicolumnLayout{field:layoutKey}
+			layout {
+				insertData = 1
+				if.isTrue.field = layoutKey
+			}
+		}
+		
+		2 = TEXT
+		2 {
+			insertData = 1
+			value (
+				<ul class="multicolumnContainer {register:layout} {register:clearfix}" style="{register:width}">
+					{field:content}
+				</ul>
+			)
+		}
+		
+		3 = RESTORE_REGISTER
+	}
+	
+		# markup for column item
+	column = COA
+	column {
+		1 = LOAD_REGISTER
+		1 {
+			width = width: {field:columnWidth}{field:columnMeasure};
+			width {
+				insertData = 1
+				if.isTrue.field = columnWidth
+			}
+			
+			margin = margin: {field:columnMargin}
+			margin {
+				if.isTrue.field = columnMargin
+				insertData = 1
+			}
+			
+			padding = padding: {field:columnPadding}
+			padding {
+				if.isTrue.field = columnPadding
+				insertData = 1
+			}
+		}
+		
+		2 = LOAD_REGISTER
+		2 {
+			columnItems.insertData = 1
+			columnItems.if.isTrue.field = content
+			columnItems (
+				<div class="columnItems" style="{register:padding}">
+					{field:content}
+				</div>
+			)
+		}
+		
+		3 = TEXT
+		3 {
+			insertData = 1
+			value (
+				<li style="{register:width} {register:margin}" class="column column{field:recordNumber} {field:isFirst} {field:isLast}">
+					{register:columnItems}
+				</li>
+			)
+		}
+		
+		4 = RESTORE_REGISTER
+	}
+	
+		# render content elements
+	columnItem = COA
+	columnItem {
+		stdWrap.dataWrap = <div class="columnItem columnItem{field:recordNumber} {field:isFirst} {field:isLast} columnItem{field:CType}">|</div>
+		
+		10 = < tt_content
+	}
+	
+		# maxWidth of colum (needed for shrink images)
+	columnWidth = CASE
+	columnWidth {
+		key.data = field:colPos
+
+		default = TEXT
+		default {
+			value = {$styles.content.imgtext.colPos0.maxW}
+			ifEmpty = {$styles.content.imgtext.maxW}
+		}
+
+		#col1
+		1 = TEXT
+		1 {
+			value = {$styles.content.imgtext.colPos1.maxW}
+			ifEmpty = {$styles.content.imgtext.maxW}
+		}
+		#Col2
+		2 = TEXT
+		2 {
+			value = {$styles.content.imgtext.colPos2.maxW}
+			ifEmpty = {$styles.content.imgtext.maxW}
+		}
+	}
+}
+
+
+plugin.tx_multicolumn_pi1._CSS_DEFAULT_STYLE (
+	.clearfix:after {
+		clear:both;
+		content:".";
+		display:block;
+		font-size:0;
+		height:0;
+		visibility:hidden;
+	}
+	
+	.columnItems,
+	.multicolumnContainer {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+	}
+	
+	.multicolumnContainer .column {
+		float: left;
+	}
+)
+
+	# add multicolumn rendering to tt_content
+tt_content.multicolumn = COA
+tt_content.multicolumn {
+	10 = < lib.stdheader
+	20 = < plugin.tx_multicolumn_pi1
+}

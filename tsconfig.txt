@@ -1,0 +1,71 @@
+tx_multicolumn {
+	config {
+		advancedLayouts {
+			maxNumberOfColumns = 10
+		}
+	}
+	layoutPreset {
+		1 {
+			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.1
+			icon = EXT:multicolumn/res/layout/1.gif
+			config {
+				# include a specific css for your preset layout 
+				#layoutCss = EXT:multicolumn/res/layout/1.css
+
+				# container settings
+					# % or px (if empty default measure is %)
+				#containerMeasure = %
+					# if you want to specifie a fixed width for column
+				#containerWidth =
+					
+				# column settings
+					# number of columns
+				columns = 2
+				
+				#columnMeasure =
+					#column width (optionSplit)
+				columnWidth = 49.9
+				
+					# column margin (optionSplit) css string is allowed like (10px 0 0 15px)
+				#columnMargin =
+					# column padding (optionSplit) css string is allowed like (10px 0 0 15px)
+				columnPadding = 0 6px 0 0 || 0 0 0 6px
+					# disable auto image shrink
+				#disableImageShrink
+				
+			}
+		}
+
+		2 {
+			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.2
+			icon = EXT:multicolumn/res/layout/2.gif
+			config {
+				columns = 3
+				columnWidth = 33
+				columnPadding = 0 6px 0 0 || 0 6px || 0 0 0 6px
+			}
+
+		}
+		3 {
+			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.3
+			icon = EXT:multicolumn/res/layout/3.gif
+			config {
+				columns = 4
+				columnWidth = 25
+				columnPadding = 0 6px 0 0 |*| 0 6px |*| 0 0 0 6px
+			}
+
+		}
+		
+		10 {
+			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.10
+			icon = EXT:multicolumn/res/layout/10.gif
+			config {
+				columns = 2
+					# option split is allowed!
+				columnWidth = 67 || 33
+				columnPadding = 0 6px 0 0 || 0 0 0 6px 
+			}
+		}
+	}
+}
