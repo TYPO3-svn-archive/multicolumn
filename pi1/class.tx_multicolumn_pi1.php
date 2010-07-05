@@ -145,7 +145,8 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 			$conf = array_merge($this->layoutConfiguration, $splitedColumnConf);
 
 			$colPosData = array('colPos' => $this->cObj->data['colPos']);
-			$colPosMaxImageWidth = $this->renderItem('columnWidth', $colPosData);
+			$colPosMaxImageWidth = intval($this->renderItem('columnWidth', $colPosData));
+
 			$columnData = $conf;
 			$columnData['columnWidth'] = $conf['columnWidth'] ? $conf['columnWidth'] : round(100/$numberOfColumns);
 
@@ -158,7 +159,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 				$columnData['columnWidthPixel'] = $conf['columnWidth'];
 				
 				// if container width is set in percent (default 100%)
-			} else {
+			} else if ($colPosMaxImageWidth) {
 				$columnData['columnWidthPixel'] = tx_multicolumn_div::calculateMaxColumnWidth($columnData['columnWidth'], $colPosMaxImageWidth, $numberOfColumns);
 			}
 
@@ -172,7 +173,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 
 			if($contentElements) {
 					// do auto scale if requested
-				$maxImageWidth = $disableImageShrink ? null : ($columnData['columnWidthPixel'] - $columnData['columnPaddingTotalWidthPixel']);
+				$maxImageWidth = $disableImageShrink ? null : ($columnData['columnWidthPixel'] ? ($columnData['columnWidthPixel'] - $columnData['columnPaddingTotalWidthPixel']) : null);
 
 				$GLOBALS['TSFE']->register['maxImageWidth'] = $maxImageWidth;
 				$columnData['content'] = $this->renderListItems('columnItem', $contentElements, $this->llPrefixed);
@@ -262,8 +263,10 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	 * @retun	string		html content of flash message
 	 */		
 	protected function showFlashMessage($title, $message, $type = t3lib_FlashMessage::ERROR) {
+			// get relative path
+		$relPath = str_replace(t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST'), null, t3lib_div::getIndpEnv('TYPO3_SITE_URL'));
 			// add error csss
-		$GLOBALS['TSFE']->getPageRenderer()->addCssFile('/typo3conf/ext/multicolumn/res/flashmessage.css', 'stylesheet','screen');
+		$GLOBALS['TSFE']->getPageRenderer()->addCssFile($relPath . 'typo3conf/ext/multicolumn/res/flashmessage.css', 'stylesheet','screen');
 		$flashMessage = t3lib_div::makeInstance('t3lib_FlashMessage', $message, $title, $type);
 		return $flashMessage->render();
 	}
