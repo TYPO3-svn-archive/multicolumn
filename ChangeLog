@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2010-07-08 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: E_NOTICE errors
+	
 2010-07-05 Michael Birchler  <mbirchler@snowflake.ch>
 
 	* Fixed: frontend: if constant styles.content.imgtext.colPos0.maxW or styles.content.imgtext.maxW was not set column calculation was faulty

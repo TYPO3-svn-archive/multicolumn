@@ -135,8 +135,8 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$columnContent = array();
 		$disableImageShrink = $this->layoutConfiguration['disableImageShrink'] ? true : false;
 			// store current max width
-		$maxWidthBefore = $GLOBALS['TSFE']->register['maxImageWidth'];
-
+		$maxWidthBefore = isset($GLOBALS['TSFE']->register['maxImageWidth']) ? $GLOBALS['TSFE']->register['maxImageWidth'] : null;
+		
 		$columnNumber = 0;
 		while ($columnNumber < $numberOfColumns) {
 			$multicolumnColPos = tx_multicolumn_div::colPosStart + $columnNumber;
@@ -170,10 +170,9 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 			
 			$columnData['colPos'] = $multicolumnColPos;
 			$contentElements = tx_multicolumn_db::getContentElementsFromContainer($columnData['colPos'], $this->cObj->data['pid'], $this->multicolumnContainerUid, $this->cObj->data['sys_language_uid']);
-
 			if($contentElements) {
 					// do auto scale if requested
-				$maxImageWidth = $disableImageShrink ? null : ($columnData['columnWidthPixel'] ? ($columnData['columnWidthPixel'] - $columnData['columnPaddingTotalWidthPixel']) : null);
+				$maxImageWidth = $disableImageShrink ? null : (isset($columnData['columnWidthPixel']) ? ($columnData['columnWidthPixel'] - $columnData['columnPaddingTotalWidthPixel']) : null);
 
 				$GLOBALS['TSFE']->register['maxImageWidth'] = $maxImageWidth;
 				$columnData['content'] = $this->renderListItems('columnItem', $contentElements, $this->llPrefixed);
@@ -272,7 +271,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/multicolumn/pi1/class.tx_multicolumn_pi1.php'])    {
+if (defined('TYPO3_MODE') && isset($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/multicolumn/pi1/class.tx_multicolumn_pi1.php']))    {
     include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/multicolumn/pi1/class.tx_multicolumn_pi1.php']);
 }
 ?>

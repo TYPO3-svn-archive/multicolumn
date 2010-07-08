@@ -56,12 +56,13 @@ class tx_multicolumn_db {
 	 */	
 	public static function getContentElementsFromContainer($colPos = null, $pid = null, $mulitColumnParentId, $sysLanguageUid = 0, $showHidden = false, $additionalWhere = null, tx_cms_layout &$cmsLayout = null) {
 			// is workspace active?
+		$isWorkspace = false;
 		if(self::isBackend()) $isWorkspace = self::isWorkspaceActive();
 
 		$selectFields = '*';
 		$fromTable = 'tt_content';
 
-		$whereClause .= '1=1';
+		$whereClause = '1=1';
 		if($colPos) $whereClause .= ' AND colPos=' . intval($colPos);
 		if($pid && !$isWorkspace) $whereClause .= ' AND pid =' . intval($pid);
 		$whereClause .= ' AND tx_multicolumn_parentid=' . intval($mulitColumnParentId);
@@ -71,7 +72,7 @@ class tx_multicolumn_db {
 			// enable fields
 		if(!$isWorkspace) $whereClause .= self::enableFields($fromTable, $showHidden);
 		$orderBy = 'sorting ASC';
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, null, $orderBy, $limit);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, null, $orderBy);
 
 		if (!$GLOBALS['TYPO3_DB']->sql_error()) {
 			if($cmsLayout) {
@@ -228,7 +229,7 @@ class tx_multicolumn_db {
 	 * @return	string			mysql query string
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
-		$enableFields = is_object($GLOBALS['TSFE']->cObj) ?  self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
+		$enableFields = isset($GLOBALS['TSFE']) ?  self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
 		return $enableFields;
 	}
 	
@@ -263,7 +264,7 @@ class tx_multicolumn_db {
 
 			// remove hidden
 		if($showHidden) $whereClause = str_replace('AND '.$table . '.hidden=0', null, $whereClause);
-		$whereClause .= t3lib_BEfunc::versioningPlaceholderClause($fromTable);
+		$whereClause .= t3lib_BEfunc::versioningPlaceholderClause($table);
 		return $whereClause;
 	}
 }

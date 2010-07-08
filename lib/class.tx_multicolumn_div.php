@@ -45,7 +45,7 @@ final class tx_multicolumn_div {
 		if($layoutKey) $config['layoutKey'] = substr($layoutKey, 0, -1);
 		
 		$tsConfig = self::getTSConfig($pageUid);
-		$tsConfig = $tsConfig[$layoutKey]['config.'];
+		if(isset($tsConfig[$layoutKey]['config.'])) $tsConfig = $tsConfig[$layoutKey]['config.'];
 
 			//merge default config with ts config
 		if(is_array($tsConfig)) $config = array_merge($config, $tsConfig);
@@ -65,7 +65,7 @@ final class tx_multicolumn_div {
 	 * @return	array				Preset layout configuration
 	 */	
 	public static function getTSConfig($pageUid, $tsConfigKey = 'layoutPreset') {
-		$tsConfig = is_object($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
+		$tsConfig = isset($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
 
 		return $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
 	}
