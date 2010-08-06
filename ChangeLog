@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2010-08-08 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Added: tx_multicolumn_tt_content_drawItem: wordWrapper for preview text
+	
 2010-07-08 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Fixed: E_NOTICE errors

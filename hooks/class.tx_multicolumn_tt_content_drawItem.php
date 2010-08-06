@@ -217,7 +217,7 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 					// pre crop bodytext
 				if($row['bodytext']) {
 					$row['bodytext'] = $this->pObj->strip_tags($row['bodytext'], true);
-					$row['bodytext'] = t3lib_div::fixed_lgd_cs($row['bodytext'], 50);
+					$row['bodytext'] = $this->pObj->wordWrapper(t3lib_div::fixed_lgd_cs($row['bodytext'], 50), 25,' ');
 				}
 
 				$content.= '<div ' . (isset($row['_ORIG_uid']) ? ' class="ver-element"' :'') . '>' . $this->pObj->tt_content_drawItem($row, $isRTE) . '</div>';
