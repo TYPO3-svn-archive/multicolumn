@@ -134,7 +134,7 @@ class tx_multicolumn_db {
 	 */		
 	public static function getContentElement($uid, $selectFields = '*', $additionalWhere = null, $useDeleteClause = true) {
 		if(self::isBackend()) {
-			return t3lib_befunc::getRecordWSOL('tt_content', $uid, $selectFields = '*', $additionalWhere, $useDeleteClause = true);
+			return t3lib_befunc::getRecordWSOL('tt_content', $uid, $selectFields, $additionalWhere, $useDeleteClause = true);
 		}
 		
 		$selectFields = $selectFields;
@@ -170,7 +170,6 @@ class tx_multicolumn_db {
 	 * Get multicolumn content element from uid
 	 *
 	 * @param	integer			$uid uid of content element
-	 * @param	integer			$sysLanguageUid language
 	 * @param	integer			$selectFields
 	 * 
 	 * @return	mixed			array if container found
@@ -179,7 +178,6 @@ class tx_multicolumn_db {
 		$fromTable = 'tt_content';
 
 		$whereClause = ' uid=' . intval($uid) . ' AND CType=\'multicolumn\'';
-		$whereClause .= ' AND sys_language_uid = ' . intval($sysLanguageUid);
 		if($enableFields) $whereClause .= self::enableFields('tt_content');
 		
 		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);	

@@ -115,7 +115,9 @@ class tx_multicolumn_tcemain {
 				if($command == 'copy' && $containerChildren) {
 						// the only way from here without db request to get the destinationPid?
 					$destinationPid = key($this->pObj->cachedTSconfig);
-					$this->copyMulticolumnContainer($id, $containerChildren, $destinationPid);
+					$sysLanguageUid = tx_multicolumn_db::getContentElement($this->pObj->copyMappingArray['tt_content'][$id], 'sys_language_uid');
+
+					$this->copyMulticolumnContainer($id, $containerChildren, $destinationPid, $sysLanguageUid['sys_language_uid']);
 					
 					// check if content element has a seedy relation to multicolumncontainer?
 				} else if($command == 'copy' && $newUid = intval($this->pObj->copyMappingArray['tt_content'][$id])) {
@@ -225,11 +227,29 @@ class tx_multicolumn_tcemain {
 	 */
 	public function moveRecord_afterAnotherElementPostProcess($table, $uid, $destPid, $origDestPid, $moveRec, $updateFields, t3lib_TCEmain $pObj) {
 			// check if we must update the move record
-		if($table == 'tt_content' && $this->isMulticolumnContainer($uid)) {
+		if($table == 'tt_content' && is_array($this->isMulticolumnContainer($uid))) {
 			if(!$this->getMulticolumnGetAction() == 'pasteInto') {
 				$updateRecordFields = array();
 				$updateRecordFields = $this->checkIfElementGetsCopiedOrMovedInsideOrOutsideAMulticolumnContainer($origDestPid, $updateRecordFields);
+
 				tx_multicolumn_db::updateContentElement($uid, $updateRecordFields);
+					
+					// check language
+				if($origDestPid < 0) {
+					$recordBeforeUid = abs($origDestPid);
+					
+					$row = tx_multicolumn_db::getContentElement($recordBeforeUid, 'sys_language_uid');
+					$sysLanguageUid = $row['sys_language_uid'];
+
+					$containerChildren = tx_multicolumn_db::containerHasChildren($uid);
+					if(is_array($containerChildren)) {
+						$firstElement = $containerChildren[0];
+							// update only if destination has a diffrent langauge
+						if(!($firstElement['sys_language_uid'] == $sysLanguageUid)) {
+							$this->updateLanguage($containerChildren, $sysLanguageUid);
+						}
+					}
+				}
 	
 					// update children (only if container is moved to a new page)
 				if($moveRec['pid'] != $destPid) {
@@ -272,7 +292,7 @@ class tx_multicolumn_tcemain {
 		if($row['CType'] == 'multicolumn') {
 			$containerChildren = tx_multicolumn_db::containerHasChildren($row['uid']);
 			if($containerChildren) {
-				$this->moveContainerChildren($containerChildren, $destPid);		
+				$this->moveContainerChildren($containerChildren, $destPid);
 			}
 			
 			// if element is moved as first element on page ? set multicolumn_parentid and colPos to 0
@@ -294,10 +314,25 @@ class tx_multicolumn_tcemain {
 	 * @param	array		$containerChildren: Children of multicolumn container
 	 * @param	integer		$destPid: Target pid of page
 	 */	
-	protected function moveContainerChildren($containerChildren, $destPid) {
+	protected function moveContainerChildren(array $containerChildren, $destPid) {
 		foreach($containerChildren as $child) {
 			$this->pObj->moveRecord_raw('tt_content', $child['uid'], $destPid);
 		}
+	}
+	
+	/**
+	 * Updates the language of container children
+	 *
+	 * @param	array		$containerChildren: Children of multicolumn container
+	 * @param	integer		$destPid: Target pid of page
+	 */	
+	protected function updateLanguage(array $containerChildren, $sysLanguageUid) {
+		foreach($containerChildren as $child) {
+			$updateRecordFields = array (
+				'sys_language_uid' => $sysLanguageUid	
+			);
+			tx_multicolumn_db::updateContentElement($child['uid'], $updateRecordFields);	
+		}		
 	}
 	
 	/**
@@ -307,9 +342,10 @@ class tx_multicolumn_tcemain {
 	 * @param	array		$elementsToCopy: Content element array with uid, and pid
 	 * @param	integer		$pid: Target pid of page
 	 */
-	protected function copyMulticolumnContainer($id, array $elementsToCopy, $pid) {
+	protected function copyMulticolumnContainer($id, array $elementsToCopy, $pid, $sysLanguageUid = 0) {
 		$overrideValues = array (
-			'tx_multicolumn_parentid' => $id
+			'tx_multicolumn_parentid' => $id,
+			'sys_language_uid' => $sysLanguageUid
 		);
 
 		foreach($elementsToCopy as $element) {
@@ -318,9 +354,11 @@ class tx_multicolumn_tcemain {
 				// if is element a multicolumn element ? copy children too (recursive)
 			if($element['CType'] == 'multicolumn') {
 				$containerChildren = tx_multicolumn_db::containerHasChildren($element['uid']);
+
 				if($containerChildren) {
 					$copiedMulticolumncontainer = tx_multicolumn_db::getContentElement($newUid, 'uid,pid');
-					$this->copyMulticolumnContainer($newUid, $containerChildren, $copiedMulticolumncontainer['pid']);
+
+					$this->copyMulticolumnContainer($newUid, $containerChildren, $copiedMulticolumncontainer['pid'], $sysLanguageUid);
 				}
 			}
 		}
