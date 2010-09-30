@@ -95,7 +95,7 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 	 */	
 	protected function buildColumns($numberOfColumns) {
 			//build columns
-		$markup .= '</span><table class="multicolumn t3-page-columns"><tr>';
+		$markup = '</span><table class="multicolumn t3-page-columns"><tr>';
 		$columnIndex = 0;
 		while ($columnIndex < $numberOfColumns) {
 			$multicolumnColPos = tx_multicolumn_div::colPosStart + $columnIndex;
@@ -198,7 +198,7 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 				$ceClass = 't3-page-ce' . $statusHidden;
 				$content .= '<li id="element_' . $row['tx_multicolumn_parentid'] . '_' . $row['colPos'] . '_' . $row['uid'] . '" class="contentElement item' . $item . '"><div class="'.$ceClass.'">';
 				
-				$isRTE = $RTE && $this->pObj->isRTEforField('tt_content', $row, 'bodytext');
+				$isRTE = $this->pObj->isRTEforField('tt_content', $row, 'bodytext');
 				$space = $this->pObj->tt_contentConfig['showInfo'] ? 15 : 5;
 				
 					// render diffrent header
@@ -217,10 +217,10 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 					// pre crop bodytext
 				if($row['bodytext']) {
 					$row['bodytext'] = $this->pObj->strip_tags($row['bodytext'], true);
-					$row['bodytext'] = t3lib_div::fixed_lgd_cs($row['bodytext'], 50);
+					$row['bodytext'] = $this->pObj->wordWrapper(t3lib_div::fixed_lgd_cs($row['bodytext'], 50), 25,' ');
 				}
-				$content.= '<div ' . ($row['_ORIG_uid'] ? ' class="ver-element"' :'') . '>' . $this->pObj->tt_content_drawItem($row, $isRTE) . '</div>';
-				
+
+				$content.= '<div ' . (isset($row['_ORIG_uid']) ? ' class="ver-element"' :'') . '>' . $this->pObj->tt_content_drawItem($row, $isRTE) . '</div>';
 				$content .= '</div>' . $trailingDiv . '</li>';
 				$item ++;
 			} else { unset($rowArr[$rKey]); }

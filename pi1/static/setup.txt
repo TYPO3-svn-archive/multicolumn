@@ -103,6 +103,7 @@ plugin.tx_multicolumn_pi1 {
 		default {
 			value = {$styles.content.imgtext.colPos0.maxW}
 			ifEmpty = {$styles.content.imgtext.maxW}
+                        intval = 1
 		}
 
 		#col1
@@ -110,12 +111,14 @@ plugin.tx_multicolumn_pi1 {
 		1 {
 			value = {$styles.content.imgtext.colPos1.maxW}
 			ifEmpty = {$styles.content.imgtext.maxW}
+                        intval = 1
 		}
 		#Col2
 		2 = TEXT
 		2 {
 			value = {$styles.content.imgtext.colPos2.maxW}
 			ifEmpty = {$styles.content.imgtext.maxW}
+                        intval = 1
 		}
 	}
 }
@@ -142,10 +145,3 @@ plugin.tx_multicolumn_pi1._CSS_DEFAULT_STYLE (
 		float: left;
 	}
 )
-
-	# add multicolumn rendering to tt_content
-tt_content.multicolumn = COA
-tt_content.multicolumn {
-	10 = < lib.stdheader
-	20 = < plugin.tx_multicolumn_pi1
-}

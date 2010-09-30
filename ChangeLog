@@ -1,4 +1,24 @@
 (add new changes on top of this file)
+2010-09-09 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: Copy / paste to a diffrent language
+	
+2010-09-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: Respect $TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems']
+	
+2010-08-08 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Added: tx_multicolumn_tt_content_drawItem: wordWrapper for preview text
+	
+2010-07-08 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: E_NOTICE errors
+	
+2010-07-05 Michael Birchler  <mbirchler@snowflake.ch>
+
+	* Fixed: frontend: if constant styles.content.imgtext.colPos0.maxW or styles.content.imgtext.maxW was not set column calculation was faulty
+	
 2010-06-30 Michael Birchler  <mbirchler@snowflake.ch>
 
 	* Fixed: clickmenu: paste into with recursive multicolumn container

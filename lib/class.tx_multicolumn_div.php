@@ -45,7 +45,7 @@ final class tx_multicolumn_div {
 		if($layoutKey) $config['layoutKey'] = substr($layoutKey, 0, -1);
 		
 		$tsConfig = self::getTSConfig($pageUid);
-		$tsConfig = $tsConfig[$layoutKey]['config.'];
+		if(isset($tsConfig[$layoutKey]['config.'])) $tsConfig = $tsConfig[$layoutKey]['config.'];
 
 			//merge default config with ts config
 		if(is_array($tsConfig)) $config = array_merge($config, $tsConfig);
@@ -65,7 +65,7 @@ final class tx_multicolumn_div {
 	 * @return	array				Preset layout configuration
 	 */	
 	public static function getTSConfig($pageUid, $tsConfigKey = 'layoutPreset') {
-		$tsConfig = is_object($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
+		$tsConfig = isset($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
 
 		return $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
 	}
@@ -158,6 +158,12 @@ final class tx_multicolumn_div {
 	 */	
 	public static function beUserHasRightToSeeMultiColumnContainer () {
 		$hasAccess = true;
+			// Possibly remove some items from TSconfig
+		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
+		if(is_array($TSconfig['TCEFORM.']['tt_content.']['CType.'])) {
+			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn')  ? false : true;
+		}
+		
 		if(t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY')) {
 			$hasAccess = false;
 		}

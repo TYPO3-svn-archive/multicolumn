@@ -58,15 +58,15 @@ class tx_multicolumn_cms_layout {
 
 				// add multicolumn delete warning
 			foreach($LL as $llKey => $ll) {
-				$deleteWarningOrginal = $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
+				$deleteWarningOrginal = isset($GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal']) ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
 				$deleteWarning = str_replace('%s', $numberOfContentElements, $ll['cms_layout.deleteWarning']);
 				
-				$GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] = $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
+				$GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] = isset($GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal']) ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
 				$GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'] = $deleteWarningOrginal . chr(10) . $deleteWarning;
 			}
 
 			// restore orginal deleteWarning
-		} else if($GLOBALS['LOCAL_LANG']['default']['deleteWarningOrginal']) {
+		} else if(isset($GLOBALS['LOCAL_LANG']['default']['deleteWarningOrginal'])) {
 			$this->restoreOrginalDeleteWarning($LL);
 		}
 	}
