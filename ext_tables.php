@@ -90,7 +90,7 @@ $TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'tx_multico
 $TCA['tt_content']['columns']['colPos']['config']['multicolumnProc'] = 'buildDynamicCols';
 
 	// request refresh if multicolumn_parent_id is changed
-$TCA['tt_content']['ctrl']['requestUpdate'] .= ',tx_multicolumn_parentid';
+$TCA['tt_content']['ctrl']['requestUpdate'] .= ',layoutKey,tx_multicolumn_parentid';
 
 	// add typoscript
 t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/','Multicolumn');

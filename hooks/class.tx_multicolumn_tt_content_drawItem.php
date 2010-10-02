@@ -52,6 +52,13 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 	protected $LL;
 	
 	/**
+	 * Is effectbox?
+	 *
+	 * @var		boolean
+	 */	
+	protected $isEffectBox;
+	
+	/**
 	 * Preprocesses the preview rendering of a content element.
 	 *
 	 * @param	tx_cms_layout		$parentObject: Calling parent object
@@ -74,6 +81,7 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 		$this->pObj = $parentObject;
 		$this->tmpl = t3lib_div::makeInstance('t3lib_TStemplate');
 		$this->LL = tx_multicolumn_div::includeBeLocalLang();
+		$this->isEffectBox = ($this->flex->getFlexValue ('preSetLayout', 'layoutKey') == 'effectBox.') ? true : false;
 
 		$this->multiColCe = $row;
 		$this->multiColUid = intval($row['uid']);
@@ -130,7 +138,7 @@ class tx_multicolumn_tt_content_drawItem implements tx_cms_layout_tt_content_dra
 		
 		$newParams = $this->getNewRecordParams($this->multiColCe['pid'], $colPos, $this->multiColCe['uid'], $this->multiColCe['sys_language_uid']);
 		$columnNumber = $columnIndex + 1;
-		$columnLabel = $GLOBALS['LANG']->getLLL('cms_layout.columnTitle', $this->LL) . ' '.$columnNumber;
+		$columnLabel = $this->isEffectBox ? $GLOBALS['LANG']->getLLL('cms_layout.effectBox', $this->LL) : $GLOBALS['LANG']->getLLL('cms_layout.columnTitle', $this->LL) . ' '.$columnNumber;
 
 		$markup .= $this->pObj->tt_content_drawColHeader($columnLabel, null, $newParams);
 

@@ -121,6 +121,71 @@ plugin.tx_multicolumn_pi1 {
                         intval = 1
 		}
 	}
+	
+	# effect box rendering
+		# effect box items
+	effectBoxItems = CASE
+	effectBoxItems {
+		key.field = effect
+		
+		default = COA
+		default {
+			stdWrap {
+				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}" style="{field:columnWidth}">|</li>
+			}
+			
+			10 = < tt_content
+			10 {
+				stdWrap.innerWrap.cObject = 
+				image {
+					20 {
+						layout = TEXT
+						layout {
+							value = ###IMAGES###
+						}
+						rendering {
+							simple {
+								imageRowStdWrap.dataWrap = |
+								imageLastRowStdWrap.dataWrap = |
+								noRowsStdWrap.wrap =
+								oneImageStdWrap.dataWrap = |
+								imgTagStdWrap.wrap = |
+								editIconsStdWrap.wrap = |
+								caption {
+									required = 1
+									wrap = <p class="caption"> | </p>
+								}
+								imageStdWrap.dataWrap = <div class="effectBoxImage" style="width:{register:totalwidth}px;"> | </div>
+								imageStdWrapNoWidth.wrap = <div class="effectBoxImage"> | </div>
+							}
+						}
+						renderMethod = simple
+					}
+				}
+				textpic {
+					20 < plugin.tx_multicolumn_pi1.effectBoxItems.sudoSlider.10.image.20
+					
+					30 = TEXT
+					30 {
+						if.isTrue.field = bodytext
+						parseFunc = < lib.parseFunc_RTE
+						field = bodytext
+						wrap = <div class="effectBoxText">|</div>
+					}
+				}	
+			}
+		}
+				# it's possible to add custom markup for each effect
+		#sudoSliderSliding
+	}
+	
+		# effect box list
+	effectBox = TEXT
+	effectBox {
+		field = effectBoxItems
+		required = 1
+		dataWrap = <div class="effectBox {field:effect} {field:effectBoxClass}" id="effectBox_{field:uid}"><ul>|</ul></div>
+	}
 }
 
 

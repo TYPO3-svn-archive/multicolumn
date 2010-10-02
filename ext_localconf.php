@@ -14,6 +14,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['move
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['recStatInfoHooks'][] = 'EXT:multicolumn/hooks/class.tx_multicolumn_cms_layout.php:tx_multicolumn_cms_layout->addDeleteWarning';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms']['db_new_content_el']['wizardItemsHook'][] = 'EXT:multicolumn/hooks/class.tx_multicolumn_wizardItemsHook.php:tx_multicolumn_wizardItemsHook';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][] = 'EXT:multicolumn/hooks/class.tx_multicolumn_tt_content_drawItem.php:tx_multicolumn_tt_content_drawItem';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][] = 'EXT:multicolumn/hooks/class.tx_multicolumn_t3lib_befunc.php:tx_multicolumn_t3lib_befunc';
 
 	// special eval
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_multicolumn_tce_eval'] = 'EXT:multicolumn/lib/class.tx_multicolumn_tce_eval.php';

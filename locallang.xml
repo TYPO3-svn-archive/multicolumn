@@ -8,6 +8,7 @@
 		<languageKey index="default" type="array">
 			<label index="pi1_title">Multicolumn Container</label>
 			<label index="pi1_plus_wiz_description">This content element allows you to create dynamic columns.</label>
+			<label index="cms_layout.effectBox">Effect Box column</label>
 			<label index="cms_layout.columnTitle">Column</label>
 			<label index="cms_layout.lostElements.title">Lost contentelements</label>
 			<label index="cms_layout.lostElements.message">Following elements has no relation to a multicolumn column. You can edit the element and switch to an other column or simply cut and paste with the element context menu.</label>
@@ -23,6 +24,7 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Mehrspalten Container</label>
+			<label index="cms_layout.effectBox">Effekt Box Spalte</label>
 			<label index="pi1_plus_wiz_description">Diese Element ermöglicht eine Darstellung von Inhaltselementen über mehrere Spalten.</label>
 			<label index="cms_layout.columnTitle">Spalte</label>
 			<label index="cms_layout.deleteWarning">(Dieser Mehrspaltencontainer hat %s Inhalts-Element(e), welche ebenfalls gelöscht werden!)</label>

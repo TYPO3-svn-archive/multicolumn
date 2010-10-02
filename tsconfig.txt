@@ -67,5 +67,60 @@ tx_multicolumn {
 				columnPadding = 0 6px 0 0 || 0 0 0 6px 
 			}
 		}
+		
+		effectBox {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox
+			icon = EXT:multicolumn/res/layout/effectSlider.gif
+			config {
+				columns = 1
+			}
+		}
+	}
+	
+	effectBox {
+		sudoSliderTabSliding {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.slidingTab
+			config {
+				effectBoxClass = sudoSlider
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					sudoSliderJs = EXT:multicolumn/res/effects/sudoSlider/jquery.sudoSlider.min.js
+					sudoSliderEffectbox = EXT:multicolumn/res/effects/sudoSlider/sudoSliderEffectbox.js
+				}
+				cssFiles {
+					sudoSlider = EXT:multicolumn/res/effects/sudoSlider/style.css
+				}
+				defaultOptions (
+					numeric: true
+					,fade: false
+					,controlsAttr: 'class="sudoControls"'
+					,prevNext : false
+					,convertHeadingToNavigation : true
+					,insertAfter : false
+				)
+			}
+		}
+		sudoSliderTabFade {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab
+			config {
+				effectBoxClass = sudoSlider
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					sudoSliderJs = EXT:multicolumn/res/effects/sudoSlider/jquery.sudoSlider.min.js
+					sudoSliderEffectbox = EXT:multicolumn/res/effects/sudoSlider/sudoSliderEffectbox.js
+				}
+				cssFiles {
+					sudoSlider = EXT:multicolumn/res/effects/sudoSlider/style.css
+				}
+				defaultOptions (
+					numeric: true
+					,fade: true
+					,controlsAttr: 'class="sudoControls"'
+					,prevNext : false
+					,convertHeadingToNavigation : true
+					,insertAfter : false
+				)
+			}
+		}
 	}
 }

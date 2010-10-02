@@ -58,6 +58,42 @@ final class tx_multicolumn_div {
 	}
 	
 	/**
+	 * Get layout configuration options merged between typoscript and flexform options
+	 *
+	 * @param	array				$pageUid to get tsConfig (backendOnly)
+	 * @param	tx_multicolumn_flexform		$flexform object
+	 *
+	 * @return	array				layout configuration options
+	 */	
+	public static function getEffectConfiguration($pageUid, tx_multicolumn_flexform $flex) {
+		$effect = substr($flex->getFlexValue('effectBox', 'effect'), 0, -1);
+		$flexConfig = $flex->getFlexArray('effectBox');
+		$tsConfig = self::getTSConfig($pageUid, 'effectBox');
+
+		if(!empty($tsConfig[$effect . '.']['config.'])) {
+			$config = $tsConfig[$effect . '.']['config.'];
+			$config['effect'] = $effect;
+			$tsConfigOptions = (!empty($config['defaultOptions'])) ? $config['defaultOptions'] : null;
+				
+				// check for options
+			if(!empty($flexConfig['effectOptions'])) {
+				$addComma = (strpos($flexConfig['effectOptions'], ',') === 0 && $tsConfigOptions) ?  null : ',';
+				$config['options']  = $tsConfigOptions . $addComma . $flexConfig['effectOptions'];
+			} else {
+				$config['options']  = $tsConfigOptions;
+			}
+			
+			$config['options']  = t3lib_div::minifyJavaScript($config['options']);
+
+			unset($flexConfig['effectOptions'], $flexConfig['effect']);
+			unset($config['defaultOptions']);
+
+			$config = t3lib_div::array_merge($config, $flexConfig);
+			return $config;
+		}
+	}
+	
+	/**
 	 * Get prset layout configuration from tsconfig
 	 *
 	 * @param	array				$pageUid to get pageTsConfig

@@ -85,18 +85,38 @@ class tx_multicolumn_flexform {
 	 *
 	 * */	
 	public function addFieldsToFlexForm(&$params, t3lib_TCEforms $pObj) {
-		$presetConfig = tx_multicolumn_div::getTSConfig($params['row']['pid']);
+		$type = $params['config']['txMulitcolumnField'];
 
-		if($presetConfig) {
-			foreach($presetConfig as $key=>$item) {
-				$params['items'][] = array (
-					$GLOBALS['LANG']->sL($item['label']),
-					$key,
-						//replace absolute with relative path
-					str_replace(PATH_site, '../', t3lib_div::getFileAbsFileName($item['icon']))
-				);
-			}
+		switch ($type) {
+			case 'preSetLayout':
+				$presetConfig = tx_multicolumn_div::getTSConfig($params['row']['pid']);
+				if(is_array($presetConfig)){
+						// add effectBox to the end
+					if(!empty($presetConfig['effectBox.'])) {
+						$effectBox = $presetConfig['effectBox.'];
+							// add effect box to the end
+						unset($presetConfig['effectBox.']);
+						$presetConfig['effectBox.'] = $effectBox;
+					}
+					$this->buildItems($presetConfig, $params);
+				}
+				break;
+			case 'effect':
+				$effectConfig = tx_multicolumn_div::getTSConfig($params['row']['pid'], 'effectBox');
+				if(is_array($effectConfig))$this->buildItems($effectConfig, $params);
+				break;
 		}
+	}
+	
+	protected function buildItems(array $config, &$params) {
+		foreach($config as $key=>$item) {
+			$params['items'][] = array (
+				$GLOBALS['LANG']->sL($item['label']),
+				$key,
+					//replace absolute with relative path
+				str_replace(PATH_site, '../', t3lib_div::getFileAbsFileName($item['icon']))
+			);
+		}		
 	}
 }
 ?>
