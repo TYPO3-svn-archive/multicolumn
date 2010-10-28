@@ -29,11 +29,11 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	public $pi_checkCHash = true;
 	
 	/**
-	 * Local cObj
+	 * Current cObj data
 	 *
-	 * @var		tslib_cObj
+	 * @var		array
 	 */	
-	protected $localCobj;
+	protected $currentCobjData;
 	
 	/**
 	 * Instance of tx_multicolumn_flexform
@@ -96,7 +96,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$this->content = $content;
 		$this->conf = $conf;
 		$this->pi_loadLL();
-		$this->localCobj = t3lib_div::makeInstance('tslib_cObj');
+		$this->currentCobjData = $this->cObj->data;
 		require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 
 		$this->llPrefixed = tx_multicolumn_div::prefixArray($this->LOCAL_LANG[$this->LLkey], 'lll:');
@@ -201,7 +201,8 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$rowNr	= 1;
 		$index = 0;
 		$content = null;
-
+		$currentCobjData = $this->cObj->data;
+		
 		foreach($recordsArray as $data) {
 			// first run?
 			if($rowNr == 1)
@@ -224,12 +225,13 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 			$data = array_merge($data, $appendData);
 
 			// Render
-			$this->localCobj->data = $data;
-			$content .= $this->localCobj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+			$this->cObj->data = $data;
+			$content .= $this->cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
 
 			$rowNr ++;
 		}
-
+		
+		$this->restoreCobjData();
 		return $content;
 	}
 	
@@ -241,8 +243,11 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	 * @return	String		All items rendered as a string
 	 */	
 	protected function renderItem($confName, array $data) {
-		$this->localCobj->data = $data;
-		return $this->localCobj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+		$this->cObj->data = $data;
+		$content = $this->cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+		
+		$this->restoreCobjData();
+		return $content;
 	}
 	
 	/**
@@ -268,6 +273,13 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$GLOBALS['TSFE']->getPageRenderer()->addCssFile($relPath . 'typo3conf/ext/multicolumn/res/flashmessage.css', 'stylesheet','screen');
 		$flashMessage = t3lib_div::makeInstance('t3lib_FlashMessage', $message, $title, $type);
 		return $flashMessage->render();
+	}
+	
+	/**
+	 * Restore orginal cObj data to current cObj
+	 */	
+	protected function restoreCobjData() {
+		$this->cObj->data = $this->currentCobjData;
 	}
 }
 
