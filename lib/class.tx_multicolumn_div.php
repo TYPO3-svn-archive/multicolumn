@@ -160,7 +160,7 @@ final class tx_multicolumn_div {
 		$hasAccess = true;
 			// Possibly remove some items from TSconfig
 		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
-		if(is_array($TSconfig['TCEFORM.']['tt_content.']['CType.'])) {
+		if(!empty($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'])) {
 			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn')  ? false : true;
 		}
 		
