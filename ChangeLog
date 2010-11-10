@@ -3,6 +3,7 @@
 	
 	* Fixed: #9900
 	* Added: Hook for css / js inclusion
+	* Added: Possibilty to force equal height for each multicolumn item
 	
 2010-10-28 Michael Birchler  <mbirchler@snowflake.ch>
 	

@@ -152,9 +152,18 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 			$this->layoutConfiguration = tx_multicolumn_div::getLayoutConfiguration(null, $this->flex);
 	
 				//include layout css
-			if($this->layoutConfiguration['layoutCss']) {
+			if(!empty($this->layoutConfiguration['layoutCss'])) {
 				$this->includeCssJsFiles($this->layoutConfiguration['layoutCss']);
 			}
+			
+				// force equal height ?
+			if(!empty($this->layoutConfiguration['makeEqualElementBoxHeight'])) {
+				$config = tx_multicolumn_div::getTSConfig($GLOBALS['TSFE']->id, 'config');
+				if(is_array($config['advancedLayouts.']['makeEqualElementBoxHeight.']['includeFiles.'])) {
+					$this->includeCssJsFiles($config['advancedLayouts.']['makeEqualElementBoxHeight.']['includeFiles.']);
+				}
+			}
+			
 				// do option split
 			$this->layoutConfigurationSplited = $GLOBALS['TSFE']->tmpl->splitConfArray($this->layoutConfiguration, $this->layoutConfiguration['columns']);	
 		}	
@@ -341,6 +350,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	 */	
 	protected function includeCssJsFiles(array $files) {
 		foreach($files as $fileKey=>$file) {
+			if(is_array($file)) continue;
 			$mediaTypeSplit = strrchr($file, '.');
 
 			$hookRequestParams = array(

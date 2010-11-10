@@ -2,6 +2,16 @@ tx_multicolumn {
 	config {
 		advancedLayouts {
 			maxNumberOfColumns = 10
+			makeEqualElementBoxHeight {
+				includeFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
+					
+					fixHeight = EXT:multicolumn/res/layout/makeEqualElementBoxHeight.js
+				}
+			}
 		}
 	}
 	layoutPreset {
@@ -32,6 +42,9 @@ tx_multicolumn {
 				columnPadding = 0 6px 0 0 || 0 0 0 6px
 					# disable auto image shrink
 				#disableImageShrink
+				
+					# Force equal height for each multicolumn item
+				#makeEqualElementBoxHeight = 1
 				
 			}
 		}
