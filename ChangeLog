@@ -4,6 +4,10 @@
 	* Fixed: #9900
 	* Added: Hook for css / js inclusion
 	
+2010-10-28 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Changed: Don't make localCobj
+	
 2010-10-06 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Added: Effectbox
