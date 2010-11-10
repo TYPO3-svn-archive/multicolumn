@@ -330,28 +330,28 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	}
 	
 	/**
-	 * Adds a css file
-	 */	
-	protected function addCssFile($cssFile) {
-		$cssFileResolved = $GLOBALS['TSFE']->tmpl->getFileName($cssFile);
-		if($cssFileResolved) $GLOBALS['TSFE']->getPageRenderer()->addCssFile($cssFileResolved);
-	}
-	
-	/**
-	 * Adds a css file
-	 */	
-	protected function addJsFile($jsFile) {
-		$resolved = $GLOBALS['TSFE']->tmpl->getFileName($jsFile);
-		if($resolved) $GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($resolved);
-	}
-	
-	/**
-	 * Includes a css or media file
+	 * Includes a css or js file
+	 *
+	 * @param	include files
 	 */	
 	protected function includeCssJsFiles(array $files) {
 		foreach($files as $fileKey=>$file) {
 			$mediaTypeSplit = strrchr($file, '.');
-			($mediaTypeSplit ==  '.js') ? $this->addJsFile($file) : $this->addCssFile($file);
+
+			$hookRequestParams = array(
+				'includeFile' => array(
+					$fileKey => $file,
+					$fileKey . '.' => $files[$fileKey . '.']  	       
+				),
+				'mediaType' => str_replace('.', null, $mediaTypeSplit)
+			);
+
+			if(!$this->hookRequest('addJsCssFile', $hookRequestParams)) {
+				$resolved = $GLOBALS['TSFE']->tmpl->getFileName($file);
+				if($resolved) {
+					($mediaTypeSplit ==  '.js') ? $GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($resolved) : $GLOBALS['TSFE']->getPageRenderer()->addCssFile($resolved);
+				}
+			}			
 		}
 	}
 	
@@ -370,6 +370,31 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$GLOBALS['TSFE']->getPageRenderer()->addCssFile($relPath . 'typo3conf/ext/multicolumn/res/flashmessage.css', 'stylesheet','screen');
 		$flashMessage = t3lib_div::makeInstance('t3lib_FlashMessage', $message, $title, $type);
 		return $flashMessage->render();
+	}
+	
+	/**
+	 * Returns an object reference to the hook object if any
+	 *
+	 * @param	string		Name of the function you want to call / hook key
+	 * @param	array		Request params
+	 * @return	integer		Hook objects found
+	 */
+	protected function hookRequest($functionName, array $hookRequestParams) {
+		global $TYPO3_CONF_VARS;
+		$hooked = 0;
+		
+			// Hook: menuConfig_preProcessModMenu
+		if (is_array($TYPO3_CONF_VARS['EXTCONF']['multicolumn']['pi1_hooks'][$functionName])) {
+			foreach($TYPO3_CONF_VARS['EXTCONF']['multicolumn']['pi1_hooks'][$functionName] as $classRef) {
+				$hookObj = t3lib_div::getUserObj($classRef);
+				if (method_exists ($hookObj, $functionName)) {
+					$hookObj->$functionName($this, $hookRequestParams);
+					$hooked ++;
+				}
+			}
+		}
+
+		return $hooked;
 	}
 }
 

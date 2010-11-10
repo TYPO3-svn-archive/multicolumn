@@ -2,6 +2,7 @@
 2010-11-10 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Fixed: #9900
+	* Added: Hook for css / js inclusion
 	
 2010-10-06 Michael Birchler  <mbirchler@snowflake.ch>
 	

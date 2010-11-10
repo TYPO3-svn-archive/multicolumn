@@ -84,6 +84,9 @@ tx_multicolumn {
 				effectBoxClass = sudoSlider
 				jsFiles {
 					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
 					sudoSliderJs = EXT:multicolumn/res/effects/sudoSlider/jquery.sudoSlider.min.js
 					sudoSliderEffectbox = EXT:multicolumn/res/effects/sudoSlider/sudoSliderEffectbox.js
 				}
@@ -106,6 +109,9 @@ tx_multicolumn {
 				effectBoxClass = sudoSlider
 				jsFiles {
 					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
 					sudoSliderJs = EXT:multicolumn/res/effects/sudoSlider/jquery.sudoSlider.min.js
 					sudoSliderEffectbox = EXT:multicolumn/res/effects/sudoSlider/sudoSliderEffectbox.js
 				}
