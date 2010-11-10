@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2010-11-10 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: #9900
+	
 2010-10-06 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Added: Effectbox

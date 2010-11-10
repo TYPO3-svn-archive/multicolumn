@@ -107,6 +107,19 @@ final class tx_multicolumn_div {
 	}
 	
 	/**
+	 * Evaluates current page id from backend context
+	 *
+	 *
+	 * @return	integer		current backed page uid
+	 */	
+	public static function getBePidFromCachedTsConfig() {
+		if(is_array($GLOBALS['SOBE']->tceforms->cachedTSconfig)) {
+			$tsConfig = array_pop($GLOBALS['SOBE']->tceforms->cachedTSconfig);
+			return $tsConfig['_CURRENT_PID'];
+		}
+	}
+	
+	/**
 	 * If TYPO3 branch is above 4.3
 	 *
 	 * @return	boolean		true if version is above 4.3

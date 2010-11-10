@@ -86,10 +86,11 @@ class tx_multicolumn_flexform {
 	 * */	
 	public function addFieldsToFlexForm(&$params, t3lib_TCEforms $pObj) {
 		$type = $params['config']['txMulitcolumnField'];
+		$pid = ($params['row']['pid'] < 0 && is_array($pObj->cachedTSconfig)) ? tx_multicolumn_div::getBePidFromCachedTsConfig() : $params['row']['pid'];
 
 		switch ($type) {
 			case 'preSetLayout':
-				$presetConfig = tx_multicolumn_div::getTSConfig($params['row']['pid']);
+				$presetConfig = tx_multicolumn_div::getTSConfig($pid);
 				if(is_array($presetConfig)){
 						// add effectBox to the end
 					if(!empty($presetConfig['effectBox.'])) {
@@ -102,7 +103,7 @@ class tx_multicolumn_flexform {
 				}
 				break;
 			case 'effect':
-				$effectConfig = tx_multicolumn_div::getTSConfig($params['row']['pid'], 'effectBox');
+				$effectConfig = tx_multicolumn_div::getTSConfig($pid, 'effectBox');
 				if(is_array($effectConfig))$this->buildItems($effectConfig, $params);
 				break;
 		}
