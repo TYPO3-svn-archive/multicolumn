@@ -87,7 +87,7 @@ class tx_multicolumn_emconfhelper {
 		$title = $GLOBALS['LANG']->getLL('emconfhelper.xclass.title') . ' ' . $extKey . ' XCLASS:<br />' . $XCLASSwarning;
 		$uninstallLink = $this->buildUninstallLink($extKey); 
 		$message = $extKey . ' ' . $GLOBALS['LANG']->getLL('emconfhelper.xclass.message') . ' ' . $uninstallLink . '.';
-		$this->renderFlashMessage($title, $message);
+		return $this->renderFlashMessage($title, $message);
 	}
 	
 	/**
