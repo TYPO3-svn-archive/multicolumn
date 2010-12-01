@@ -10,6 +10,7 @@
 			<label index="effectBox.effect">Effect</label>
 			<label index="effectBox.effect.slidingTab">Sliding tabs</label>
 			<label index="effectBox.effect.fadingTab">Fading tabs</label>
+			<label index="effectBox.effect.fadingTab 2">Fading tabs 2</label>
 			<label index="effectBox.effectOptions">Effect options</label>
 			<label index="effectBox.width">Effect Box width</label>
 		</languageKey>
@@ -18,6 +19,7 @@
 			<label index="effectBox.effect">Effekt</label>
 			<label index="effectBox.effect.slidingTab">Animierte Tabs</label>
 			<label index="effectBox.effect.fadingTab">Überblendende Tabs</label>
+			<label index="effectBox.effect.fadingTab2">Überblendende Tabs 2</label>
 			<label index="effectBox.effectOptions">Effekt Optionen</label>
 			<label index="effectBox.width">Effekt Box Breite</label>
 		</languageKey>

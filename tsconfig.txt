@@ -1,3 +1,7 @@
+/*
+	jquery plugin options: http://webbies.dk/Sudo%20Slider/settings.html
+*/
+
 tx_multicolumn {
 	config {
 		advancedLayouts {
@@ -27,22 +31,22 @@ tx_multicolumn {
 				#containerMeasure = %
 					# if you want to specifie a fixed width for column
 				#containerWidth =
-					
+
 				# column settings
 					# number of columns
 				columns = 2
-				
+
 				#columnMeasure =
 					#column width (optionSplit)
 				columnWidth = 49.9
-				
+
 					# column margin (optionSplit) css string is allowed like (10px 0 0 15px)
 				#columnMargin =
 					# column padding (optionSplit) css string is allowed like (10px 0 0 15px)
 				columnPadding = 0 6px 0 0 || 0 0 0 6px
 					# disable auto image shrink
 				#disableImageShrink
-				
+
 					# Force equal height for each multicolumn item
 				#makeEqualElementBoxHeight = 1
 				
@@ -80,7 +84,7 @@ tx_multicolumn {
 				columnPadding = 0 6px 0 0 || 0 0 0 6px 
 			}
 		}
-		
+
 		effectBox {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox
 			icon = EXT:multicolumn/res/layout/effectSlider.gif
@@ -89,7 +93,7 @@ tx_multicolumn {
 			}
 		}
 	}
-	
+
 	effectBox {
 		sudoSliderTabSliding {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.slidingTab
@@ -138,6 +142,38 @@ tx_multicolumn {
 					,prevNext : false
 					,convertHeadingToNavigation : true
 					,insertAfter : false
+				)
+			}
+		}
+		sudoSliderTabFade2 {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab2
+			config {
+				effectBoxClass = sudoSlider
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
+					sudoSliderJs = EXT:multicolumn/res/effects/sudoSlider/jquery.sudoSlider.min.js
+					sudoSliderEffectbox = EXT:multicolumn/res/effects/sudoSlider/sudoSliderEffectbox.js
+				}
+				cssFiles {
+					sudoSlider = EXT:multicolumn/res/effects/sudoSlider/style.css
+				}
+				defaultOptions (
+					numeric: true
+					,fade: true
+					,prevNext : false
+					,insertAfter : false
+					,controlsShow : false
+					,auto: true
+					,pause: '3000'
+					,beforeAniFunc: function(t){
+						jQuery(this).children('.effectBoxText').hide();
+					}
+					,afterAniFunc: function(t){
+						jQuery(this).children('.effectBoxText').slideDown(400);
+					}
 				)
 			}
 		}

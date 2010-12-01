@@ -146,7 +146,7 @@ plugin.tx_multicolumn_pi1 {
 			intval = 1
 		}
 	}
-	
+
 	# effect box rendering
 		# effect box items
 	effectBoxItems = CASE
@@ -178,6 +178,28 @@ plugin.tx_multicolumn_pi1 {
 				}
 			}
 		}
+
+		sudoSliderTabFade2 < .default
+		sudoSliderTabFade2 {
+			10 {
+				# remove lib.stdheader from element
+				image.10 = TEXT
+				# remove lib.stdheader from element
+				textpic {
+					10 = TEXT
+					30 = TEXT
+					30 {
+						if.isTrue.field = header
+						parseFunc >
+						field = header
+						crop = 40
+						typolink.parameter.field = header_link
+						wrap = <div class="effectBoxText">|</div>
+					}
+				}
+			}
+		}
+
 			# it's possible to add custom markup for each effect
 		#sudoSliderSliding
 	}
