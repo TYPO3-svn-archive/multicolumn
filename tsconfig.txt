@@ -1,7 +1,3 @@
-/*
-	jquery plugin options: http://webbies.dk/Sudo%20Slider/settings.html
-*/
-
 tx_multicolumn {
 	config {
 		advancedLayouts {
@@ -93,8 +89,9 @@ tx_multicolumn {
 			}
 		}
 	}
-
+	
 	effectBox {
+			# jquery sudo slider plugin options: http://webbies.dk/Sudo%20Slider/settings.html
 		sudoSliderTabSliding {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.slidingTab
 			config {
