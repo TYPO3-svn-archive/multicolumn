@@ -1,0 +1,49 @@
+/* easy accordion */
+
+/* UNLESS YOU KNOW WHAT YOU'RE DOING, DO NOT CHANGE THE FOLLOWING RULES */
+.easy-accordion {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+.easy-accordion dt,
+.easy-accordion dd {
+	margin: 0;
+	padding: 0;
+}
+.easy-accordion dt,
+.easy-accordion dd {
+	position: absolute;
+}
+.easy-accordion dt {
+	margin: 0;
+	padding: 0;
+	z-index: 5;
+	-webkit-transform: rotate(-90deg); /* safari, opera */
+	-moz-transform: rotate(-90deg);	/* firefox */
+	-moz-transform-origin: 20px 0; /* firefox */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* internet explorer */
+	cursor: pointer;
+}
+.easy-accordion dt.active {
+	cursor: default;
+}
+.easy-accordion dd {
+	z-index: 1;
+	opacity: 0;
+	overflow: hidden;
+}
+.easy-accordion dd.active {
+	opacity: 1;
+}
+.easy-accordion dd.no-more-active {
+	z-index: 2;
+	opacity: 1;
+}
+.easy-accordion dd.active {
+	z-index: 3;
+}
+.easy-accordion dd.plus {
+	z-index: 4;
+}

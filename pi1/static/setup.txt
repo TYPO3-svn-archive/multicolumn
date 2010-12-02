@@ -202,14 +202,61 @@ plugin.tx_multicolumn_pi1 {
 
 			# it's possible to add custom markup for each effect
 		#sudoSliderSliding
+		
+		easyAccordion = < tt_content
+		easyAccordion {
+			stdWrap.innerWrap.cObject = TEXT
+			stdWrap.innerWrap.cObject {
+				stdWrap {
+					wrap = <dt id="headerItem{field:recordNumber}" class="headerItem header{field:header_layout}">|</dt>
+					innerWrap = <span>|</span>
+					insertData = 1
+				}
+				field = header
+			}
+			image {
+				wrap = <dd>|</dd>
+				10 =
+				20 < temp.effectBoxImageRendering
+			}
+			textpic {
+				wrap = <dd>|</dd>
+				10 = 
+				20 < temp.effectBoxImageRendering
+
+				30 = TEXT
+				30 {
+					if.isTrue.field = bodytext
+					parseFunc = < lib.parseFunc_RTE
+					field = bodytext
+					wrap = <div class="effectBoxText">|</div>
+				}
+			}
+		}
 	}
 
 		# effect box list
-	effectBox = TEXT
+	effectBox = CASE
 	effectBox {
-		field = effectBoxItems
-		required = 1
-		dataWrap = <div class="effectBox {field:effect} {field:effectBoxClass}" id="effectBox_{field:uid}"><ul>|</ul></div>
+		stdWrap {
+			dataWrap = <div class="effectBox {field:effect} {field:effectBoxClass}" id="effectBox_{field:uid}">|</div>
+			required = 1
+		}
+		key.field = effect
+		
+		default = TEXT
+		default {
+			required = 1
+			field = effectBoxItems
+			dataWrap = <ul>|</ul>
+		}
+		
+		easyAccordion = TEXT
+		easyAccordion {
+			required = 1
+			field = effectBoxItems
+			dataWrap = <dl>|</dl>			
+		}
 	}
 }
 

@@ -117,6 +117,7 @@ tx_multicolumn {
 				)
 			}
 		}
+		
 		sudoSliderTabFade {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab
 			config {
@@ -142,6 +143,7 @@ tx_multicolumn {
 				)
 			}
 		}
+		
 		sudoSliderTabFade2 {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab2
 			config {
@@ -172,6 +174,24 @@ tx_multicolumn {
 						jQuery(this).children('.effectBoxText').slideDown(400);
 					}
 				)
+			}
+		}
+		
+		easyAccordion {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.accordion
+			config {
+				effectBoxClass = accordion
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
+					easyAccordionJs = EXT:multicolumn/res/effects/easyAccordion/jquery.easyAccordion.js
+					easyAccordionInit = EXT:multicolumn/res/effects/easyAccordion/easyAccordionInit.js
+				}
+				cssFiles {
+					easyAccordion = EXT:multicolumn/res/effects/easyAccordion/style.css
+				}
 			}
 		}
 	}
