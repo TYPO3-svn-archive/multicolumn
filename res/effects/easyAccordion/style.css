@@ -1,11 +1,16 @@
 /* easy accordion */
 
 /* UNLESS YOU KNOW WHAT YOU'RE DOING, DO NOT CHANGE THE FOLLOWING RULES */
+.easyAccordion {
+	width: 600px;
+	overflow: hidden;
+}
 .easy-accordion {
 	position: relative;
-	overflow: hidden;
+	height: 400px;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 }
 .easy-accordion dt,
 .easy-accordion dd {
