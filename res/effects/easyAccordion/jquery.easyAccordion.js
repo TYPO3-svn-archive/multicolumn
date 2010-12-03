@@ -20,7 +20,7 @@
 			
 	this.each(function() {
 		var settings = jQuery.extend(defaults, options);
-		jQuery(this).find('dl').addClass('easy-accordion');
+		jQuery(this).addClass('easy-accordion');
 		
 		
 		// -------- Set the variables ------------------------------------------------------------------------------
@@ -28,20 +28,21 @@
 		jQuery.fn.setVariables = function() {
 			dlWidth = jQuery(this).width();
 			dlHeight = jQuery(this).height();
-			dtWidth = jQuery(this).find('dt').outerHeight();
-			if (jQuery.browser.msie){ dtWidth = $(this).find('dt').outerWidth();}
-			dtHeight = dlHeight - (jQuery(this).find('dt').outerWidth()-jQuery(this).find('dt').width());
+			dtWidth = jQuery(this).find('dt').outerWidth();
+			dtHeight = dlHeight - (jQuery(this).find('dt').outerHeight() - jQuery(this).find('dt').height());
+			dtSpanWidth = dtHeight - (jQuery(this).find('dt span').outerHeight() - jQuery(this).find('dt span').height());
+			dtSpanHeight = jQuery(this).find('dt span').outerWidth();
 			slideTotal = jQuery(this).find('dt').size();
-			ddWidth = dlWidth - (dtWidth*slideTotal) - (jQuery(this).find('dd').outerWidth(true)-jQuery(this).find('dd').width());
-			ddHeight = dlHeight - (jQuery(this).find('dd').outerHeight(true)-jQuery(this).find('dd').height());
+			ddWidth = dlWidth - (dtWidth*slideTotal) - (jQuery(this).find('dd').outerWidth(true) - jQuery(this).find('dd').width());
+			ddHeight = dlHeight - (jQuery(this).find('dd').outerHeight(true) - jQuery(this).find('dd').height());
 		};
 		jQuery(this).setVariables();
-	
 		
 		// -------- Fix some weird cross-browser issues due to the CSS rotation -------------------------------------
 
-		if (jQuery.browser.safari){ var dtTop = (dlHeight-dtWidth)/2; var dtOffset = -dtTop;  /* Safari and Chrome */ }
-		if (jQuery.browser.mozilla){ var dtTop = dlHeight - 20; var dtOffset = - 20; /* FF */ }
+		if (jQuery.browser.safari){ var dtTop = (dlHeight - dtSpanHeight)/2; var dtOffset = -dtTop;  /* Safari and Chrome */ }
+		if (jQuery.browser.opera){ var dtTop = (dlHeight - dtSpanHeight)/2; var dtOffset = -dtTop;  /* Opera */ }
+		if (jQuery.browser.mozilla){ var dtTop = (dlHeight - dtSpanHeight)/2; var dtOffset = -dtTop; /* FF */ }
 		if (jQuery.browser.msie){ var dtTop = 0; var dtOffset = 0; /* IE */ }
 		
 		
@@ -49,8 +50,8 @@
 		
 		var f = 1;
 		
-		jQuery(this).find('dt').each(function(){
-			jQuery(this).css({'width':dtHeight,'top':dtTop,'margin-left':dtOffset});	
+		jQuery(this).find('dt span').each(function(){
+			jQuery(this).css({'width':dtSpanWidth, 'top':dtTop, 'margin-left':dtOffset});	
 			if(settings.slideNum == true){
 				jQuery('<span class="slide-number">'+0+f+'</span>').appendTo(this);
 				if(jQuery.browser.msie){	

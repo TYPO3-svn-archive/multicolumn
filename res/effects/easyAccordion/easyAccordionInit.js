@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-	$('.mcAccordion').easyAccordion({
+	$('.mcAccordion dl').easyAccordion({
 		autoStart: false
 	});
 });

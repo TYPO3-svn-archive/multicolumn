@@ -211,9 +211,9 @@ plugin.tx_multicolumn_pi1 {
 
 			10 {
 				stdWrap.dataWrap = <dd class="effectBoxItem effectBoxItem{field:recordNumber} effectBoxItemContent {field:isFirst} {field:isLast}">|</dd>
-				# remove lib.stdheader from element
+					# remove lib.stdheader from element
 				image.10 = TEXT
-				# remove lib.stdheader from element
+					# remove lib.stdheader from element
 				textpic.10 = TEXT
 			}
 		}
