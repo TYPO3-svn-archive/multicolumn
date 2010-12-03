@@ -26,11 +26,12 @@
 	cursor: pointer;
 }
 .easy-accordion dt span {
-	font-weight: normal;
-	line-height: 30px;
 	position: absolute;
+	width: 100%;
 	z-index: 6;
 	display: block;
+	font-weight: normal;
+	line-height: 30px;
 	-webkit-transform: rotate(-90deg); /* safari and chrome */
 	-o-transform: rotate(-90deg); /* opera */
 	-moz-transform: rotate(-90deg); /* firefox */
