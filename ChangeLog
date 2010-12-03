@@ -1,4 +1,10 @@
 (add new changes on top of this file)
+2010-12-03 Pascal Fuchser  <pfuchser@snowflake.ch>
+
+	* Changed: Setup Code for easyAccordion effect
+	* Changed: Label for CSS Style
+	* Added: Description for effect fields
+
 2010-12-02 Cornel Boppart  <cboppart@snowflake.ch>
 
 	* Added: New Effect

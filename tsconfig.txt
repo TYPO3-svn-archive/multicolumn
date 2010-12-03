@@ -180,7 +180,7 @@ tx_multicolumn {
 		easyAccordion {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.accordion
 			config {
-				effectBoxClass = accordion
+				effectBoxClass = mcAccordion
 				jsFiles {
 					jQuery = EXT:multicolumn/res/javascript/jQuery.js
 					jQuery {

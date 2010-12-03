@@ -2,8 +2,8 @@
 
 /* UNLESS YOU KNOW WHAT YOU'RE DOING, DO NOT CHANGE THE FOLLOWING RULES */
 .easyAccordion {
-	width: 600px;
-	overflow: hidden;
+	width: 100%;
+	height: 400px;
 }
 .easy-accordion {
 	position: relative;
@@ -23,16 +23,29 @@
 }
 .easy-accordion dt {
 	margin: 0;
-	padding: 0;
+	padding: 2px;
 	z-index: 5;
 	-webkit-transform: rotate(-90deg); /* safari, opera */
-	-moz-transform: rotate(-90deg);	/* firefox */
+	-moz-transform: rotate(-90deg); /* firefox */
 	-moz-transform-origin: 20px 0; /* firefox */
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* internet explorer */
 	cursor: pointer;
+	font-size: 0.9em;
 }
-.easy-accordion dt.active {
+
+.easy-accordion dt,
+.easy-accordion dd {
+	background-color: #fff;
+}
+
+.easy-accordion dt.hover,
+.easy-accordion dd.hover {
+	background-color: #ebebeb;
+}
+.easy-accordion dt.active,
+.easy-accordion dd.active {
 	cursor: default;
+	background-color: #ccc;
 }
 .easy-accordion dd {
 	z-index: 1;
@@ -51,4 +64,10 @@
 }
 .easy-accordion dd.plus {
 	z-index: 4;
+}
+
+.easy-accordion dd .effectBoxText {
+	position: absolute;
+	top: 0;
+	padding: 5px;
 }
