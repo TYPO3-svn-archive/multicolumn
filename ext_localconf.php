@@ -2,7 +2,8 @@
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 	// define multicolumn path
 define('PATH_tx_multicolumn', t3lib_extMgm::extPath('multicolumn'));
-	
+define('PATH_tx_multicolumn_rel', t3lib_extMgm::extRelPath($_EXTKEY));
+
 	// is TYPO3 Version < TYPO3 4-3
 if (t3lib_div::int_from_ver(TYPO3_branch) < t3lib_div::int_from_ver('4.4')) {
 	define('TX_MULTICOLUMN_TYPO3_4-3', true);

@@ -24,7 +24,7 @@
 
 class tx_multicolumn_t3lib_befunc {
 	/**
-	 * Copy children of a localized multicolumn container
+	 * Manipulates the flexform output. If effectBox is choosen unset advanced layout tab
 	 *
 	 * @param	array		$dataStructArray	Flexform datastruct
 	 * @param	array		$conf: 	tca
@@ -32,21 +32,17 @@ class tx_multicolumn_t3lib_befunc {
 	 * @param	array		$fieldArray: (reference) The field array of a record
 	 */	
 	public function getFlexFormDS_postProcessDS(&$dataStructArray, $conf, $row, $table, $fieldName) {
-		if($table == 'tt_content' && $row['CType'] == 'multicolumn') {
+		if($table == 'tt_content' && $row['CType'] == 'multicolumn' && is_array($dataStructArray['sheets'])) {
 			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 			$flex = t3lib_div::makeInstance('tx_multicolumn_flexform', $row['pi_flexform']);
 			$layout = $flex->getFlexValue ('preSetLayout', 'layoutKey');
-			
+
 			if($layout == 'effectBox.') {
 				unset($dataStructArray['sheets']['advancedLayout']);
 			} else {
 				unset($dataStructArray['sheets']['effectBox']);
 			}
 		}
-
-
-		//unset($dataStructArray['sheets']['advancedLayout']);
-
 	}
 }
 ?>

@@ -54,8 +54,8 @@ tx_multicolumn {
 			icon = EXT:multicolumn/res/layout/2.gif
 			config {
 				columns = 3
-				columnWidth = 33
-				columnPadding = 0 6px 0 0 || 0 6px || 0 0 0 6px
+				columnWidth = 33.33
+				columnPadding = 0 6px 0 0 || 0 6px 0 0 || 0 6px 0 0
 			}
 
 		}

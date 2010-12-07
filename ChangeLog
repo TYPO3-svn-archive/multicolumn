@@ -1,4 +1,10 @@
 (add new changes on top of this file)
+2010-12-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: Use spritemanager to display custom multicolumn type icon
+	* Fixed: Added check for $dataStructArray['sheets']
+	* Fixed: 3 column layout. thx to webwaren.ch
+	
 2010-12-03 Cornel Boppart  <cboppart@snowflake.ch>
 	
 	* Optimized: Browser Compatibility of Accordion Effect

@@ -18,7 +18,7 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 			$sortedItems[] = array (
 				'LLL:EXT:multicolumn/locallang_db.xml:tx_multicolumn_multicolumn',
 				'multicolumn',
-				'../typo3conf/ext/multicolumn/tt_content_multicolumn.gif'
+				'tt_content_multicolumn.gif'
 			);
 			$multicolumnAdded = true;
 		}
@@ -31,12 +31,10 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 	unset($sortedItems, $firstDivChecked, $multicolumnAdded);
 }
 
-$TCA['tt_content']['ctrl']['typeicons']['multicolumn'] = '../typo3conf/ext/multicolumn/tt_content_multicolumn.gif';
+$TCA['tt_content']['ctrl']['typeicons']['multicolumn'] = PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif';
 
 if(tx_multicolumn_div::isTypo3VersionAboveTypo343()) {
-		// expand coreSpriteImageNames
-	$GLOBALS['TBE_STYLES']['spriteIconApi']['coreSpriteImageNames'][] = 'mimetypes-x-content-multicolumn';
-	$TCA['tt_content']['ctrl']['typeicon_classes']['multicolumn'] = 'mimetypes-x-content-multicolumn';
+	t3lib_spritemanager::addTcaTypeIcon('tt_content', 'multicolumn', PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif');
 }
 
 	// add tx_multicolumn_contentid to tt_content table
