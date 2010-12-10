@@ -24,20 +24,6 @@
 class tx_multicolumn_cms_layout {
 	
 	/**
-	 * Add css file for multicolumn icon. no way to use spritemanager ...?
-	 */
-	public function __construct() {
-			// add css file for icon
-		if(tx_multicolumn_div::isTypo3VersionAboveTypo343()) {
-			if($GLOBALS['TBE_TEMPLATE']->scriptID == 'typo3/db_list.php') {
-				$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../typo3conf/ext/multicolumn/res/backend/icons.css', 'stylesheet','screen');
-			} else if($GLOBALS['TBE_TEMPLATE']->scriptID == 'ext/cms/layout/db_layout.php') {
-				$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/icons.css', 'stylesheet','screen');
-			}
-		}
-	}
-	
-	/**
 	 * Expands the delete warning with "(This multicolumn container has X content elements(s)...)
 	 * before you delete a records
 	 */
