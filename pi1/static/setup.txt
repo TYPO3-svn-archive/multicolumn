@@ -40,6 +40,11 @@ plugin.tx_multicolumn_pi1 {
 			}
 				# to do add configuration option to prevent clear
 			clearfix = clearfix
+			
+			makeEqualElementBoxHeight = multicolumnContainerFixHeight
+			makeEqualElementBoxHeight {
+				if.isTrue.field = makeEqualElementBoxHeight
+			}
 
 				# layout class
 			layout = multicolumnLayout{field:layoutKey}
@@ -53,7 +58,7 @@ plugin.tx_multicolumn_pi1 {
 		2 {
 			insertData = 1
 			value (
-				<ul class="multicolumnContainer {register:layout} {register:clearfix}" style="{register:width}">
+				<ul class="multicolumnContainer {register:layout} {register:clearfix} {register:makeEqualElementBoxHeight}" style="{register:width}">
 					{field:content}
 				</ul>
 			)

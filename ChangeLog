@@ -1,7 +1,8 @@
 (add new changes on top of this file)
 2010-12-10 Michael Birchler  <mbirchler@snowflake.ch>
 
-	* Added possibility to enable only specifc effects (TSConfig: tx_multicolumn.config.effectBox.enableEffects)
+	* Added: possibility to enable only specifc effects (TSConfig: tx_multicolumn.config.effectBox.enableEffects)
+	* Fixed: Force equal height for each multicolumn item only affects checked multicolumn container 
 
 2010-12-07 Michael Birchler  <mbirchler@snowflake.ch>
 	

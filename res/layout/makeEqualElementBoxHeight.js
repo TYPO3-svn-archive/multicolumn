@@ -12,7 +12,7 @@ jQuery.noConflict();
                 }
                 
                 ,catchItems : function () {
-                        $('.multicolumnContainer').each(function(containerIndex, container){
+                        $('.multicolumnContainerFixHeight').each(function(containerIndex, container){
                                 fixHeight.elements[containerIndex] = {};
                                 $(container).find('.column').each(function(columnIndex, column){
                                         $(column).find('.columnItem').each(function(columnItemIndex, columnItem){

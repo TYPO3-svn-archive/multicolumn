@@ -175,6 +175,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 				//append config from column 0 for global config container width
 		$listData = $listItemData[0];
 		$listData['content'] = $this->renderListItems('column', $listItemData, $this->llPrefixed);
+		$listData['makeEqualElementBoxHeight'] = $this->layoutConfiguration['makeEqualElementBoxHeight'];
 
 		return $this->renderItem('columnContainer', $listData);
 	}
