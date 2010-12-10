@@ -13,6 +13,10 @@ tx_multicolumn {
 				}
 			}
 		}
+		effectBox {
+				# set effect key to only allow specific effect (eg. sudoSliderTabSliding,easyAccordion)
+			enableEffects = 
+		}
 	}
 	layoutPreset {
 		1 {
@@ -55,7 +59,7 @@ tx_multicolumn {
 			config {
 				columns = 3
 				columnWidth = 33.33
-				columnPadding = 0 6px 0 0 || 0 6px 0 0 || 0 6px 0 0
+				columnPadding = 0 6px 0 0 || 0 6px || 0 0 0 6px
 			}
 
 		}

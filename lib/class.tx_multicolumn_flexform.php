@@ -74,7 +74,6 @@ class tx_multicolumn_flexform {
 		return $flexform;
 	}
 	
-	
 	/**
 	 * Generates the icons for the flexform selector layout
 	 *
@@ -103,8 +102,15 @@ class tx_multicolumn_flexform {
 				}
 				break;
 			case 'effect':
-				$effectConfig = tx_multicolumn_div::getTSConfig($pid, 'effectBox');
-				if(is_array($effectConfig))$this->buildItems($effectConfig, $params);
+				$tsConfig = tx_multicolumn_div::getTSConfig($pid, null);
+				if(is_array($tsConfig['effectBox.'])) {
+						// enable only specific effects
+					if(!empty($tsConfig['config.']['effectBox.']['enableEffects'])) {
+						$this->filterItems($tsConfig['effectBox.'], $tsConfig['config.']['effectBox.']['enableEffects']);
+					}
+					
+					$this->buildItems($tsConfig['effectBox.'], $params);
+				}
 				break;
 		}
 	}
@@ -118,6 +124,21 @@ class tx_multicolumn_flexform {
 				str_replace(PATH_site, '../', t3lib_div::getFileAbsFileName($item['icon']))
 			);
 		}		
+	}
+	
+	/**
+	 * Filter out items from an array
+	 *
+	 * @param	array		array
+	 * @param	object		comma seperated list
+	 *
+	 * */		
+	protected function filterItems(array &$items, $filterList) {
+		foreach($items as $itemKey => $item) {
+			if(!t3lib_div::inList($filterList, str_replace('.', null, $itemKey))) {
+				unset($items[$itemKey]);
+			}
+		}
 	}
 }
 ?>

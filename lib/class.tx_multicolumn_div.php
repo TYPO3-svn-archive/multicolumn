@@ -103,7 +103,8 @@ final class tx_multicolumn_div {
 	public static function getTSConfig($pageUid, $tsConfigKey = 'layoutPreset') {
 		$tsConfig = isset($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
 
-		return $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
+		$tsConfig = empty($tsConfig['tx_multicolumn.'][$tsConfigKey . '.']) ? $tsConfig['tx_multicolumn.'] : $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
+		return $tsConfig;
 	}
 	
 	/**
