@@ -86,24 +86,29 @@ class tx_multicolumn_flexform {
 	public function addFieldsToFlexForm(&$params, t3lib_TCEforms $pObj) {
 		$type = $params['config']['txMulitcolumnField'];
 		$pid = ($params['row']['pid'] < 0 && is_array($pObj->cachedTSconfig)) ? tx_multicolumn_div::getBePidFromCachedTsConfig() : $params['row']['pid'];
+		$tsConfig = tx_multicolumn_div::getTSConfig($pid, null);
 
 		switch ($type) {
 			case 'preSetLayout':
-				$presetConfig = tx_multicolumn_div::getTSConfig($pid);
-				if(is_array($presetConfig)){
-						// add effectBox to the end
-					if(!empty($presetConfig['effectBox.'])) {
-						$effectBox = $presetConfig['effectBox.'];
-							// add effect box to the end
-						unset($presetConfig['effectBox.']);
-						$presetConfig['effectBox.'] = $effectBox;
+				if(is_array($tsConfig['layoutPreset.'])) {					
+						// enable only specific effects
+					if(!empty($tsConfig['config.']['layoutPreset.']['enableLayouts'])) {
+						$this->filterItems($tsConfig['layoutPreset.'], $tsConfig['config.']['layoutPreset.']['enableLayouts']);
 					}
-					$this->buildItems($presetConfig, $params);
+					
+						// add effectBox to the end
+					if(!empty($tsConfig['layoutPreset.']['effectBox.'])) {
+						$effectBox = $tsConfig['layoutPreset.']['effectBox.'];
+							// add effect box to the end
+						unset($tsConfig['layoutPreset.']['effectBox.']);
+						$tsConfig['layoutPreset.']['effectBox.'] = $effectBox;
+					}
+					$this->buildItems($tsConfig['layoutPreset.'], $params);
 				}
 				break;
 			case 'effect':
-				$tsConfig = tx_multicolumn_div::getTSConfig($pid, null);
 				if(is_array($tsConfig['effectBox.'])) {
+					
 						// enable only specific effects
 					if(!empty($tsConfig['config.']['effectBox.']['enableEffects'])) {
 						$this->filterItems($tsConfig['effectBox.'], $tsConfig['config.']['effectBox.']['enableEffects']);

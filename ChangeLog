@@ -2,6 +2,7 @@
 2010-12-13 Michael Birchler  <mbirchler@snowflake.ch>
 
 	* Fixed: Display icon in CType selector
+	* Added: possibility to enable only specifc layouts (TSConfig: tx_multicolumn.config.layoutPreset.enableLayouts)
 	
 2010-12-10 Michael Birchler  <mbirchler@snowflake.ch>
 

@@ -17,7 +17,12 @@ tx_multicolumn {
 				# set effect key to only allow specific effect (eg. sudoSliderTabSliding,easyAccordion)
 			enableEffects = 
 		}
+		layoutPreset {
+				# setlayout key to only allow specific layout (eg. effectBox,3)
+			enableLayouts = 
+		}
 	}
+	
 	layoutPreset {
 		1 {
 			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.1
