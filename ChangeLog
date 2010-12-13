@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2010-12-13 Michael Birchler  <mbirchler@snowflake.ch>
+
+	* Fixed: Display icon in CType selector
+	
 2010-12-10 Michael Birchler  <mbirchler@snowflake.ch>
 
 	* Added: possibility to enable only specifc effects (TSConfig: tx_multicolumn.config.effectBox.enableEffects)

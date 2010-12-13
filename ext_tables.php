@@ -18,7 +18,7 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 			$sortedItems[] = array (
 				'LLL:EXT:multicolumn/locallang_db.xml:tx_multicolumn_multicolumn',
 				'multicolumn',
-				'tt_content_multicolumn.gif'
+				PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif'
 			);
 			$multicolumnAdded = true;
 		}
