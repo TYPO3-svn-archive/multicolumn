@@ -227,7 +227,7 @@ class tx_multicolumn_db {
 	 * @return	string			mysql query string
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
-		$enableFields = isset($GLOBALS['TSFE']) ?  self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
+		$enableFields = is_object($GLOBALS['TSFE']->cObj) ? self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
 		return $enableFields;
 	}
 	

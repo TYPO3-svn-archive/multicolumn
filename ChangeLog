@@ -1,6 +1,10 @@
 (add new changes on top of this file)
 2010-10-28 Michael Birchler  <mbirchler@snowflake.ch>
 	
+	* Fixed: Check for cObj properly in backend context
+	
+2010-10-28 Michael Birchler  <mbirchler@snowflake.ch>
+	
 	* Changed: Don't make localCobj
 	
 2010-09-09 Michael Birchler  <mbirchler@snowflake.ch>
