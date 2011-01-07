@@ -36,6 +36,13 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	protected $currentCobjData;
 	
 	/**
+	 * Current cObjrecord string eg. tt_content:23
+	 *
+	 * @var		string
+	 */	
+	protected $currentCobjRecordString;
+	
+	/**
 	 * Instance of tx_multicolumn_flexform
 	 *
 	 * @var		tx_multicolumn_flexform
@@ -112,6 +119,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$this->conf = $conf;
 		$this->pi_loadLL();
 		$this->currentCobjData = $this->cObj->data;
+		$this->currentCobjRecordString = $this->cObj->currentRecord;
 		require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 
 		$this->llPrefixed = tx_multicolumn_div::prefixArray($this->LOCAL_LANG[$this->LLkey], 'lll:');
@@ -295,7 +303,6 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 		$rowNr	= 1;
 		$index = 0;
 		$content = null;
-		$currentCobjData = $this->cObj->data;
 		
 		foreach($recordsArray as $data) {
 			// first run?
@@ -315,13 +322,15 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 
 			// Add odd or even to the cObjData array.
 			$data['oddeven'] = $rowNr % 2 ? $confName.'Odd listItemOdd' : $confName.'Even listItemEven';
-
+			
+			// set data
 			$data = array_merge($data, $appendData);
-
-			// Render
 			$this->cObj->data = $data;
+			
+			// set uid for current record 
+			$this->cObj->currentRecord = $GLOBALS['TYPO3_CONF_VARS']['SYS']['contentTable'] . ':' . $data['uid'];
 			$content .= $this->cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
-
+	    
 			$rowNr ++;
 		}
 		
@@ -418,6 +427,7 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	 */	
 	protected function restoreCobjData() {
 		$this->cObj->data = $this->currentCobjData;
+		$this->cObj->currentRecord = $this->currentCobjRecordString;
 	}
 }
 
