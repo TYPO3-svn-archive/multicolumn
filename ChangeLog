@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2011-01-13 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Changed: the css property for equal height for each contentelement is now min-height instead height
+	
 2011-01-07 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Fixed: classic feedit (Thanks to Markus Zuercher)

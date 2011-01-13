@@ -6,6 +6,7 @@ jQuery.noConflict();
         
         var fixHeight = {
                 elements : {}
+		,ie6 : ($.browser.msie && $.browser.version.substr(0,1) < 7)
                 ,start : function() {
                         this.catchItems();
                         this.forceElementHeight();
@@ -34,11 +35,11 @@ jQuery.noConflict();
                         $.each(this.elements, function(containerIndex, container){
                                 $.each(container, function(columnItemIndex, columnItem){
                                         if(columnItem.el.length > 1){
-                                                var height = columnItem['elHeight'].sort(fixHeight.sortNumber)[0];
+                                                var height = columnItem['elHeight'].sort(fixHeight.sortNumber)[0],
+							heightCss = fixHeight.ie6 ? {'height' : height + 'px'} : {'min-height' : height + 'px'};
+							
                                                 $.each(columnItem['el'], function(elementIndex, element){
-                                                        $(element).css({
-                                                                'height' : height + 'px'
-                                                        });
+                                                        $(element).css(heightCss);
                                                 });
                                         }
                                 });
