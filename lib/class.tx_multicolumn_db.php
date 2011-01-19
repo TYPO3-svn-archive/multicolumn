@@ -181,9 +181,26 @@ class tx_multicolumn_db {
 		if($enableFields) $whereClause .= self::enableFields('tt_content');
 		
 		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);	
-		if($container[0]) return $container[0];
-
-	}	
+		if(!empty($container)) return $container[0];
+	}
+	
+	/**
+	 * Checks if content element has an parent multicolumn content element
+	 *
+	 * @param	integer			$uid ontent element
+	 * 
+	 * @return	boolean			true if content element has a multicolumn content element as parent
+	 */	
+	public static function contentElementHasAMulticolumnParentContainer($uid) {
+		$fromTable = 'tt_content';
+		$selectFields = 'uid';
+		$whereClause = ' uid=' . intval($uid) . ' AND tx_multicolumn_parentid != 0';
+		$whereClause .= self::enableFields('tt_content');
+		
+		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
+		if(!empty($container[0]['uid'])) return true;
+	}
+	
 	/**
 	 * Updateds a content element
 	 *

@@ -227,7 +227,7 @@ class tx_multicolumn_tcemain {
 	 */
 	public function moveRecord_afterAnotherElementPostProcess($table, $uid, $destPid, $origDestPid, $moveRec, $updateFields, t3lib_TCEmain $pObj) {
 			// check if we must update the move record
-		if($table == 'tt_content' && is_array($this->isMulticolumnContainer($uid))) {
+		if($table == 'tt_content' && (is_array($this->isMulticolumnContainer($uid)) || tx_multicolumn_db::contentElementHasAMulticolumnParentContainer($uid) || (($origDestPid < 0) && tx_multicolumn_db::contentElementHasAMulticolumnParentContainer(abs($origDestPid))))) {
 			if(!$this->getMulticolumnGetAction() == 'pasteInto') {
 				$updateRecordFields = array();
 				$updateRecordFields = $this->checkIfElementGetsCopiedOrMovedInsideOrOutsideAMulticolumnContainer($origDestPid, $updateRecordFields);
