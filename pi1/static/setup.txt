@@ -89,17 +89,17 @@ plugin.tx_multicolumn_pi1 {
 				if.isTrue.field = columnPadding
 				insertData = 1
 			}
-		}
 
-		2 = LOAD_REGISTER
-		2 {
-			columnItems.insertData = 1
-			columnItems.if.isTrue.field = content
-			columnItems (
-				<div class="columnItems" style="{register:padding}">
-					{field:content}
-				</div>
-			)
+			columnItems.cObject = TEXT
+			columnItems.cObject {
+				if.isTrue.field = content
+				insertData = 1
+				value (
+					<div class="columnItems" style="{register:padding}">
+						{field:content}
+					</div>				
+				)
+			}
 		}
 
 		3 = TEXT

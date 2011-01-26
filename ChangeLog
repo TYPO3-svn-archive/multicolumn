@@ -1,6 +1,10 @@
 (add new changes on top of this file)
 2011-01-19 Michael Birchler  <mbirchler@snowflake.ch>
 	
+	* Changed: Adapted TypoScript to be TYPO3 4.5 compliant 
+	
+2011-01-19 Michael Birchler  <mbirchler@snowflake.ch>
+	
 	* Fixed: Cut a content element to a multicolumn content element didn't work on all circumstances
 	
 2011-01-13 Michael Birchler  <mbirchler@snowflake.ch>
