@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2011-02-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed #12644: multicolumn container dropdown works again with TYPO3 4.5. Thanks to Stephan Gruber for providing the patch.
+	
 2011-01-19 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Changed: Adapted TypoScript to be TYPO3 4.5 compliant 

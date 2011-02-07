@@ -130,6 +130,15 @@ final class tx_multicolumn_div {
 	}
 	
 	/**
+	 * If TYPO3 branch is above 4.4
+	 *
+	 * @return	boolean		true if version is above 4.4
+	 */	
+	public static function isTypo3VersionAboveTypo344() {
+		if(!defined('TX_MULTICOLUMN_TYPO3_4-5_OR_ABOVE')) return true;
+	}
+	
+	/**
 	 * Calculates the maximal width  of the column in pixel based on {$styles.content.imgtext.colPos0.maxW}
 	 *
 	 * @return	integer			max width of column in pixel
