@@ -71,7 +71,7 @@ $tempColumns = array (
 );
 
 	// adjust palette name for TYPO3 4.5
-$nameOfPalette = tx_multicolumn_div::isTypo3VersionAboveTypo344() ? 'general' : 5;
+$nameOfPalette = tx_multicolumn_div::isTypo3VersionAboveTypo344() ? 'general' : '4';
 t3lib_extMgm::addTCAcolumns('tt_content',$tempColumns);
 t3lib_extMgm::addFieldsToPalette('tt_content', $nameOfPalette, 'tx_multicolumn_parentid', 'before:colPos');
 
