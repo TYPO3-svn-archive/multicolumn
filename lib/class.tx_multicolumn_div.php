@@ -217,14 +217,17 @@ final class tx_multicolumn_div {
 	 */	
 	public static function beUserHasRightToSeeMultiColumnContainer () {
 		$hasAccess = true;
+		
 			// Possibly remove some items from TSconfig
 		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
 		if(!empty($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'])) {
-			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn')  ? false : true;
+			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn') ? false : true;
 		}
-		
-		if(t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY')) {
-			$hasAccess = false;
+			// is explicitADmode allow ?
+		if($GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] === 'explicitAllow') {
+			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:ALLOW') ? true : false;
+		} else {
+			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY') ? false : true;
 		}
 		
 		return $hasAccess;
