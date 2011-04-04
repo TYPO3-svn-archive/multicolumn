@@ -217,6 +217,8 @@ final class tx_multicolumn_div {
 	 */	
 	public static function beUserHasRightToSeeMultiColumnContainer () {
 		$hasAccess = true;
+            // is admin?
+        if(!empty($GLOBALS['BE_USER']->user['admin'])) return $hasAccess;
 		
 			// Possibly remove some items from TSconfig
 		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
