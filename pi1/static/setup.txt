@@ -120,7 +120,7 @@ plugin.tx_multicolumn_pi1 {
 	columnItem {
 		stdWrap.dataWrap = <div class="columnItem columnItem{field:recordNumber} {field:isFirst} {field:isLast} columnItem{field:CType}">|</div>
 
-		10 = < tt_content
+		10 =< tt_content
 	}
 
 		# maxWidth of colum (needed for shrink images)
@@ -216,13 +216,36 @@ plugin.tx_multicolumn_pi1 {
 
 			10 {
 				stdWrap.dataWrap = <dd class="effectBoxItem effectBoxItem{field:recordNumber} effectBoxItemContent {field:isFirst} {field:isLast}">|</dd>
+				
 					# remove lib.stdheader from element
 				image.10 = TEXT
 					# remove lib.stdheader from element
 				textpic.10 = TEXT
 			}
 		}
-
+		
+		vAccordion < .default
+		vAccordion = COA
+		vAccordion {
+			stdWrap {
+				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}">|</li>
+			}
+			
+			10 {
+				image.stdWrap.prepend = TEXT
+				image.stdWrap.prepend {
+					wrap = <h5 class="effectBoxItemTitle">|</h5>
+					field = header
+					required = 1
+				}
+				image.20.stdWrap.dataWrap = <div class="effectBoxItemContent"><div class="innerWrap">|</div></div>
+				
+					# remove lib.stdheader from elements
+				image.10 = TEXT
+				
+				textpic < .image
+			}
+		}
 	}
 
 		# effect box list
@@ -246,6 +269,13 @@ plugin.tx_multicolumn_pi1 {
 			required = 1
 			field = effectBoxItems
 			dataWrap = <dl style="{field:columnWidth}">|</dl>
+		}
+		
+		vAccordion = TEXT
+		vAccordion {
+			required = 1
+			field = effectBoxItems
+			dataWrap = <ul class="vAccordion">|</ul>
 		}
 	}
 }

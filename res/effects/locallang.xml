@@ -12,6 +12,7 @@
 			<label index="effectBox.effect.fadingTab">Fading tabs</label>
 			<label index="effectBox.effect.fadingTab2">Fading tabs 2</label>
 			<label index="effectBox.effect.accordion">Accordion</label>
+			<label index="effectBox.effect.vAccordion">Vertical Accordion</label>
 			<label index="effectBox.effectOptions">Effect options</label>
 			<label index="effectBox.width">Effect Box CSS Style</label>
 		</languageKey>
@@ -22,6 +23,7 @@
 			<label index="effectBox.effect.fadingTab">Überblendende Tabs</label>
 			<label index="effectBox.effect.fadingTab2">Überblendende Tabs 2</label>
 			<label index="effectBox.effect.accordion">Akkordeon</label>
+			<label index="effectBox.effect.vAccordion">Vertikales Akkordeon</label>
 			<label index="effectBox.effectOptions">Effekt Optionen</label>
 			<label index="effectBox.width">Effekt Box CSS Style</label>
 		</languageKey>
