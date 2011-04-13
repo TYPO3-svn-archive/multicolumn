@@ -3,23 +3,26 @@ jQuery.noConflict();
 (function($) {
 		// function accordion
 	$.fn.accordion = function() {
+		var self = $(this);
 		var items = $(this).children();
 			
-		$(this).find('.effectBoxItemContent').hide();
-		$(this).find('li.effectBoxItemsFirst .effectBoxItemContent').show();
-		$(this).find('li.effectBoxItemsFirst').toggleClass('active');
+		self.find('.effectBoxItemContent').hide();
+		self.find('li.effectBoxItemsFirst .effectBoxItemContent').show();
+		self.find('li.effectBoxItemsFirst').toggleClass('active');
 		
 		$(items).each(function() {
 			$(this).children('.effectBoxItemTitle').click(function() {
-				if (! $(this).parent().hasClass('active')) {
-					$(this).parent().toggleClass('active');
-					$(this).parent().siblings().removeClass('active');
+				var self = $(this);
+				
+				if (! self.parent().hasClass('active')) {
+					self.parent().toggleClass('active');
+					self.parent().siblings().removeClass('active');
 						
-					$(this).siblings('.effectBoxItemContent').slideDown();	
-					$(this).parent().siblings().children('.effectBoxItemContent').slideUp();
+					self.siblings('.effectBoxItemContent').slideDown();	
+					self.parent().siblings().children('.effectBoxItemContent').slideUp();
 				}
-					
-				return false;
+				
+				event.preventDefault();
 			});
 		});
 	};
