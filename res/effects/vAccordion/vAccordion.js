@@ -11,7 +11,7 @@ jQuery.noConflict();
 		self.find('li.effectBoxItemsFirst').toggleClass('active');
 		
 		$(items).each(function() {
-			$(this).children('.effectBoxItemTitle').click(function() {
+			$(this).children('.effectBoxItemTitle').click(function(event) {
 				var self = $(this);
 				
 				if (! self.parent().hasClass('active')) {
