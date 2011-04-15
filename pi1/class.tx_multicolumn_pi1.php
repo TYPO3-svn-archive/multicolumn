@@ -161,7 +161,8 @@ class tx_multicolumn_pi1  extends tslib_pibase {
 	
 				//include layout css
 			if(!empty($this->layoutConfiguration['layoutCss'])) {
-				$this->includeCssJsFiles($this->layoutConfiguration['layoutCss']);
+				$files = is_array($this->layoutConfiguration['layoutCss']) ? $this->layoutConfiguration['layoutCss'] : array('layoutCss' => $this->layoutConfiguration['layoutCss']);
+				$this->includeCssJsFiles($files);
 			}
 			
 				// force equal height ?

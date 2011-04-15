@@ -70,10 +70,11 @@ $tempColumns = array (
 	)
 );
 
-	// adjust palette name for TYPO3 4.5
-$nameOfPalette = tx_multicolumn_div::isTypo3VersionAboveTypo344() ? 'general' : '4';
-t3lib_extMgm::addTCAcolumns('tt_content',$tempColumns);
-t3lib_extMgm::addFieldsToPalette('tt_content', $nameOfPalette, 'tx_multicolumn_parentid', 'before:colPos');
+t3lib_extMgm::addTCAcolumns('tt_content', $tempColumns);
+	// for 4.5
+if(!empty($GLOBALS['TCA']['tt_content']['palettes']['general'])) t3lib_extMgm::addFieldsToPalette('tt_content', 'general', 'tx_multicolumn_parentid', 'before:colPos');
+	// compatibility
+if(!empty($GLOBALS['TCA']['tt_content']['palettes'][4])) t3lib_extMgm::addFieldsToPalette('tt_content', 4, 'tx_multicolumn_parentid', 'before:colPos');
 
 if(TYPO3_MODE == 'BE') {
 		// add itemsProcFunc to colPos for dynamic colPos
