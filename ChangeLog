@@ -1,4 +1,7 @@
 (add new changes on top of this file)
+2011-04-21 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for sitemap element (Section index (pagecontent w/Index checked)
+	
 2011-04-15 Michael Birchler  <mbirchler@snowflake.ch>
 	* Add tx_multicolumn_parentid to $GLOBALS['TCA']['tt_content']['palettes'][4] if present
 	* Fixed inclusion of layoutCss from TSconfig

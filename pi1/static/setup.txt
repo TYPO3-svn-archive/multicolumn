@@ -280,7 +280,6 @@ plugin.tx_multicolumn_pi1 {
 	}
 }
 
-
 plugin.tx_multicolumn_pi1._CSS_DEFAULT_STYLE (
 	.clearfix:after {
 		clear:both;
