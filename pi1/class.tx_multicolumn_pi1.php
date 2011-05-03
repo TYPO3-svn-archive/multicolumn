@@ -195,6 +195,14 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$listData = $this->cObj->data;
 		
 		$columnWidth = !empty($this->effectConfiguration['effectBoxWidth']) ? $this->effectConfiguration['effectBoxWidth'] : $this->renderColumnWidth();
+		$isColumnWidthInt = intval($columnWidth);
+			// evalute column width from css string
+		if(empty($isColumnWidthInt)) {
+			$matches = array();
+			preg_match('/width?\s*:([0-9]*)/', $columnWidth, $matches);
+			$columnWidth = $matches[1];
+		}
+
 		$GLOBALS['TSFE']->register['maxImageWidth'] = !empty($columnWidth) ? $columnWidth : $GLOBALS['TSFE']->register['maxImageWidth'] ;
 
 		$contentElements = tx_multicolumn_db::getContentElementsFromContainer($columnData['colPos'], $this->cObj->data['pid'], $this->multicolumnContainerUid, $this->cObj->data['sys_language_uid']);
