@@ -5,10 +5,15 @@ jQuery(document).ready(function($){
 			$('.sudoSlider').each(function(index, element){
 				var id = element.id.split('_')[1];
 				var options = window['mullticolumnEffectBox_'+id] ? window['mullticolumnEffectBox_'+id] : {};
+				
 				if(options['convertHeadingToNavigation']) {
 					var titles = effectBox.getTitles(element);
 					if(titles.length) options['numericText'] = effectBox.getTitles(element);
 				}
+				if(options['randomOrder']) {
+					effectBox.randomOrder(element);
+				}
+				
 				$(element).sudoSlider(options);
 			});
 		}
@@ -21,6 +26,18 @@ jQuery(document).ready(function($){
 			});
 			
 			return titles;
+		}
+		,randomOrder : function(element) {
+			var items = [];
+			$(element).find('.effectBoxItem').each(function(index,item) {
+				items.push(item);
+			});
+			
+			items.sort(function() {
+				return Math.round(Math.random());
+			});
+			
+			$(element).children().html(items);
 		}
 	};
 	
