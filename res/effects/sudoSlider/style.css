@@ -1,7 +1,7 @@
 /* Sudo Slider */
 
-.sudoSlider ul,
-.sudoSlider ul li {
+.sudoSlider ul.effectBoxList,
+.sudoSlider ul.effectBoxList li.effectBoxItem {
 	margin:0;
 	padding:0;
 	list-style:none;

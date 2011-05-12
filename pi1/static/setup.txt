@@ -261,7 +261,7 @@ plugin.tx_multicolumn_pi1 {
 		default {
 			required = 1
 			field = effectBoxItems
-			dataWrap = <ul>|</ul>
+			dataWrap = <ul class="effectBoxList">|</ul>
 		}
 
 		easyAccordion = TEXT
