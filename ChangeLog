@@ -1,4 +1,7 @@
 (add new changes on top of this file)
+2011-05-30 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for cObj:parentRecordNumber
+	
 2011-05-03 Michael Birchler  <mbirchler@snowflake.ch>
 	* Added effectBox possibility to crop images from css string
 	

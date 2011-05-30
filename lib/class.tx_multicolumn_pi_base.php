@@ -61,6 +61,7 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 			// set data
 			$data = array_merge($data, $appendData);
 			$this->cObj->data = $data;
+			$this->cObj->parentRecordNumber = $rowNr;
 			
 			// set uid for current record 
 			$this->cObj->currentRecord = $GLOBALS['TYPO3_CONF_VARS']['SYS']['contentTable'] . ':' . $data['uid'];
@@ -163,6 +164,7 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 	protected function restoreCobjData() {
 		$this->cObj->data = $this->currentCobjData;
 		$this->cObj->currentRecord = $this->currentCobjRecordString;
+		$this->cObj->parentRecordNumber = $this->currentCobjParentRecordNumber;
 	}
 	
 }
