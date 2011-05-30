@@ -44,6 +44,14 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 	protected $currentCobjRecordString;
 	
 	/**
+	 * Incremented in parent cObj->RECORDS
+	 * and cObj->CONTENT before each record rendering.
+	 *
+	 * @var		integere
+	 */	
+	protected $currentCobjParentRecordNumber;
+	
+	/**
 	 * Instance of tx_multicolumn_flexform
 	 *
 	 * @var		tx_multicolumn_flexform
@@ -119,8 +127,11 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$this->content = $content;
 		$this->conf = $conf;
 		$this->pi_loadLL();
+		
 		$this->currentCobjData = $this->cObj->data;
+		$this->currentCobjParentRecordNumber = $this->cObj->parentRecordNumber;
 		$this->currentCobjRecordString = $this->cObj->currentRecord;
+		
 		require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 
 		$this->llPrefixed = tx_multicolumn_div::prefixArray($this->LOCAL_LANG[$this->LLkey], 'lll:');
