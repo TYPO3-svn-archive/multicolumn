@@ -285,6 +285,8 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 				$maxImageWidth = $disableImageShrink ? null : (isset($columnData['columnWidthPixel']) ? ($columnData['columnWidthPixel'] - $columnData['columnPaddingTotalWidthPixel']) : null);
 
 				$GLOBALS['TSFE']->register['maxImageWidth'] = $maxImageWidth;
+				$GLOBALS['TSFE']->register['maxImageWidthInText'] = $maxImageWidth;
+
 				$columnData['content'] = $this->renderListItems('columnItem', $contentElements, $this->llPrefixed);
 			}
 
