@@ -1,4 +1,7 @@
 (add new changes on top of this file)
+2011-06-08 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for TYPO3 4.5 gridviews (thx to Marc Bastian Heinrichs)
+	
 2011-05-30 Michael Birchler  <mbirchler@snowflake.ch>
 	* Added support for cObj:parentRecordNumber
 	

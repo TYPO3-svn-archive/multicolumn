@@ -63,6 +63,13 @@ class tx_multicolumn_tceform {
 	 * @param	integer		$pid: Target pid of page
 	 */
 	public function init($itemsProc, t3lib_TCEforms $pObj) {
+			// call proFunc
+		if(!empty($itemsProc['config']['itemsProcFunctions'])) {
+			foreach($itemsProc['config']['itemsProcFunctions'] as $procFunc) {
+				if(!empty($procFunc)) t3lib_div::callUserFunction($procFunc, $itemsProc, $pObj);
+			}
+		}
+		
 		$this->items = &$itemsProc['items'];
 		$this->itemsCount = count($this->items);
 		$this->config = $itemsProc['config'];

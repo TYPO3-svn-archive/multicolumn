@@ -86,8 +86,14 @@ if(TYPO3_MODE == 'BE') {
 		'path' => PATH_tx_multicolumn . 'hooks/class.tx_multicolumn_alt_clickmenu.php'
 	);
 }
-$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'tx_multicolumn_tceform->init';
+
+$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunctions'] = array (
+	'default' => $TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc']
+);
 $TCA['tt_content']['columns']['colPos']['config']['multicolumnProc'] = 'buildDynamicCols';
+	// overwrite default ...
+$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'tx_multicolumn_tceform->init';
+
 
 	// request refresh if multicolumn_parent_id is changed
 $TCA['tt_content']['ctrl']['requestUpdate'] .= ',layoutKey,tx_multicolumn_parentid';
