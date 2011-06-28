@@ -120,7 +120,7 @@ plugin.tx_multicolumn_pi1 {
 	columnItem {
 		stdWrap.dataWrap = <div class="columnItem columnItem{field:recordNumber} {field:isFirst} {field:isLast} columnItem{field:CType}">|</div>
 
-		10 =< tt_content
+		10 = < tt_content
 	}
 
 		# maxWidth of colum (needed for shrink images)
@@ -172,7 +172,6 @@ plugin.tx_multicolumn_pi1 {
 				}
 				textpic {
 					20 < temp.effectBoxImageRendering
-
 					30 = TEXT
 					30 {
 						if.isTrue.field = bodytext
@@ -204,9 +203,12 @@ plugin.tx_multicolumn_pi1 {
 				}
 			}
 		}
-
 			# it's possible to add custom markup for each effect
-		#sudoSliderSliding
+		sudoSliderTabSliding < .default
+		sudoSliderTabSliding {
+			10 >
+			10 = < tt_content
+		}
 
 		easyAccordion < .default
 		easyAccordion {
@@ -231,19 +233,26 @@ plugin.tx_multicolumn_pi1 {
 				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}">|</li>
 			}
 			
+			10 = COA
 			10 {
-				image.stdWrap.prepend = TEXT
-				image.stdWrap.prepend {
+				stdWrap.prepend = TEXT
+				stdWrap.prepend {
 					wrap = <h5 class="effectBoxItemTitle">|</h5>
 					field = header
 					required = 1
 				}
-				image.20.stdWrap.dataWrap = <div class="effectBoxItemContent"><div class="innerWrap">|</div></div>
+						
+				wrap = <div class="effectBoxItemContent"><div class="innerWrap">|</div></div>	
+				required = 1
 				
-					# remove lib.stdheader from elements
-				image.10 = TEXT
-				
-				textpic < .image
+				10 >
+				10 =< tt_content
+				10 {
+					textpic {
+							# remove lib.stdheader from elements
+						10 = TEXT
+					}
+				}
 			}
 		}
 	}
