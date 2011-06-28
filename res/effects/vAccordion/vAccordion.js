@@ -13,13 +13,14 @@ jQuery.noConflict();
 		$(items).each(function() {
 			$(this).children('.effectBoxItemTitle').click(function(event) {
 				var self = $(this);
+				var parent = self.parent('li.effectBoxItem');
 				
-				if (! self.parent().hasClass('active')) {
-					self.parent().toggleClass('active');
-					self.parent().siblings().removeClass('active');
+				if (! self.parent('li.effectBoxItem').hasClass('active')) {
+					parent.toggleClass('active');
+					parent.siblings().removeClass('active');
 						
 					self.siblings('.effectBoxItemContent').slideDown();	
-					self.parent().siblings().children('.effectBoxItemContent').slideUp();
+					parent.siblings().children('.effectBoxItemContent').slideUp();
 				}
 				
 				event.preventDefault();
