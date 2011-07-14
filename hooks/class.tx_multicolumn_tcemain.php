@@ -40,18 +40,23 @@ class tx_multicolumn_tcemain {
 		$GPvar = t3lib_div::_GP('cmd');
 
 			// element gets localized
-		if($status == 'new' && $fieldArray['CType'] == 'multicolumn' && $GPvar['tt_content'][$fieldArray['t3_origuid']]['localize']) {
+		$localizeToSysLanguageUid = intval($GPvar['tt_content'][$fieldArray['t3_origuid']]['localize']);
+		if($status == 'new' && $fieldArray['CType'] == 'multicolumn' && !empty($localizeToSysLanguageUid)) {
 			$this->pObj = clone $pObj;
 
 				//get new uid
 			$multiColCeUid = $this->pObj->substNEWwithIDs[$id];
 			
 				//has container children?
-			$containerHasChildren = tx_multicolumn_db::containerHasChildren($fieldArray['l18n_parent']);
-
-			if($multiColCeUid && $containerHasChildren) {
-				$this->localizeMulticolumnChildren($containerHasChildren, $multiColCeUid, $fieldArray['sys_language_uid']);
+			$parentUid = !empty($fieldArray['l18n_parent']) ? $fieldArray['l18n_parent'] : key($GPvar['tt_content']);
+			if(!empty($parentUid)) {
+				$containerHasChildren = tx_multicolumn_db::containerHasChildren($parentUid);
+	
+				if($multiColCeUid && $containerHasChildren) {
+					$this->localizeMulticolumnChildren($containerHasChildren, $multiColCeUid, $localizeToSysLanguageUid);
+				}
 			}
+			
 				//reset rempat stack record for multicolumn item (prevents double call of processDatamap_afterDatabaseOperations)
 			unset($pObj->remapStackRecords['tt_content'][$id]);
 		}
@@ -65,7 +70,6 @@ class tx_multicolumn_tcemain {
 	*/	
 	protected function localizeMulticolumnChildren(array $elementsToBeLocalized, $multicolumnParentId, $sysLanguageUid) {
 		foreach($elementsToBeLocalized as $element) {
-
 				//create localization
 			$newUid = $this->pObj->localize('tt_content', $element['uid'], $sysLanguageUid);
 			if($newUid) {
@@ -78,7 +82,7 @@ class tx_multicolumn_tcemain {
 					// if is element a multicolumn element ? localize children too (recursive)
 				if($element['CType'] == 'multicolumn') {
 					$containerChildrenChildren = tx_multicolumn_db::containerHasChildren($element['uid']);
-					if($containerChildrenChildren) {
+					if(!empty($containerChildrenChildren)) {
 						$this->localizeMulticolumnChildren($containerChildrenChildren, $newUid, $sysLanguageUid);
 					}
 				}
