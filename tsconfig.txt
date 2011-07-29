@@ -218,6 +218,9 @@ tx_multicolumn {
 				cssFiles {
 					vAccordion = EXT:multicolumn/res/effects/vAccordion/style.css
 				}
+				defaultOptions (
+					showFirst: true
+				)
 			}
 		}
 	}
