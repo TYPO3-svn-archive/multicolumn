@@ -36,6 +36,7 @@ tx_multicolumn {
 				#containerMeasure = %
 					# if you want to specifie a fixed width for column
 				#containerWidth =
+				#disableStyles = 1
 
 				# column settings
 					# number of columns
@@ -222,6 +223,27 @@ tx_multicolumn {
 					showFirst: true
 				)
 			}
+		}
+		
+		simpleTabs {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.simpleTabs
+			config {
+				effectBoxClass = vAccordion
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
+					simpleTabs = EXT:multicolumn/res/effects/simpleTabs/simpleTabs.js
+				}
+				cssFiles {
+					simpleTabs = EXT:multicolumn/res/effects/simpleTabs/style.css
+				}
+				
+				defaultOptions (
+					fixHeight : false
+				)
+			}		
 		}
 	}
 }

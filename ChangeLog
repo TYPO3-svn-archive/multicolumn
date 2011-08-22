@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2011-22-08 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added new effect simple tabs
+	* Added possibility to disable inline styles
+
 2011-06-08 Michael Birchler  <mbirchler@snowflake.ch>
 	* Added support for TYPO3 4.5 gridviews (thx to Marc Bastian Heinrichs)
 	

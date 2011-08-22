@@ -34,12 +34,17 @@ jQuery.noConflict();
                 ,forceElementHeight : function () {
                         $.each(this.elements, function(containerIndex, container){
                                 $.each(container, function(columnItemIndex, columnItem){
-                                        if(columnItem.el.length > 1){
+                                        if(columnItem.el.length > 0){
                                                 var height = columnItem['elHeight'].sort(fixHeight.sortNumber)[0],
 							heightCss = fixHeight.ie6 ? {'height' : height + 'px'} : {'min-height' : height + 'px'};
 							
                                                 $.each(columnItem['el'], function(elementIndex, element){
-                                                        $(element).css(heightCss);
+							var 	$el = $(element),
+								$css3Container = $el.prev('css3-container');
+								
+							$el.css(heightCss);
+							$css3Container.css(heightCss);
+                                                        $el.find(':first').css(heightCss);
                                                 });
                                         }
                                 });
