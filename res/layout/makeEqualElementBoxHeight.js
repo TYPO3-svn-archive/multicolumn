@@ -40,11 +40,15 @@ jQuery.noConflict();
 							
                                                 $.each(columnItem['el'], function(elementIndex, element){
 							var 	$el = $(element),
-								$css3Container = $el.prev('css3-container');
+								$coEl = $el.find('div:first'),
+								$css3 = $coEl.prev('css3-container'),
+								$coElInner = $coEl.find('div:first');
 								
 							$el.css(heightCss);
-							$css3Container.css(heightCss);
-                                                        $el.find(':first').css(heightCss);
+							$coEl.css(heightCss);
+							$coElInner.css(heightCss);
+								// flush container
+							if($css3.length) $coEl.hide().show();
                                                 });
                                         }
                                 });
