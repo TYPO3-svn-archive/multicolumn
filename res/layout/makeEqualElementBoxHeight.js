@@ -35,14 +35,15 @@ jQuery.noConflict();
                         $.each(this.elements, function(containerIndex, container){
                                 $.each(container, function(columnItemIndex, columnItem){
                                         if(columnItem.el.length > 0){
-                                                var height = columnItem['elHeight'].sort(fixHeight.sortNumber)[0],
-							heightCss = fixHeight.ie6 ? {'height' : height + 'px'} : {'min-height' : height + 'px'};
+                                                var height = columnItem['elHeight'].sort(fixHeight.sortNumber)[0];
 							
                                                 $.each(columnItem['el'], function(elementIndex, element){
 							var 	$el = $(element),
 								$coEl = $el.find('div:first'),
 								$css3 = $coEl.prev('css3-container'),
-								$coElInner = $coEl.find('div:first');
+								$coElInner = $coEl.find('div:first'),
+								padding = parseInt($coElInner.css('padding-bottom')) + parseInt($coElInner.css('padding-top')),
+								heightCss = {'min-height' :  height - padding + 'px'};
 								
 							$el.css(heightCss);
 							$coEl.css(heightCss);
