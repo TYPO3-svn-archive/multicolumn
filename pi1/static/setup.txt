@@ -48,6 +48,12 @@ plugin.tx_multicolumn_pi1 {
 			makeEqualElementBoxHeight {
 				if.isTrue.field = makeEqualElementBoxHeight
 			}
+			
+			makeEqualElementColumnHeight = multicolumnContainerfixColumnHeight
+			makeEqualElementColumnHeight {
+				if.isTrue.field = makeEqualElementColumnHeight
+			}
+			
 
 				# layout class
 			layout = multicolumnLayout{field:layoutKey}
@@ -61,7 +67,7 @@ plugin.tx_multicolumn_pi1 {
 		2 {
 			insertData = 1
 			value (
-				<ul class="multicolumnContainer {register:layout} {register:clearfix} {register:makeEqualElementBoxHeight}" style="{register:width}">
+				<ul class="multicolumnContainer {register:layout} {register:clearfix} {register:makeEqualElementBoxHeight} {register:makeEqualElementColumnHeight}" style="{register:width}">
 					{field:content}
 				</ul>
 			)

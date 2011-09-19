@@ -178,10 +178,16 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 			}
 			
 				// force equal height ?
+			$config = tx_multicolumn_div::getTSConfig($GLOBALS['TSFE']->id, 'config');
 			if(!empty($this->layoutConfiguration['makeEqualElementBoxHeight'])) {
-				$config = tx_multicolumn_div::getTSConfig($GLOBALS['TSFE']->id, 'config');
 				if(is_array($config['advancedLayouts.']['makeEqualElementBoxHeight.']['includeFiles.'])) {
 					$this->includeCssJsFiles($config['advancedLayouts.']['makeEqualElementBoxHeight.']['includeFiles.']);
+				}
+			}
+				// force equal height for each column
+			if(!empty($this->layoutConfiguration['makeEqualElementColumnHeight'])) {
+				if(is_array($config['advancedLayouts.']['makeEqualElementColumnHeight.']['includeFiles.'])) {
+					$this->includeCssJsFiles($config['advancedLayouts.']['makeEqualElementColumnHeight.']['includeFiles.']);
 				}
 			}
 			
@@ -197,6 +203,7 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$listData = $listItemData[0];
 		$listData['content'] = $this->renderListItems('column', $listItemData, $this->llPrefixed);
 		$listData['makeEqualElementBoxHeight'] = $this->layoutConfiguration['makeEqualElementBoxHeight'];
+		$listData['makeEqualElementColumnHeight'] = $this->layoutConfiguration['makeEqualElementColumnHeight'];
 
 		return $this->renderItem('columnContainer', $listData);
 	}
