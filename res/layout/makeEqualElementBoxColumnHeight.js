@@ -29,7 +29,16 @@ jQuery.noConflict();
                         $.each(this.elements, function(containerIndex, container){
 				var columnHeight = container['columnHeights'].sort(fixColumnHeight.sortNumber)[0];
 				$(container['columns']).each(function(){
-					$(this).css('min-height', columnHeight + 'px');	
+					var $column = $(this),
+						$css3container = $column.prev();
+					
+					$column.css('min-height', columnHeight + 'px');
+					// flush container
+					if($css3container.length) {
+						$column.css({
+							'position' : 'relative'	
+						});
+					}
 				});
                         });
                 }
