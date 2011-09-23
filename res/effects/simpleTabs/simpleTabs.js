@@ -52,8 +52,9 @@ jQuery(document).ready(function($){
 					$item.addClass('tabItemAct');					
 				};
 				
-				$a.click(function(){
-					show()
+				$a.click(function(event){
+					event.preventDefault();
+					show();
 				});
 
 					// add target links
