@@ -7,47 +7,51 @@ jQuery(document).ready(function($){
 		,$tabItems : []
 		,maxHeight : []
 		,$navigationContainer : []
+		,$simpleTabsContainer : []
 		,start : function () {
 			var self = this;
-			$('div.simpleTabs').each(function(index, element){
+			self.$tabItems = [];
+			
+			self.$simpleTabs = $('div.simpleTabs');
+			self.$simpleTabs.each(function(index, element){
 				self.id = element.id.split('_')[1];
 				
 				self.options  = window['mullticolumnEffectBox_' + self.id] ? window['mullticolumnEffectBox_' + self.id] : {};
 				self.$el = $(this);
-				self.$simpleTabsContainer = self.$el.find('.simpleTabsContainer'),
-				self.$tabItems = self.$el.find('li.tabItem');
+				self.$simpleTabsContainer.push(self.$el.find('.simpleTabsContainer')),
+				self.$tabItems.push(self.$el.find('li.tabItem'));
 
 				if(self.$el.length) {
 					self.buildNavigation(index);
-					if(self.options['fixHeight']) self.setContainerHeight();
+					if(self.options['fixHeight']) self.setContainerHeight(index);
 				}
 			});
 		}
 		
 		,buildNavigation : function (tabIndex) {
 			var	$navigationAppend = this.$el.find('.simpleTabNavigationContainer'),
-				self = this;
+				self = this,
+				$navigationContainer = $('<ul class="simpleTabNavigation clearfix"></ul>');
 
-			tabIndex = tabIndex + 1;
-			self.$navigationContainer = $('<ul class="simpleTabNavigation clearfix"></ul>');
-			
-			this.$tabItems.each(function(index){
+			self.$navigationContainer.push($navigationContainer);
+
+			self.$tabItems[tabIndex].each(function(index){
 				var $el = $(this),
 					$container = $el.parent('ul'),
 					$navigationItemContent = $el.find('.simpleTabNavigationItemContent'),
 					navigationLabel = $navigationItemContent.text(),
-					navigationItemId = 'tab-' + tabIndex + '-' + (index + 1),
+					navigationItemId = 'tab-' + (tabIndex + 1) + '-' + (index + 1),
 					
 					$a = $('<a id="' + navigationItemId + '" href="#' + navigationItemId + '">' + navigationLabel + '</a>'),
 					$item = $('<li class="simpleTabNavigationItem simpleTabNavigationItem' + index + '"></li>');
 				
 				$item.append($a);
-				self.$navigationContainer.append($item);
+				$navigationContainer.append($item);
 				$navigationItemContent.remove();
 				self.maxHeight.push($el.height());
 				
 				var show = function () {
-					self.hideAll();
+					self.hideAll(tabIndex);
 					$el.show();
 					$item.addClass('tabItemAct');					
 				};
@@ -71,24 +75,23 @@ jQuery(document).ready(function($){
 				}
 			});
 
-			$navigationAppend.append(self.$navigationContainer);
+			$navigationAppend.append($navigationContainer);
 		}
 		
-		,setContainerHeight : function () {
+		,setContainerHeight : function (tabIndex) {
 			var self = this;
 				height = self.maxHeight.sort(self.sortNumber)[0];
 				
-			self.$simpleTabsContainer.css('height', height + 'px');
+			self.$simpleTabsContainer[tabIndex].css('height', height + 'px');
 		}
 		
-		,hideAll : function () {
+		,hideAll : function (tabIndex) {
 			var self = this;
-			
-			this.$tabItems.each(function(index){
+			this.$tabItems[tabIndex].each(function(index){
 				var $el = $(this);
 				$el.hide();
 				
-				self.$navigationContainer.find('li.simpleTabNavigationItem' + index).removeClass('tabItemAct');
+				self.$navigationContainer[tabIndex].find('li.simpleTabNavigationItem' + index).removeClass('tabItemAct');
 			});
 		}
                 ,sortNumber : function (a, b) {
