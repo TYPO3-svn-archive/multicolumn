@@ -8,8 +8,10 @@ jQuery.noConflict();
                 elements : {}
 		,ie6 : ($.browser.msie && $.browser.version.substr(0,1) < 7)
                 ,start : function() {
-                        this.catchItems();
-                        this.forceElementHeight();
+			var self = fixHeight;
+			
+                        fixHeight.catchItems();
+                        fixHeight.forceElementHeight();
                 }
                 
                 ,catchItems : function () {
@@ -60,4 +62,14 @@ jQuery.noConflict();
                        return b -a; 
                 }
         };
+	
+	$.fn.multicolumnFixHeight = function(method) {
+		if (fixHeight[method]) {
+			return fixHeight[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else {
+		      $.error( 'Method ' +  method + ' does not exist on jQuery.fixHeight' );
+		      return false;
+		}    			
+	};
+	
 }(jQuery));

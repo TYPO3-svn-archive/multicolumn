@@ -47,4 +47,13 @@ jQuery.noConflict();
                        return b -a; 
                 }
         };
+	
+	$.fn.multicolumnFixColumnHeight = function(method) {
+		if (fixColumnHeight[method]) {
+			return fixColumnHeight[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else {
+		      $.error( 'Method ' +  method + ' does not exist on jQuery.fixColumnHeight' );
+		      return false;
+		}    			
+	};
 }(jQuery));

@@ -53,7 +53,16 @@ jQuery(document).ready(function($){
 				var show = function () {
 					self.hideAll(tabIndex);
 					$el.show();
-					$item.addClass('tabItemAct');					
+					$item.addClass('tabItemAct');
+					
+						// implment hook style
+					if($.isFunction($.fn.multicolumnFixHeight)) {
+						$.fn.multicolumnFixHeight('start');
+					}
+					
+					if($.isFunction($.fn.multicolumnFixColumnHeight)) {
+						$.fn.multicolumnFixColumnHeight('start');
+					}
 				};
 				
 				$a.click(function(event){
