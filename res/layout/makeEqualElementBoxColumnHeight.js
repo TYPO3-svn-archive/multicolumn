@@ -7,8 +7,10 @@ jQuery.noConflict();
         var fixColumnHeight = {
                 elements : {}
                 ,start : function() {
-                        this.catchItems();
-                        this.forceElementHeight();
+			var self = fixColumnHeight;
+			
+                        self.catchItems();
+                        self.forceElementHeight();
                 }
                 
                 ,catchItems : function () {
