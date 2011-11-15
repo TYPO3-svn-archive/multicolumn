@@ -179,7 +179,8 @@ final class tx_multicolumn_div {
 			'columnWidth' => null,
 			'columnMargin' => null,
 			'columnPadding' => null,
-			'disableImageShrink' => null
+			'disableImageShrink' => null,
+			'disableStyles' => null
 		);
 	}
 	
