@@ -35,7 +35,17 @@ jQuery(document).ready(function($){
 					$thumbs.each(function(index){
 						var $thumb = $(this);
 						if($thumb) {
-							$($controlLis[index]).append($thumb);
+							var 	$span = $($controlLis[index]).find('span'),
+								spanWidth = $span.width(),
+								thumbWidth = $thumb.width(),
+								offset = Math.round((spanWidth - thumbWidth) / 2);
+							
+							if(offset > 1) {
+								$thumb.css({
+									'margin-left' : offset + 'px'	
+								});
+							}
+							$span.prepend($thumb);
 							$thumb.show();
 						}
 					});
@@ -58,6 +68,8 @@ jQuery(document).ready(function($){
 					$next.wrap('<li class="nextItem navigationItem"></li>');
 					$prev.wrap('<li class="prevItem navigationItem"></li>');
 				}
+				$el.removeClass('effectBoxLoading');
+
 			});
 		}
 		,getTitles : function (element) {

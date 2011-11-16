@@ -329,7 +329,7 @@ plugin.tx_multicolumn_pi1 {
 	effectBox = CASE
 	effectBox {
 		stdWrap {
-			dataWrap = <div class="effectBox {field:effect} {field:effectBoxClass}" id="effectBox_{field:uid}">|</div>
+			dataWrap = <div class="effectBox effectBoxLoading {field:effect} {field:effectBoxClass}" id="effectBox_{field:uid}">|</div>
 			required = 1
 		}
 		key.field = effect
