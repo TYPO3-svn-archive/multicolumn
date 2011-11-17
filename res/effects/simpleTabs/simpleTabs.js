@@ -25,6 +25,8 @@ jQuery(document).ready(function($){
 					self.buildNavigation(index);
 					if(self.options['fixHeight']) self.setContainerHeight(index);
 				}
+				
+				self.$el.removeClass('effectBoxLoading');
 			});
 		}
 		
