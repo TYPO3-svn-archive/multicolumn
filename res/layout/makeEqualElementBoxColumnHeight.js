@@ -41,7 +41,6 @@ jQuery.noConflict();
 					// flush container
 					if($css3container.length) {
 						$column.css({
-							'position' : 'relative',
 							'visibility' : 'hidden'
 						});
 							// force dom re rendering for ie quirks
