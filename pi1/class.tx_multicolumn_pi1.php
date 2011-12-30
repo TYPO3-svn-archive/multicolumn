@@ -237,7 +237,8 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$listData['effect'] = $this->effectConfiguration['effect'];
 		$listData['effectBoxClass'] = $this->effectConfiguration['effectBoxClass'];
 		$listData['effectBoxItems'] = $listItemContent;
-		
+		$listData = t3lib_div::array_merge($listData, $this->llPrefixed);
+
 		$content = $this->renderItem('effectBox', $listData);
 		$GLOBALS['TSFE']->register['maxImageWidth'] = $this->TSFEmaxWidthBefore;
 		

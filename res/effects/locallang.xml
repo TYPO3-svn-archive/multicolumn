@@ -14,6 +14,7 @@
 			<label index="effectBox.effect.accordion">Accordion</label>
 			<label index="effectBox.effect.vAccordion">Vertical Accordion</label>
 			<label index="effectBox.effect.simpleTabs">Simple Tabs</label>
+			<label index="effectBox.effect.roundabout">Roundabout</label>
 			<label index="effectBox.effectOptions">Effect options</label>
 			<label index="effectBox.width">Effect Box CSS Style</label>
 		</languageKey>

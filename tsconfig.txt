@@ -262,5 +262,32 @@ tx_multicolumn {
 				)
 			}		
 		}
+		
+		roundabout {
+			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.roundabout
+			config {
+				effectBoxClass = roundabout
+				jsFiles {
+					jQuery = EXT:multicolumn/res/javascript/jQuery.js
+					jQuery {
+						priority = 1
+					}
+					roundabout = EXT:multicolumn/res/effects/roundabout/jquery.roundabout.js
+					roundaboutEffectbox = EXT:multicolumn/res/effects/roundabout/multicolumnImplementation.js
+				}
+				cssFiles {
+					sudoSlider = EXT:multicolumn/res/effects/roundabout/roundabout.css
+				}
+				
+				defaultOptions (
+					minScale: 0.4,
+					startingChild : 'random',
+					responsive : true,
+					minOpacity: 0.8,
+					maxOpacity: 1.0,
+					triggerFocusEvents : false
+				)
+			}
+		}
 	}
 }

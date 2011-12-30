@@ -1,4 +1,7 @@
 temp.effectBoxImageRendering {
+	text = 
+	text.20 =
+	text.wrap =
 	layout = TEXT
 	layout {
 		value = ###IMAGES###
@@ -19,8 +22,11 @@ temp.effectBoxImageRendering {
 			imageStdWrapNoWidth.wrap = <div class="effectBoxImage"> | </div>
 		}
 	}
+
 	renderMethod = simple
+	
 }
+
 
 plugin.tx_multicolumn_pi1 {
 		# internal do not remove
@@ -182,7 +188,7 @@ plugin.tx_multicolumn_pi1 {
 		default = COA
 		default {
 			stdWrap {
-				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}" style="{field:columnWidth}">|</li>
+				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}"><div class="effectBoxInner">|</div></li>
 			}
 
 			10 = < tt_content
@@ -193,6 +199,7 @@ plugin.tx_multicolumn_pi1 {
 				}
 				textpic {
 					20 < temp.effectBoxImageRendering
+					
 					30 = TEXT
 					30 {
 						if.isTrue.field = bodytext
@@ -280,6 +287,7 @@ plugin.tx_multicolumn_pi1 {
 		simpleTabs = COA
 		simpleTabs {
 			stdWrap.dataWrap = <li class="tabItem tabItem{field:recordNumber} clearfix"><div class="innerTab"><span class="simpleTabNavigationItemContent" style="display: none;">{field:header}</span>|</div></li>
+			
 			10 = < tt_content
 			10 {
 				uploads {
@@ -322,6 +330,46 @@ plugin.tx_multicolumn_pi1 {
 					10 =
 				}
 			}
+		}
+		
+		roundabout = COA
+		roundabout {
+			stdWrap {
+				dataWrap = <li title="{field:header}" class="{field:itemThree} {field:oddeven} clearfix effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}"><div class="effectBoxInner">|</div></li>
+			}
+
+			10 = < tt_content
+			10 {
+				stdWrap.innerWrap.cObject = 
+				image {
+					20 < temp.effectBoxImageRendering
+					20 {
+						
+					}
+				}
+				textpic {
+					20 < temp.effectBoxImageRendering
+					20 {
+						maxW.cObject =
+						maxW = 20
+						maxW.override.data =
+					
+						maxWInText = 20
+						maxWInText.override.data =
+						
+						maxWInText.cObject = TEXT
+						maxWInText.cObject.value = 196
+					}
+					
+					30 = TEXT
+					30 {
+						if.isTrue.field = bodytext
+						parseFunc = < lib.parseFunc_RTE
+						field = bodytext
+						wrap = <div class="effectBoxText">|</div>
+					}
+				}
+			}		
 		}
 	}
 
@@ -366,6 +414,36 @@ plugin.tx_multicolumn_pi1 {
 				<ul class="simpleTabsContainer clearfix">
 					{field:effectBoxItems}
 				</ul>
+			)
+		}
+		
+		roundabout = TEXT
+		roundabout {
+			if.isTrue.field = effectBoxItems
+			insertData = 1
+			
+			value (
+<ul class="effectBoxList">
+	{field:effectBoxItems}
+</ul>
+<div class="effectBoxNavigation effectBoxNavigation{field:effect}">
+	<ul class="nextPrev">
+		<li class="prev" title="{field:lll:prev}">
+			<span>
+				{field:lll:prev}
+			</span>
+		</li>
+		<li class="next" title="{field:lll:next}">
+			<span>
+				{field:lll:next}
+			</span>
+		</li>
+	</ul>
+	
+	<div class="pointNav">
+	
+	</div>
+</div>
 			)
 		}
 	}

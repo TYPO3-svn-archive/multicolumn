@@ -57,6 +57,7 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 
 			// Add odd or even to the cObjData array.
 			$data['oddeven'] = $rowNr % 2 ? $confName.'Odd listItemOdd' : $confName.'Even listItemEven';
+			$data['itemThree'] = ($rowNr % 3) ?  '' : $confName.'Three listItemThree';
 			
 			// set data
 			$data = array_merge($data, $appendData);
