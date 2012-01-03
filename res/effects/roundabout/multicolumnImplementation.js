@@ -28,7 +28,17 @@
 			
 				// build point nav
 			if($pointNav.length) {
-				var $pointNavUl = $('<ul></ul>');
+				var 	$pointNavUl = $('<ul></ul>'),
+					navCurrent = function (index) {
+						var	$li = $($pointNavUl.children().get(index));
+						if($li.hasClass('act')) return;
+						$pointNavUl.children().removeClass('act');
+						
+						if($li){
+							$li.toggleClass('act');
+						}
+						$el.roundabout('animateToChild', (index));							
+					};
 				
 				$children.each(function(index){
 					var 	$elLi 	= $(this),
@@ -36,11 +46,7 @@
 						$li	= $('<li class="item' + index + act + '" title="' + this.title + '"><span>' + this.title + '</span></li>');
 					
 					$li.click(function(){
-						if($li.hasClass('act')) return;
-						$pointNavUl.children().removeClass('act');
-						
-						$li.toggleClass('act');
-						$el.roundabout('animateToChild', (index));	
+						navCurrent(index);
 					});
 					$pointNavUl.append($li);
 				});
@@ -55,6 +61,11 @@
 				$pointNavUl.css({
 					'margin-left' : - (navWidth / 2) + 'px'
 				});
+			}
+			
+				// add pointnav			
+			options['inFocusCallback'] = function ($roundabout) {
+				navCurrent($el.roundabout('getNearestChild'));
 			}
 
 			$el.roundabout(options);
