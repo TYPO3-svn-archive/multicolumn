@@ -426,6 +426,7 @@
 							if (methods.updateChild.apply(self, [$(this), info, i, function() { $(this).trigger('ready'); }]) && (!info.animating || data.lastAnimationStep)) {
 								inFocus = i;
 								$(this).addClass("roundabout-in-focus");
+								console.log(1 +1 );
 							} else {
 								$(this).removeClass("roundabout-in-focus");
 							}

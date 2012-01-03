@@ -19,7 +19,7 @@ temp.effectBoxImageRendering {
 				wrap = <p class="caption"> | </p>
 			}
 			imageStdWrap.dataWrap = <div class="effectBoxImage" style="width:{register:totalwidth}px;"> | </div>
-			imageStdWrapNoWidth.wrap = <div class="effectBoxImage"> | </div>
+			imageStdWrapNoWidth.wrap = <div class="effectBoxImage"><div class="inner">|</div></div>
 		}
 	}
 

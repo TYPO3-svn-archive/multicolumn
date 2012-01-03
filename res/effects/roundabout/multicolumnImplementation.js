@@ -3,12 +3,12 @@
 		start : function () {
 			var	$el = $(this),
 				$effectBoxContainer = $el.parents('.roundabout:first'),
-				$children = $el.children(),
+				$children = $el.children('li'),
 				id = $effectBoxContainer.attr('id').split('_')[1],
 				options = window['mullticolumnEffectBox_' + id],
 				$nav = $el.nextAll('.effectBoxNavigation'),
 				$pointNav = $nav.find('.pointNav');
-			
+
 			if($nav.length) {
 				var	$next = $nav.find('.prev'),
 					$prev = $nav.find('.next');
@@ -32,9 +32,8 @@
 				
 				$children.each(function(index){
 					var 	$elLi 	= $(this),
-						title 	= $elLi.attr('title'),
 						act	= (options['startingChild'] == index) ? ' act' : '',
-						$li	= $('<li class="item' + index + act + '" title="' + title + '"><span>' + title + '</span></li>');
+						$li	= $('<li class="item' + index + act + '" title="' + this.title + '"><span>' + this.title + '</span></li>');
 					
 					$li.click(function(){
 						if($li.hasClass('act')) return;
@@ -42,7 +41,7 @@
 						
 						$li.toggleClass('act');
 						$el.roundabout('animateToChild', (index));	
-					});						
+					});
 					$pointNavUl.append($li);
 				});
 								
@@ -62,7 +61,6 @@
 			$effectBoxContainer.hide();
 			$effectBoxContainer.removeClass('effectBoxLoading');
 			$effectBoxContainer.fadeIn();
-
 		}
 	};
 	

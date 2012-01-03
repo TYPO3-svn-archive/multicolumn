@@ -1,4 +1,3 @@
-
 .roundabout .effectBoxList {
 	list-style: none;
 	padding: 0;
@@ -6,6 +5,7 @@
 	width: 582px;
 	height: 360px;
 	margin-left: 198px;
+
 }
 
 .roundabout ul,
@@ -15,7 +15,7 @@
 }
 .effectBoxLoading .effectBoxList {
 	overflow: hidden;
-	visibility: hidden;
+	display: none;
 }
 	.roundabout .effectBoxItem {
 		cursor: pointer;
@@ -27,36 +27,36 @@
 		border: 1px solid #b2b2b2;
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
-		border-radius: 4px;		
+		border-radius: 4px;
 		background: #E7E7E8;
 		background: -webkit-gradient(linear, 0 0, 0 bottom, from(#E7E7E8), to(#dfe0e0));
 		background: -webkit-linear-gradient(#E7E7E8, #dfe0e0);
 		background: -moz-linear-gradient(#E7E7E8, #dfe0e0);
 		background: -ms-linear-gradient(#E7E7E8, #dfe0e0);
 		background: -o-linear-gradient(#E7E7E8, #dfe0e0);
-		background:  url(shadow.png) 0 0 no-repeat, linear-gradient(#E7E7E8, #dfe0e0);
+		background: linear-gradient(#E7E7E8, #dfe0e0);
 		-pie-background: linear-gradient(#E7E7E8, #dfe0e0);
 		behavior: url(/PIE.htc);
 
-		/*
-		-webkit-box-shadow: #666 0px 2px 3px;
-		-moz-box-shadow: #666 0px 2px 3px;
-		box-shadow: #666 0px 2px 3px;
-		*/
-
-
+		-webkit-box-shadow: #2a2a2a 1px 1px 2px;
+		-moz-box-shadow: #2a2a2a 1px 1px 2px;
+		box-shadow: #2a2a2a 1px 1px 2px;
+	}
+	.roundabout .effectBoxItem *,
+	.roundabout .effectBoxItem {
+		font-size: 100%;
 	}
 	.roundabout .effectBoxInner {
-		background: transparent url(shadow.ng) no-repeat;
 	}
 	.roundabout li.roundabout-in-focus {
 		cursor: auto;
+		
 	}
 
 	.roundabout li.effectBoxItem h2 {
 		font-size: 26px;
 		margin: 0 -7px 0 -20px;
-		padding: 4px 20px 6px 20px;
+		padding: 0.8% 20px 1.2% 20px;
 		border-top: 1px solid #90949e;
 		border-bottom: 1px solid #686d76;
 		color: #fff;
@@ -98,17 +98,29 @@
 		background: linear-gradient(#CA2A72, #9f0249);
 		-pie-background: linear-gradient(#CA2A72, #9f0249);
 	}
-	.roundabout .effectBoxText {
-		margin-top: 20px;
+	
+	.roundabout .effectBoxImage img {
+		width: 100%;
+		height: auto;
 	}
+	.roundabout .effectBoxText {
+		width: 64%;
+		margin-top: 3.7%;
+	}
+		.roundabout .effectBoxText p {
+		}
 		.roundabout .effectBoxText .subheader {
 			margin-top: 0;
 		}
 	.roundabout .effectBoxImage {
+		width: 36%;
 		float: right;
 		position: relative;
 		margin-top: 20px;
 	}
+		.roundabout .effectBoxImage .inner {
+			padding-left: 3%;
+		}
 		.roundabout .effectBoxImage img {
 		}
 	
@@ -152,6 +164,7 @@
 		.effectBoxNavigationroundabout .pointNav li {
 			cursor: pointer;
 			display: inline-block;
+
 			width: 11px;
 			height: 11px;
 			background: #dadada;
@@ -163,6 +176,10 @@
 			border-radius: 8px;
 			behavior: url(/PIE.htc);
 			border: 1px solid #4a4a4a;
+		}
+		
+		.ie7 .effectBoxNavigationroundabout .pointNav li {
+			display: inline;
 		}
 		
 			.effectBoxNavigationroundabout  .pointNav li span {
