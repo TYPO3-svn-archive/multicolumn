@@ -84,12 +84,13 @@ jQuery(document).ready(function($){
 		}
 		,randomOrder : function(element) {
 			var items = [];
+				
 			$(element).find('.effectBoxItem').each(function(index,item) {
 				items.push(item);
 			});
 			
-			items.sort(function() {
-				return Math.round(Math.random());
+			items = items.sort(function() {
+				return  Math.random() - 0.5;
 			});
 			
 			$(element).children().html(items);
