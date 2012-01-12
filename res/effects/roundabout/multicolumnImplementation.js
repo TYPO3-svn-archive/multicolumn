@@ -13,8 +13,8 @@
 				var	$next = $nav.find('.prev'),
 					$prev = $nav.find('.next');
 					
-				options['btnNext'] = $next;
-				options['btnPrev'] = $prev;
+				options['btnNext'] = $prev;
+				options['btnPrev'] = $next;
 					//btnNext: null,
 			}
 
