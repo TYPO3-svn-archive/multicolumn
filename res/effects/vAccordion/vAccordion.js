@@ -20,17 +20,17 @@ jQuery.noConflict();
 		
 		$(items).each(function() {
 			$(this).children('.effectBoxItemTitle').click(function(event) {
-				var 	$el = $(this),
+				var	$el = $(this),
 					$parent = $el.parent();
 				
 				event.preventDefault();
 				
-				if (! $parent().hasClass('active')) {
-					$parent().toggleClass('active');
-					$parent().siblings().removeClass('active');
+				if (! $parent.hasClass('active')) {
+					$parent.toggleClass('active');
+					$parent.siblings().removeClass('active');
 						
 					$el.siblings('.effectBoxItemContent').slideDown();	
-					$parent().siblings().children('.effectBoxItemContent').slideUp();
+					$parent.siblings().children('.effectBoxItemContent').slideUp();
 				}
 			});
 		});
