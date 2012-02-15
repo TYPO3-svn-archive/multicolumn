@@ -18,8 +18,12 @@ jQuery.noConflict();
 			self.find('li.effectBoxItemsFirst');
 		}
 		
-		$(items).each(function() {
-			$(this).children('.effectBoxItemTitle').click(function(event) {
+		$(items).each(function(index) {
+			var $li = $(this);
+			if(!index) {
+				$li.addClass('active');
+			}
+			$li.children('.effectBoxItemTitle').click(function(event) {
 				var	$el = $(this),
 					$parent = $el.parent();
 				
