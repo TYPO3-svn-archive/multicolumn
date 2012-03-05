@@ -15,15 +15,11 @@ jQuery.noConflict();
 		self.find('.effectBoxItemContent').hide();
 		if (options.showFirst == true) {
 			self.find('li.effectBoxItemsFirst .effectBoxItemContent').show();
-			self.find('li.effectBoxItemsFirst');
+			self.find('li.effectBoxItemsFirst').addClass('active');
 		}
 		
-		$(items).each(function(index) {
-			var $li = $(this);
-			if(!index) {
-				$li.addClass('active');
-			}
-			$li.children('.effectBoxItemTitle').click(function(event) {
+		$(items).each(function() {		
+			$(this).children('.effectBoxItemTitle').click(function(event) {
 				var	$el = $(this),
 					$parent = $el.parent();
 				
