@@ -99,6 +99,7 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 		foreach($files as $fileKey=>$file) {
 			if(is_array($file)) continue;
 			$mediaTypeSplit = strrchr($file, '.');
+			$file = $GLOBALS['TSFE']->tmpl->getFileName($file);
 
 			$hookRequestParams = array(
 				'includeFile' => array(
@@ -109,8 +110,9 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 			);
 
 			if(!$this->hookRequest('addJsCssFile', $hookRequestParams)) {
-				$resolved = $GLOBALS['TSFE']->tmpl->getFileName($file);
-				if($resolved) {
+				$resolved = $file;
+
+				if(file_exists($resolved)) {
 					($mediaTypeSplit ==  '.js') ? $GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($resolved) : $GLOBALS['TSFE']->getPageRenderer()->addCssFile($resolved);
 				}
 			}			
@@ -149,13 +151,13 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 		if (is_array($TYPO3_CONF_VARS['EXTCONF']['multicolumn']['pi1_hooks'][$functionName])) {
 			foreach($TYPO3_CONF_VARS['EXTCONF']['multicolumn']['pi1_hooks'][$functionName] as $classRef) {
 				$hookObj = t3lib_div::getUserObj($classRef);
-				if (method_exists ($hookObj, $functionName)) {
+				if (method_exists($hookObj, $functionName)) {
 					$hookObj->$functionName($this, $hookRequestParams);
 					$hooked ++;
 				}
 			}
 		}
-
+		
 		return $hooked;
 	}
 	
