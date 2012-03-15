@@ -67,13 +67,21 @@ plugin.tx_multicolumn_pi1 {
 				insertData = 1
 				if.isTrue.field = layoutKey
 			}
+
+				# Extra Class for Container from FlexForm
+			containerClass.cObject = TEXT
+			containerClass.cObject {
+				data = field:containerClass
+				htmlSpecialChars = 1
+				if.isTrue.field = containerClass
+			}
 		}
 
 		2 = TEXT
 		2 {
 			insertData = 1
 			value (
-				<ul class="multicolumnContainer {register:layout} {register:clearfix} {register:makeEqualElementBoxHeight} {register:makeEqualElementColumnHeight}" style="{register:width}">
+				<ul class="multicolumnContainer {register:containerClass} {register:layout} {register:clearfix} {register:makeEqualElementBoxHeight} {register:makeEqualElementColumnHeight}" style="{register:width}">
 					{field:content}
 				</ul>
 			)

@@ -1,4 +1,7 @@
 (add new changes on top of this file)
+2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
+	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.
+
 2011-12-14 Michael Birchler  <mbirchler@snowflake.ch>
 	* http://forge.typo3.org/issues/31057
 	* http://forge.typo3.org/issues/26733

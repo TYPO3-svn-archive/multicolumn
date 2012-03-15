@@ -81,6 +81,15 @@
 							</config>
 						</TCEforms>
 					</containerWidth>
+					<containerClass>
+						<TCEforms>
+							<label>LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_containerClass</label>
+							<config>
+								<type>input</type>
+								<size>40</size>
+							</config>
+						</TCEforms>
+					</containerClass>
 					
 					<columnMeasure>
 						<TCEforms>

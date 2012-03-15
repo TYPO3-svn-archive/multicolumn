@@ -20,6 +20,7 @@
 			<label index="tt_content.tx_multicolumn_dimensionmeasure.pixel">Pixel</label>
 			<label index="tt_content.tx_multicolumn_columnmargin">Column margin</label>
 			<label index="tt_content.tx_multicolumn_columnpadding">Column padding</label>
+			<label index="tt_content.tx_multicolumn_containerClass">CSS class of container</label>
 			<label index="tt_content.tx_multicolumn_layout">Layout</label>
 			<label index="tt_content.tx_multicolumn_disableimageshrink">Disable automatic image shrink</label>
 			<label index="tt_content.tx_multicolumn_makeEqualElementBoxHeight">Force equal height for each multicolumn item</label>
@@ -41,6 +42,7 @@
 			<label index="tt_content.tx_multicolumn_dimensionmeasure.pixel">Pixel</label>
 			<label index="tt_content.tx_multicolumn_columnmargin">Spaltenabstand</label>
 			<label index="tt_content.tx_multicolumn_columnpadding">Spaltenpadding</label>
+			<label index="tt_content.tx_multicolumn_containerClass">CSS-Klasse des Containers</label>
 			<label index="tt_content.tx_multicolumn_layout">Layout</label>
 			<label index="tt_content.tx_multicolumn_disableimageshrink">Automatisches Bild skalieren deaktivieren</label>
 			<label index="tt_content.tx_multicolumn_makeEqualElementBoxHeight">Erzwinge gleiche Höhe für jedes Multicolumn Element</label>
