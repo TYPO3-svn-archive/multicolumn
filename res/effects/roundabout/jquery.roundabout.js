@@ -78,6 +78,7 @@
 		easing: "swing",
 		clickToFocus: true,
 		clickToFocusCallback: function() {},
+		inFocusCallback : function() {},
 		focusBearing: 0.0,
 		shape: "lazySusan",
 		debug: false,
@@ -435,6 +436,8 @@
 							if (methods.updateChild.apply(self, [$(this), info, i, function() { $(this).trigger('ready'); }]) && (!info.animating || data.lastAnimationStep)) {
 								inFocus = i;
 								$(this).addClass("roundabout-in-focus");
+								
+								self.data("roundabout").inFocusCallback(self);
 							} else {
 								$(this).removeClass("roundabout-in-focus");
 							}
