@@ -1,5 +1,5 @@
 /**
- * jQuery Roundabout - v2.1.1
+ * jQuery Roundabout - v2.4
  * http://fredhq.com/projects/roundabout
  *
  * Moves list-items of enabled ordered and unordered lists long
@@ -7,35 +7,35 @@
  * moves items long a spinning turntable.
  *
  * Terms of Use // jQuery Roundabout
- * 
+ *
  * Open source under the BSD license
  *
- * Copyright (c) 2011, Fred LeBlanc
+ * Copyright (c) 2011-2012, Fred LeBlanc
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without 
+ *
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   - Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- *   - Redistributions in binary form must reproduce the above 
- *     copyright notice, this list of conditions and the following 
- *     disclaimer in the documentation and/or other materials provided 
+ *   - Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- *   - Neither the name of the author nor the names of its contributors 
- *     may be used to endorse or promote products derived from this 
+ *   - Neither the name of the author nor the names of its contributors
+ *     may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 (function($) {
@@ -49,10 +49,10 @@
 			def: "lazySusan",
 			lazySusan: function (r, a, t) {
 				return {
-					x: Math.sin(r + a), 
-					y: (Math.sin(r + 3*Math.PI/2 + a) / 8) * t, 
+					x: Math.sin(r + a),
+					y: (Math.sin(r + 3 * Math.PI / 2 + a) / 8) * t,
 					z: (Math.cos(r + a) + 1) / 2,
-					scale: (Math.sin(r + Math.PI/2 + a) / 2) + 0.5
+					scale: (Math.sin(r + Math.PI / 2 + a) / 2) + 0.5
 				};
 			}
 		}
@@ -78,7 +78,6 @@
 		easing: "swing",
 		clickToFocus: true,
 		clickToFocusCallback: function() {},
-		inFocusCallback : function() {},
 		focusBearing: 0.0,
 		shape: "lazySusan",
 		debug: false,
@@ -90,6 +89,7 @@
 		autoplayDuration: 1000,
 		autoplayPauseOnHover: false,
 		autoplayCallback: function() {},
+		autoplayInitialDelay: 0,
 		enableDrag: false,
 		dropDuration: 600,
 		dropEasing: "swing",
@@ -105,6 +105,7 @@
 	internalData = {
 		autoplayInterval: null,
 		autoplayIsRunning: false,
+		autoplayStartTimeout: null,
 		animating: false,
 		childInFocus: -1,
 		touchMoveStartPosition: null,
@@ -159,152 +160,157 @@
 							)
 						);
 
-					// bind based on settings if this init call was not a relayout
-					if (!relayout) {
-						// bind click-to-focus
-						if (settings.clickToFocus) {
-							self
-								.children(settings.childSelector)
-								.each(function(i) {
-									$(this)
-										.bind("click.roundabout", function() {
-											var degrees = methods.getPlacement.apply(self, [i]);
-
-											if (!methods.isInFocus.apply(self, [degrees])) {
-												methods.stopAnimation.apply($(this));
-												if (!self.data("roundabout").animating) {
-													methods.animateBearingToFocus.apply(self, [degrees, self.data("roundabout").clickToFocusCallback]);
-												}
-												return false;
-											}
-										});
-								});
-						}
-
-						// bind next buttons
-						if (settings.btnNext) {
-							$(settings.btnNext)
-								.bind("click.roundabout", function() {
-									if (!self.data("roundabout").animating) {
-										methods.animateToNextChild.apply(self, [self.data("roundabout").btnNextCallback]);
-									}
-									return false;
-								});
-						}
-
-						// bind previous buttons
-						if (settings.btnPrev) {
-							$(settings.btnPrev)
-								.bind("click.roundabout", function() {
-									methods.animateToPreviousChild.apply(self, [self.data("roundabout").btnPrevCallback]);
-									return false;
-								});
-						}
-
-						// bind toggle autoplay buttons
-						if (settings.btnToggleAutoplay) {
-							$(settings.btnToggleAutoplay)
-								.bind("click.roundabout", function() {
-									methods.toggleAutoplay.apply(self);
-									return false;
-								});
-						}
-
-						// bind start autoplay buttons
-						if (settings.btnStartAutoplay) {
-							$(settings.btnStartAutoplay)
-								.bind("click.roundabout", function() {
-									methods.startAutoplay.apply(self);
-									return false;
-								});
-						}
-
-						// bind stop autoplay buttons
-						if (settings.btnStopAutoplay) {
-							$(settings.btnStopAutoplay)
-								.bind("click.roundabout", function() {
-									methods.stopAutoplay.apply(self);
-									return false;
-								});
-						}
-
-						// autoplay pause on hover
-						if (settings.autoplayPauseOnHover) {
-							self
-								.bind("mouseenter.roundabout.autoplay", function() {
-									methods.stopAutoplay.apply(self, [true]);
-								})
-								.bind("mouseleave.roundabout.autoplay", function() {
-									methods.startAutoplay.apply(self);
-								});
-						}
-
-						// drag and drop
-						if (settings.enableDrag) {
-							// on screen
-							if (!$.isFunction(self.drag)) {
-								if (settings.debug) {
-									alert("You do not have the drag plugin loaded.");
-								}
-							} else if (!$.isFunction(self.drop)) {
-								if (settings.debug) {
-									alert("You do not have the drop plugin loaded.");
-								}
-							} else {
-								self
-									.drag(function(e, properties) {
-										var data = self.data("roundabout"),
-										    delta = (data.dragAxis.toLowerCase() === "x") ? "deltaX" : "deltaY";
-										methods.stopAnimation.apply(self);
-										methods.setBearing.apply(self, [data.dragBearing + properties[delta] / data.dragFactor]);
-									})
-									.drop(function(e) {
-										var data = self.data("roundabout"),
-										    method = methods.getAnimateToMethod(data.dropAnimateTo);
-										methods.allowAnimation.apply(self);
-										methods[method].apply(self, [data.dropDuration, data.dropEasing, data.dropCallback]);
-										data.dragBearing = data.period * methods.getNearestChild.apply(self);
-									});
-							}
-
-							// on mobile
-							self
-								.each(function() {
-									var element = $(this).get(0),
-									    data = $(this).data("roundabout"),
-									    page = (data.dragAxis.toLowerCase() === "x") ? "pageX" : "pageY",
-									    method = methods.getAnimateToMethod(data.dropAnimateTo);
-
-									// some versions of IE don't like this
-									if (element.addEventListener) {
-										element.addEventListener("touchstart", function(e) {
-											data.touchMoveStartPosition = e.touches[0][page];
-										}, false);
-
-										element.addEventListener("touchmove", function(e) {
-											var delta = (e.touches[0][page] - data.touchMoveStartPosition) / data.dragFactor;
-											e.preventDefault();
-											methods.stopAnimation.apply($(this));
-											methods.setBearing.apply($(this), [data.dragBearing + delta]);
-										}, false);
-
-										element.addEventListener("touchend", function(e) {
-											e.preventDefault();
-											methods.allowAnimation.apply($(this));
-											method = methods.getAnimateToMethod(data.dropAnimateTo);
-											methods[method].apply($(this), [data.dropDuration, data.dropEasing, data.dropCallback]);
-											data.dragBearing = data.period * methods.getNearestChild.apply($(this));
-										}, false);
-									}
-								});
-						}
-
-						// responsive
+					// unbind any events that we set if we're relaying out
+					if (relayout) {
+						self
+							.unbind(".roundabout")
+							.children(settings.childSelector)
+								.unbind(".roundabout");
+					} else {
+						// bind responsive action
 						if (settings.responsive) {
-							$(window).resize(function() {
+							$(window).bind("resize", function() {
 								methods.relayoutChildren.apply(self);
 							});
 						}
+					}
+
+					// bind click-to-focus
+					if (settings.clickToFocus) {
+						self
+							.children(settings.childSelector)
+							.each(function(i) {
+								$(this)
+									.bind("click.roundabout", function() {
+										var degrees = methods.getPlacement.apply(self, [i]);
+
+										if (!methods.isInFocus.apply(self, [degrees])) {
+											methods.stopAnimation.apply($(this));
+											if (!self.data("roundabout").animating) {
+												methods.animateBearingToFocus.apply(self, [degrees, self.data("roundabout").clickToFocusCallback]);
+											}
+											return false;
+										}
+									});
+							});
+					}
+
+					// bind next buttons
+					if (settings.btnNext) {
+						$(settings.btnNext)
+							.bind("click.roundabout", function() {
+								if (!self.data("roundabout").animating) {
+									methods.animateToNextChild.apply(self, [self.data("roundabout").btnNextCallback]);
+								}
+								return false;
+							});
+					}
+
+					// bind previous buttons
+					if (settings.btnPrev) {
+						$(settings.btnPrev)
+							.bind("click.roundabout", function() {
+								methods.animateToPreviousChild.apply(self, [self.data("roundabout").btnPrevCallback]);
+								return false;
+							});
+					}
+
+					// bind toggle autoplay buttons
+					if (settings.btnToggleAutoplay) {
+						$(settings.btnToggleAutoplay)
+							.bind("click.roundabout", function() {
+								methods.toggleAutoplay.apply(self);
+								return false;
+							});
+					}
+
+					// bind start autoplay buttons
+					if (settings.btnStartAutoplay) {
+						$(settings.btnStartAutoplay)
+							.bind("click.roundabout", function() {
+								methods.startAutoplay.apply(self);
+								return false;
+							});
+					}
+
+					// bind stop autoplay buttons
+					if (settings.btnStopAutoplay) {
+						$(settings.btnStopAutoplay)
+							.bind("click.roundabout", function() {
+								methods.stopAutoplay.apply(self);
+								return false;
+							});
+					}
+
+					// autoplay pause on hover
+					if (settings.autoplayPauseOnHover) {
+						self
+							.bind("mouseenter.roundabout.autoplay", function() {
+								methods.stopAutoplay.apply(self, [true]);
+							})
+							.bind("mouseleave.roundabout.autoplay", function() {
+								methods.startAutoplay.apply(self);
+							});
+					}
+
+					// drag and drop
+					if (settings.enableDrag) {
+						// on screen
+						if (!$.isFunction(self.drag)) {
+							if (settings.debug) {
+								alert("You do not have the drag plugin loaded.");
+							}
+						} else if (!$.isFunction(self.drop)) {
+							if (settings.debug) {
+								alert("You do not have the drop plugin loaded.");
+							}
+						} else {
+							self
+								.drag(function(e, properties) {
+									var data = self.data("roundabout"),
+									    delta = (data.dragAxis.toLowerCase() === "x") ? "deltaX" : "deltaY";
+									methods.stopAnimation.apply(self);
+									methods.setBearing.apply(self, [data.dragBearing + properties[delta] / data.dragFactor]);
+								})
+								.drop(function(e) {
+									var data = self.data("roundabout"),
+									    method = methods.getAnimateToMethod(data.dropAnimateTo);
+									methods.allowAnimation.apply(self);
+									methods[method].apply(self, [data.dropDuration, data.dropEasing, data.dropCallback]);
+									data.dragBearing = data.period * methods.getNearestChild.apply(self);
+								});
+						}
+
+						// on mobile
+						self
+							.each(function() {
+								var element = $(this).get(0),
+								    data = $(this).data("roundabout"),
+								    page = (data.dragAxis.toLowerCase() === "x") ? "pageX" : "pageY",
+								    method = methods.getAnimateToMethod(data.dropAnimateTo);
+
+								// some versions of IE don't like this
+								if (element.addEventListener) {
+									element.addEventListener("touchstart", function(e) {
+										data.touchMoveStartPosition = e.touches[0][page];
+									}, false);
+
+									element.addEventListener("touchmove", function(e) {
+										var delta = (e.touches[0][page] - data.touchMoveStartPosition) / data.dragFactor;
+										e.preventDefault();
+										methods.stopAnimation.apply($(this));
+										methods.setBearing.apply($(this), [data.dragBearing + delta]);
+									}, false);
+
+									element.addEventListener("touchend", function(e) {
+										e.preventDefault();
+										methods.allowAnimation.apply($(this));
+										method = methods.getAnimateToMethod(data.dropAnimateTo);
+										methods[method].apply($(this), [data.dropDuration, data.dropEasing, data.dropCallback]);
+										data.dragBearing = data.period * methods.getNearestChild.apply($(this));
+									}, false);
+								}
+							});
 					}
 
 					// start children
@@ -326,7 +332,7 @@
 				    degrees = methods.getPlacement.apply(self, [i]);
 
 				// on relayout, grab these values from current data
-				if (relayout) {
+				if (relayout && $(this).data("roundabout")) {
 					startWidth = $(this).data("roundabout").startWidth;
 					startHeight = $(this).data("roundabout").startHeight;
 					startFontSize = $(this).data("roundabout").startFontSize;
@@ -358,7 +364,9 @@
 
 			// start autoplay if necessary
 			if (data.autoplay) {
-				methods.startAutoplay.apply(self);
+				data.autoplayStartTimeout = setTimeout(function() {
+					methods.startAutoplay.apply(self);
+				}, data.autoplayInitialDelay);
 			}
 
 			self.trigger('ready');
@@ -427,8 +435,6 @@
 							if (methods.updateChild.apply(self, [$(this), info, i, function() { $(this).trigger('ready'); }]) && (!info.animating || data.lastAnimationStep)) {
 								inFocus = i;
 								$(this).addClass("roundabout-in-focus");
-								
-								self.data("roundabout").inFocusCallback(self);
 							} else {
 								$(this).removeClass("roundabout-in-focus");
 							}
@@ -681,6 +687,11 @@
 							newBearing = $.easing[thisEasingType]((timer / passedData.totalTime), timer, passedData.start, bearing - passedData.start, passedData.totalTime);
 						}
 
+						// fixes issue #24, animation changed as of jQuery 1.7.2
+						if (methods.compareVersions.apply(null, [$().jquery, "1.7.2"]) >= 0) {
+							newBearing = passedData.start + ((bearing - passedData.start) * newBearing);
+						}
+
 						newBearing = methods.normalize.apply(null, [newBearing]);
 						data.dragBearing = newBearing;
 
@@ -692,14 +703,12 @@
 
 					// we're done animating
 					} else {
-						if (data.animating) {
-							self.trigger("animationEnd");
-						}
-
 						data.lastAnimationStep = true;
 
 						bearing = methods.normalize.apply(null, [bearing]);
-						methods.setBearing.apply(self, [bearing]);
+						methods.setBearing.apply(self, [bearing, function() {
+							self.trigger("animationEnd");
+						}]);
 						data.animating = false;
 						data.lastAnimationStep = false;
 						data.dragBearing = bearing;
@@ -955,7 +964,7 @@
 					
 					// this will prevent autoplayPauseOnHover from restarting autoplay
 					if (!keepAutoplayBindings) {
-						$(this).unbind(".autoplay")
+						$(this).unbind(".autoplay");
 					}
 					
 					$(this).trigger("autoplayStop");
@@ -1011,7 +1020,7 @@
 
 
 		// helpers
-		// -----------------------------------------------------------------------		
+		// -----------------------------------------------------------------------
 
 		// normalize
 		// regulates degrees to be >= 0.0 and < 360
@@ -1123,6 +1132,51 @@
 			// this calculation gives a bit of room for javascript float rounding
 			// errors, it looks on both 0deg and 360deg ends of the spectrum
 			return (diff <= data.floatComparisonThreshold || diff >= 360 - data.floatComparisonThreshold);
+		},
+		
+		
+		// getChildInFocus
+		// returns the current child in focus, or false if none are in focus
+		getChildInFocus: function() {
+			var data = $(this).data("roundabout");
+			
+			return (data.childInFocus > -1) ? data.childInFocus : false;
+		},
+
+
+		// compareVersions
+		// compares a given version string with another
+		compareVersions: function(baseVersion, compareVersion) {
+			var i,
+			    base = baseVersion.split(/\./i),
+			    compare = compareVersion.split(/\./i),
+			    maxVersionSegmentLength = (base.length > compare.length) ? base.length : compare.length;
+
+			for (i = 0; i <= maxVersionSegmentLength; i++) {
+				if (base[i] && !compare[i] && parseInt(base[i], 10) !== 0) {
+					// base is higher
+					return 1;
+				} else if (compare[i] && !base[i] && parseInt(compare[i], 10) !== 0) {
+					// compare is higher
+					return -1;
+				} else if (base[i] === compare[i]) {
+					// these are the same, next
+					continue;
+				}
+
+				if (base[i] && compare[i]) {
+					if (parseInt(base[i], 10) > parseInt(compare[i], 10)) {
+						// base is higher
+						return 1;
+					} else {
+						// compare is higher
+						return -1;
+					}
+				}
+			}
+
+			// nothing was triggered, versions are the same
+			return 0;
 		}
 	};
 
