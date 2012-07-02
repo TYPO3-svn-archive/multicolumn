@@ -158,17 +158,11 @@
 			cursor: pointer;
 			display: inline-block;
 
-			width: 11px;
-			height: 11px;
-			background: #dadada;
+			width: 13px;
+			height: 13px;
 			margin-right: 4px;
 			
-			
-			-webkit-border-radius: 8px;
-			-moz-border-radius: 8px;
-			border-radius: 8px;
-			behavior: url(/PIE.htc);
-			border: 1px solid #4a4a4a;
+			background: url(sprites.png) no-repeat -14px -127px;
 		}
 		
 		.ie7 .effectBoxNavigationroundabout .pointNav li {
@@ -179,6 +173,5 @@
 				display: none;
 			}
 		.effectBoxNavigationroundabout .pointNav .act {
-			background: #8d8d8d;
-			border: 1px solid #a8a6a6;
+			background-position: -14px -179px;
 		}
