@@ -259,10 +259,15 @@ final class tx_multicolumn_div {
 	static public function readLLfile($filePath, $language) {
 		if (is_object($GLOBALS['typo3CacheManager'])) {
 			$cacheIdentifier = 'EXT-multicolumn-readLLfile-' . sha1($filePath);
-			$runtimeCache = $GLOBALS['typo3CacheManager']->getCache('cache_runtime');
-			$cacheEntry = $runtimeCache->get($cacheIdentifier);
-			if ($cacheEntry) {
-				return $cacheEntry;
+			try {
+				$runtimeCache = $GLOBALS['typo3CacheManager']->getCache('cache_runtime');
+				$cacheEntry = $runtimeCache->get($cacheIdentifier);
+				if ($cacheEntry) {
+					return $cacheEntry;
+				}
+			}
+			catch (Exception $e) {
+				// No such cache (old TYPO3). Ignore.
 			}
 		}
 		$labels = t3lib_div::readLLfile($filePath, $language);
@@ -275,7 +280,7 @@ final class tx_multicolumn_div {
 				}
 			}
 		}
-		if (is_object($GLOBALS['typo3CacheManager'])) {
+		if (isset($runtimeCache)) {
 			$runtimeCache->set($cacheIdentifier, $labels);
 		}
 		return $labels;
