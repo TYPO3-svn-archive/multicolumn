@@ -4,6 +4,7 @@
 	* Fixed bug #43625: compatibility with TYPO3 6.0 (hook to the page module)
 	* Added templavoila as a conflicting extension to ext_emconf.php
 	* Fixed bug #43787: "new" button does not show up in TYPO3 6.x (thanks to Tilo Baller)
+	* Fixed bug #45046: content elements with hidden flag, start- or end date may disappear in the Backend
 
 2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
 	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.

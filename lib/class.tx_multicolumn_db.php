@@ -279,42 +279,14 @@ class tx_multicolumn_db {
 	 * @return	string			mysql query string
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
-		$enableFields = is_object($GLOBALS['TSFE']->cObj) ? self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
-		return $enableFields;
-	}
-
-	/**
-	 * Get enableFields frontend
-	 *
-	 * @param	string			$table table name
-	 * @param	boolean			$showHidden show hidden records
-	 * @param	array			$ignoreFields fields to ignore
-	 *
-	 * @return	string			mysql query string
-	 */
-	public static function enableFieldsFe($table, $showHidden = false, $ignoreFields = array()) {
-		return $GLOBALS['TSFE']->cObj->enableFields($table, $showHidden, $ignoreFields);
-	}
-
-	/**
-	 * Get enableFields backend
-	 *
-	 * @param	string			$table table name
-	 * @param	boolean			$showHidden show hidden records
-	 * @param	array			$ignoreFields fields to ignore
-	 *
-	 * @return	string			mysql query string
-	 */
-	public static function enableFieldsBe($table, $showHidden = false, $ignoreFields = array()) {
-		$whereClause = t3lib_BEfunc::BEenableFields($table) . t3lib_BEfunc::deleteClause($table);
-		$whereClause .= ' AND ' . $table . '.pid > 0';
-
-			// remove hidden
-		if($showHidden) {
-			$whereClause = str_replace('AND '.$table . '.hidden=0', null, $whereClause);
+		if (TYPO3_MODE == 'BE') {
+			// Just delete clause here, no BEenableFields! See http://forge.typo3.org/issues/45046
+			$enableFields = t3lib_BEfunc::deleteClause($table) . ' AND ' . $table . '.pid>0';
 		}
-
-		return $whereClause;
+		else {
+			$enableFields = $GLOBALS['TSFE']->sys_page->enableFields($table, $showHidden, $ignoreFields);
+		}
+		return $enableFields;
 	}
 }
 
