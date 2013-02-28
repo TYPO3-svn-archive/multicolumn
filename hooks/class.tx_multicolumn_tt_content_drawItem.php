@@ -113,11 +113,23 @@ class tx_multicolumn_tt_content_drawItem_base {
 			//build columns
 		$markup = '</span><table class="multicolumn t3-page-columns"><tr>';
 		$columnIndex = 0;
+
+ 		$widthOfAllColumnsInPx = 0;
+ 		foreach ($this->layoutConfigurationSplited as $columnConfiguration) {
+ 			if ($columnConfiguration['columnMeasure'] == 'px') {
+				$widthOfAllColumnsInPx += $columnConfiguration['columnWidth'];
+			}
+ 		}
+
 		while ($columnIndex < $numberOfColumns) {
 			$multicolumnColPos = tx_multicolumn_div::colPosStart + $columnIndex;
 
 			$splitedColumnConf = $this->layoutConfigurationSplited[$columnIndex];
-			$columnWidth = $splitedColumnConf['columnWidth'] ? $splitedColumnConf['columnWidth'] : round(100/$numberOfColumns);
+ 			if ($splitedColumnConf['columnMeasure'] == '%') {
+ 				$columnWidth = $splitedColumnConf['columnWidth'] ? $splitedColumnConf['columnWidth'] : round(100/$numberOfColumns);
+			} else {
+ 				$columnWidth = $splitedColumnConf['columnWidth'] ? round($splitedColumnConf['columnWidth'] * 100 / $widthOfAllColumnsInPx) : round(100/$numberOfColumns);
+ 			}
 
 				//create header
 			$this->buildColumn($columnWidth, $columnIndex, $multicolumnColPos, $markup);

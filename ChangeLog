@@ -6,6 +6,7 @@
 	* Fixed bug #43787: "new" button does not show up in TYPO3 6.x (thanks to Tilo Baller)
 	* Fixed bug #45046: content elements with hidden flag, start- or end date may disappear in the Backend
 	* Fixed bug #43788: fix styling for the 6.x Backend (thanks to Tilo Baller)
+	* Fixed bug #32708: column widths are not calculated correctly (thanks to Patrick Kroog)
 
 2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
 	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.
