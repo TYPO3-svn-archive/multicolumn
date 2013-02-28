@@ -280,8 +280,10 @@ class tx_multicolumn_db {
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
 		if (TYPO3_MODE == 'BE') {
-			// Just delete clause here, no BEenableFields! See http://forge.typo3.org/issues/45046
 			$enableFields = t3lib_BEfunc::deleteClause($table) . ' AND ' . $table . '.pid>0';
+			if (!$showHidden) {
+				$enableFields .= t3lib_BEfunc::BEenableFields($table) ;
+			}
 		}
 		else {
 			$enableFields = $GLOBALS['TSFE']->sys_page->enableFields($table, $showHidden, $ignoreFields);
