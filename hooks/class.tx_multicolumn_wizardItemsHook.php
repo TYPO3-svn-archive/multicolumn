@@ -91,7 +91,7 @@ class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook
 	 */
 	protected function includeLocalLang()	{
 		$llFile = PATH_tx_multicolumn.'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$LOCAL_LANG = tx_multicolumn_div::readLLfile($llFile, $GLOBALS['LANG']->lang);
 
 		return $LOCAL_LANG;
 	}

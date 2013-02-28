@@ -212,7 +212,7 @@ final class tx_multicolumn_div {
 	 */
 	public static function includeBeLocalLang($llFile = null) {
 		$llFile = $llFile ? $llFile : 'locallang.xml';
-		return  t3lib_div::readLLXMLfile(PATH_tx_multicolumn . $llFile, $GLOBALS['LANG']->lang);
+		return self::readLLfile(PATH_tx_multicolumn . $llFile, $GLOBALS['LANG']->lang);
 	}
 
 	/**
@@ -245,6 +245,40 @@ final class tx_multicolumn_div {
 		}
 
 		return $hasAccess;
+	}
+
+	/**
+	 * Reads the language file and returns labels in the format compatible with
+	 * TYPO3 4.5. If the runtime cache is available, uses the cache to avoid
+	 * reading the same file many times.
+	 *
+	 * @param string $filePath
+	 * @param string $language
+	 * @return array
+	 */
+	static public function readLLfile($filePath, $language) {
+		if (is_object($GLOBALS['typo3CacheManager'])) {
+			$cacheIdentifier = 'EXT-multicolumn-readLLfile-' . sha1($filePath);
+			$runtimeCache = $GLOBALS['typo3CacheManager']->getCache('cache_runtime');
+			$cacheEntry = $runtimeCache->get($cacheIdentifier);
+			if ($cacheEntry) {
+				return $cacheEntry;
+			}
+		}
+		$labels = t3lib_div::readLLfile($filePath, $language);
+		if (version_compare(TYPO3_branch, '4.5', '>')) {
+			// We need to flatten labels
+			$originalLabels = $labels;
+			foreach ($originalLabels as $languageKey => $languageArray) {
+				foreach ($languageArray as $stringId => $translationData) {
+					$labels[$languageKey][$stringId] = $translationData[0]['target'];
+				}
+			}
+		}
+		if (is_object($GLOBALS['typo3CacheManager'])) {
+			$runtimeCache->set($cacheIdentifier, $labels);
+		}
+		return $labels;
 	}
 }
 ?>

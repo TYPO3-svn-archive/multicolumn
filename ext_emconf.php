@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'title' => 'multicolumn',
 	'description' => 'The Multicolumn extension expands TYPO3 with a new content element called Multicolumn. With the Multicolumn content element it has never been easier to do multicolumn layouts with TYPO3',
 	'category' => 'fe',
-	'author' => 'Michael Birchler, snowflake productions gmbh',
+	'author' => 'Michael Birchler, Snowflake Productions Gmgh',
 	'author_email' => 'mbirchler@snowflake.ch',
 	'shy' => '',
 	'dependencies' => '',
@@ -28,12 +28,12 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 1,
 	'priority' => 'bottom',
 	'lockType' => '',
-	'author_company' => 'snowflake productions gmbh',
+	'author_company' => 'Snowflake Productions Gmbh',
 	'version' => '2.1.13',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '5.1.0-0.0.0',
-			'typo3' => '4.3.0-0.0.0',
+			'php' => '5.3.2-0.0.0',
+			'typo3' => '4.5.0-6.0.999',
 		),
 		'conflicts' => array(
 		),
