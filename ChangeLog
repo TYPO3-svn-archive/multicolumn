@@ -1,6 +1,7 @@
 2013-02-28  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #43625: compatibility with TYPO3 6.0 (readLLXMLfile)
+	* Fixed bug #43625: compatibility with TYPO3 6.0 (hook to the page module)
 
 2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
 	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.
