@@ -143,6 +143,10 @@ class tx_multicolumn_tt_content_drawItem_base {
 
 		$markup .= $this->pObj->tt_content_drawColHeader($columnLabel, null, $newParams);
 
+        if (version_compare(TYPO3_branch, '6.0', '>=')) {
+			$markup .= '<a href="#" onclick="' . htmlspecialchars($newParams) . '" title="' . $GLOBALS['LANG']->getLL('newRecordHere', 1) . '">' . t3lib_iconWorks::getSpriteIcon('actions-document-new') . '</a>';
+		}
+
 		$markup .= $this->buildColumnContentElements($colPos, $this->multiColCe['pid'], $this->multiColCe['uid'], $this->multiColCe['sys_language_uid']);
 
 		$markup .= '</div></td>';
