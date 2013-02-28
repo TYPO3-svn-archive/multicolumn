@@ -103,7 +103,8 @@ final class tx_multicolumn_div {
 	public static function getTSConfig($pageUid, $tsConfigKey = 'layoutPreset') {
 		$tsConfig = isset($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
 
-		return $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
+		$tsConfig = empty($tsConfig['tx_multicolumn.'][$tsConfigKey . '.']) ? $tsConfig['tx_multicolumn.'] : $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
+		return $tsConfig;
 	}
 	
 	/**
@@ -126,6 +127,15 @@ final class tx_multicolumn_div {
 	 */	
 	public static function isTypo3VersionAboveTypo343() {
 		if(!defined('TX_MULTICOLUMN_TYPO3_4-3')) return true;
+	}
+	
+	/**
+	 * If TYPO3 branch is above 4.4
+	 *
+	 * @return	boolean		true if version is above 4.4
+	 */	
+	public static function isTypo3VersionAboveTypo344() {
+		if(!defined('TX_MULTICOLUMN_TYPO3_4-5_OR_ABOVE')) return true;
 	}
 	
 	/**
@@ -169,7 +179,8 @@ final class tx_multicolumn_div {
 			'columnWidth' => null,
 			'columnMargin' => null,
 			'columnPadding' => null,
-			'disableImageShrink' => null
+			'disableImageShrink' => null,
+			'disableStyles' => null
 		);
 	}
 	
@@ -184,7 +195,11 @@ final class tx_multicolumn_div {
 		$newArray	= array();
 
 		foreach($array as $key => $value) {
-			$newArray[$prefix.$key] = $value;
+			if (is_array($value) && array_key_exists(0, $value)) {
+				$newArray[$prefix.$key] = $value[0]['target'];
+			} else {
+				$newArray[$prefix.$key] = $value;
+			}
 		}
 
 		return $newArray;
@@ -207,14 +222,26 @@ final class tx_multicolumn_div {
 	 */	
 	public static function beUserHasRightToSeeMultiColumnContainer () {
 		$hasAccess = true;
-			// Possibly remove some items from TSconfig
 		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
+		
+			// check remove items
 		if(!empty($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'])) {
-			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn')  ? false : true;
+			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn') ? false : true;
+			if(!$hasAccess) {
+				return false;
+			}
 		}
 		
-		if(t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY')) {
-			$hasAccess = false;
+			// is admin?
+		if(!empty($GLOBALS['BE_USER']->user['admin']))  {
+			return $hasAccess;
+		}
+		
+			// is explicitADmode allow ?
+		if($GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] === 'explicitAllow') {
+			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:ALLOW') ? true : false;
+		} else {
+			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY') ? false : true;
 		}
 		
 		return $hasAccess;

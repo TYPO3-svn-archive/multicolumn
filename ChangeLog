@@ -1,4 +1,97 @@
 (add new changes on top of this file)
+2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
+	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.
+
+2011-12-14 Michael Birchler  <mbirchler@snowflake.ch>
+	* http://forge.typo3.org/issues/31057
+	* http://forge.typo3.org/issues/26733
+	
+2011-08-24 Michael Birchler  <mbirchler@snowflake.ch>
+	* beUserHasRightToSeeMultiColumnContainer : force $TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'] before admin
+	
+2011-08-22 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added new effect simple tabs
+	* Added possibility to disable inline styles
+
+2011-06-08 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for TYPO3 4.5 gridviews (thx to Marc Bastian Heinrichs)
+	
+2011-05-30 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for cObj:parentRecordNumber
+	
+2011-05-03 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added effectBox possibility to crop images from css string
+	
+2011-04-21 Michael Birchler  <mbirchler@snowflake.ch>
+	* Added support for sitemap element (Section index (pagecontent w/Index checked)
+	* Added fe_group to multicolumn content elements
+	
+2011-04-15 Michael Birchler  <mbirchler@snowflake.ch>
+	* Add tx_multicolumn_parentid to $GLOBALS['TCA']['tt_content']['palettes'][4] if present
+	* Fixed inclusion of layoutCss from TSconfig
+	
+2011-03-16 Michael Birchler  <mbirchler@snowflake.ch>
+	* Fixed: Respect $TYPO3_CONF_VARS['BE']['explicitADmode'] = 'explicitAllow';
+	
+2011-02-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed #12644: multicolumn container dropdown works again with TYPO3 4.5. Thanks to Stephan Gruber for providing the patch.
+	
+2011-01-19 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Changed: Adapted TypoScript to be TYPO3 4.5 compliant 
+	
+2011-01-19 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: Cut a content element to a multicolumn content element didn't work on all circumstances
+	
+2011-01-13 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Changed: the css property for equal height for each contentelement is now min-height instead height
+	
+2011-01-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: classic feedit (Thanks to Markus Zuercher)
+	* Fixed: Check for cObj properly in backend context
+	
+2010-12-13 Michael Birchler  <mbirchler@snowflake.ch>
+
+	* Fixed: Display icon in CType selector
+	* Added: possibility to enable only specifc layouts (TSConfig: tx_multicolumn.config.layoutPreset.enableLayouts)
+	
+2010-12-10 Michael Birchler  <mbirchler@snowflake.ch>
+
+	* Added: possibility to enable only specifc effects (TSConfig: tx_multicolumn.config.effectBox.enableEffects)
+	* Fixed: Force equal height for each multicolumn item only affects checked multicolumn container 
+
+2010-12-07 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: Use spritemanager to display custom multicolumn type icon
+	* Fixed: Added check for $dataStructArray['sheets']
+	* Fixed: 3 column layout. thx to webwaren.ch
+	
+2010-12-03 Cornel Boppart  <cboppart@snowflake.ch>
+	
+	* Optimized: Browser Compatibility of Accordion Effect
+	
+2010-12-03 Pascal Fuchser  <pfuchser@snowflake.ch>
+
+	* Changed: Setup Code for easyAccordion effect
+	* Changed: Label for CSS Style
+	* Added: Description for effect fields
+
+2010-12-02 Cornel Boppart  <cboppart@snowflake.ch>
+
+	* Added: New Effect
+	
+2010-12-01 Pascal Fuchser  <pfuchser@snowflake.ch>
+
+	* Added: New Effect
+
+2010-12-01 Michael Birchler  <mbirchler@snowflake.ch>
+	
+	* Fixed: XCLASS warning for dam_ttcontent
+	
 2010-11-10 Michael Birchler  <mbirchler@snowflake.ch>
 	
 	* Fixed: #9900

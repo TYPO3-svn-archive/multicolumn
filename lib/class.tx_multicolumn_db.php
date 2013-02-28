@@ -38,7 +38,9 @@ class tx_multicolumn_db {
 	 * @return	boolean		ture if the user is an a workspace
 	 */
 	public static function isWorkspaceActive() {
-		if($GLOBALS['BE_USER']->workspace !== 0) return true;
+		if(!empty($GLOBALS['BE_USER']->workspace) || !empty($GLOBALS['TSFE']->sys_page->versioningPreview)) {
+			return true;
+		}
 	}
 	
 	/**
@@ -56,21 +58,30 @@ class tx_multicolumn_db {
 	 */	
 	public static function getContentElementsFromContainer($colPos = null, $pid = null, $mulitColumnParentId, $sysLanguageUid = 0, $showHidden = false, $additionalWhere = null, tx_cms_layout &$cmsLayout = null) {
 			// is workspace active?
-		$isWorkspace = false;
-		if(self::isBackend()) $isWorkspace = self::isWorkspaceActive();
+		$isWorkspace = self::isWorkspaceActive();
 
 		$selectFields = '*';
 		$fromTable = 'tt_content';
 
 		$whereClause = '1=1';
 		if($colPos) $whereClause .= ' AND colPos=' . intval($colPos);
-		if($pid && !$isWorkspace) $whereClause .= ' AND pid =' . intval($pid);
+		if($pid && !$isWorkspace) {
+			$whereClause .= ' AND pid =' . intval($pid);
+		}
+		
 		$whereClause .= ' AND tx_multicolumn_parentid=' . intval($mulitColumnParentId);
 		$whereClause .= ' AND sys_language_uid=' . intval($sysLanguageUid);
-		if($additionalWhere) $whereClause .=  ' AND ' . $additionalWhere;
+		
+		if($additionalWhere) {
+			$whereClause .=  ' AND ' . $additionalWhere;
+		}
 
 			// enable fields
-		if(!$isWorkspace) $whereClause .= self::enableFields($fromTable, $showHidden);
+		$whereClause .= self::enableFields($fromTable, $showHidden);
+		if($isWorkspace) {
+			$whereClause = self::getWorkspaceClause($whereClause);	
+		}
+		
 		$orderBy = 'sorting ASC';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, null, $orderBy);
 
@@ -87,6 +98,30 @@ class tx_multicolumn_db {
 		}
 
 		return $output;
+	}
+	
+	/**
+	 * Add additional workspace clause if needed
+	 *
+	 * @param	string			whereclause with enableFields
+	 * 
+	 * @return	string			whereclause with workspace
+	 */	
+	public static function getWorkspaceClause($whereClause) {
+		$table = 'tt_content';
+
+		if(!empty($GLOBALS['BE_USER']->workspace)) {
+			$workspaceId = intval($GLOBALS['BE_USER']->workspace);
+			$workspaceClause = ' AND (' . $table . '.t3ver_wsid=' . $workspaceId . ' OR ' . $table . '.t3ver_wsid=0)';
+
+			if(strstr($whereClause, ' AND tt_content.pid > 0')) {
+				$whereClause = str_replace(' AND tt_content.pid > 0', $workspaceClause, $whereClause);	
+			} else {
+				$whereClause = str_replace(' AND tt_content.deleted=0', ' AND tt_content.deleted=0' . $workspaceClause, $whereClause);
+			}
+		}
+
+		return $whereClause;
 	}
 	
 	/**
@@ -181,9 +216,26 @@ class tx_multicolumn_db {
 		if($enableFields) $whereClause .= self::enableFields('tt_content');
 		
 		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);	
-		if($container[0]) return $container[0];
-
-	}	
+		if(!empty($container)) return $container[0];
+	}
+	
+	/**
+	 * Checks if content element has an parent multicolumn content element
+	 *
+	 * @param	integer			$uid ontent element
+	 * 
+	 * @return	boolean			true if content element has a multicolumn content element as parent
+	 */	
+	public static function contentElementHasAMulticolumnParentContainer($uid) {
+		$fromTable = 'tt_content';
+		$selectFields = 'uid';
+		$whereClause = ' uid=' . intval($uid) . ' AND tx_multicolumn_parentid != 0';
+		$whereClause .= self::enableFields('tt_content');
+		
+		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
+		if(!empty($container[0]['uid'])) return true;
+	}
+	
 	/**
 	 * Updateds a content element
 	 *
@@ -227,7 +279,7 @@ class tx_multicolumn_db {
 	 * @return	string			mysql query string
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
-		$enableFields = isset($GLOBALS['TSFE']) ?  self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
+		$enableFields = is_object($GLOBALS['TSFE']->cObj) ? self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
 		return $enableFields;
 	}
 	
@@ -254,15 +306,14 @@ class tx_multicolumn_db {
 	 * @return	string			mysql query string
 	 */
 	public static function enableFieldsBe($table, $showHidden = false, $ignoreFields = array()) {
-			// include BEfunc if not yet included
-		if(!method_exists('t3lib_BEfunc', 'deleteClause')) require_once(PATH_t3lib.'class.t3lib_befunc.php');
-		
 		$whereClause = t3lib_BEfunc::BEenableFields($table) . t3lib_BEfunc::deleteClause($table);
 		$whereClause .= ' AND ' . $table . '.pid > 0';
 
 			// remove hidden
-		if($showHidden) $whereClause = str_replace('AND '.$table . '.hidden=0', null, $whereClause);
-		$whereClause .= t3lib_BEfunc::versioningPlaceholderClause($table);
+		if($showHidden) {
+			$whereClause = str_replace('AND '.$table . '.hidden=0', null, $whereClause);
+		}
+
 		return $whereClause;
 	}
 }

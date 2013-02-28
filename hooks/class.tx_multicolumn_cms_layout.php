@@ -24,20 +24,6 @@
 class tx_multicolumn_cms_layout {
 	
 	/**
-	 * Add css file for multicolumn icon. no way to use spritemanager ...?
-	 */
-	public function __construct() {
-			// add css file for icon
-		if(tx_multicolumn_div::isTypo3VersionAboveTypo343()) {
-			if($GLOBALS['TBE_TEMPLATE']->scriptID == 'typo3/db_list.php') {
-				$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../typo3conf/ext/multicolumn/res/backend/icons.css', 'stylesheet','screen');
-			} else if($GLOBALS['TBE_TEMPLATE']->scriptID == 'ext/cms/layout/db_layout.php') {
-				$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/icons.css', 'stylesheet','screen');
-			}
-		}
-	}
-	
-	/**
 	 * Expands the delete warning with "(This multicolumn container has X content elements(s)...)
 	 * before you delete a records
 	 */
@@ -55,20 +41,44 @@ class tx_multicolumn_cms_layout {
 				$this->restoreOrginalDeleteWarning($LL);
 				return;
 			}
+			
+			$llGlobal = &$GLOBALS['LOCAL_LANG'];
 
 				// add multicolumn delete warning
 			foreach($LL as $llKey => $ll) {
-				$deleteWarningOrginal = isset($GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal']) ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
-				$deleteWarning = str_replace('%s', $numberOfContentElements, $ll['cms_layout.deleteWarning']);
+				$deleteWarningOrginal = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];
 				
-				$GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] = isset($GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal']) ? $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'] : $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'];
-				$GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'] = $deleteWarningOrginal . chr(10) . $deleteWarning;
+				$cmsLayoutDeleteWarning = $ll['cms_layout.deleteWarning'];
+				if(is_array($cmsLayoutDeleteWarning)) {
+					$cmsLayoutDeleteWarning = $cmsLayoutDeleteWarning[0]['target'];
+				}
+				$deleteWarningMulticolumn = str_replace('%s', $numberOfContentElements, $cmsLayoutDeleteWarning);
+				$deleteWarning = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];
+
+				if(is_array($llGlobal[$llKey]['deleteWarning'])) {
+					foreach($llGlobal[$llKey]['deleteWarning'] as &$llValue) {
+						$llValue = $deleteWarning[0];
+					}
+				} else {
+					$llGlobal[$llKey]['deleteWarningOrginal'] = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];	
+				}
+				
+				if(is_array($llGlobal[$llKey]['deleteWarning'])) {
+					foreach($llGlobal[$llKey]['deleteWarning'] as &$llValue) {
+						$llValue['source'] = $deleteWarningOrginal[0]['source'] . chr(10) . $deleteWarningMulticolumn;
+						$llValue['target'] = $deleteWarningOrginal[0]['target'] . chr(10) . $deleteWarningMulticolumn;
+					}
+				} else {
+					$llGlobal[$llKey]['deleteWarning'] = $deleteWarningOrginal . chr(10) . $deleteWarningMulticolumn;
+				}
 			}
 
 			// restore orginal deleteWarning
-		} else if(isset($GLOBALS['LOCAL_LANG']['default']['deleteWarningOrginal'])) {
+		} else if(isset($llGlobal['default']['deleteWarningOrginal'])) {
 			$this->restoreOrginalDeleteWarning($LL);
 		}
+		
+		unset($llGlobal);
 	}
 	
 	protected function restoreOrginalDeleteWarning (array $LL) {

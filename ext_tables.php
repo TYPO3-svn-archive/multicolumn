@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 	// add CType multicolumn
 t3lib_div::loadTCA('tt_content');
 $TCA['tt_content']['types']['multicolumn'] = array (
-	'showitem' => 'CType;;4;;1-1-1, hidden, header;;3;;2-2-2, linkToTop;;;;3-3-3,--div--;LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_tab.content, tx_multicolumn_items,--div--;LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_tab.config,pi_flexform,--div--;LLL:EXT:cms/locallang_tca.xml:pages.tabs.access, starttime, endtime'
+	'showitem' => 'CType;;4;;1-1-1, hidden, header;;3;;2-2-2, linkToTop;;;;3-3-3,--div--;LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_tab.content, tx_multicolumn_items,--div--;LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_tab.config,pi_flexform,--div--;LLL:EXT:cms/locallang_tca.xml:pages.tabs.access, starttime, endtime, fe_group'
 );
 
 	// add multicolumn to CType
@@ -18,7 +18,7 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 			$sortedItems[] = array (
 				'LLL:EXT:multicolumn/locallang_db.xml:tx_multicolumn_multicolumn',
 				'multicolumn',
-				'../typo3conf/ext/multicolumn/tt_content_multicolumn.gif'
+				PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif'
 			);
 			$multicolumnAdded = true;
 		}
@@ -31,12 +31,10 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 	unset($sortedItems, $firstDivChecked, $multicolumnAdded);
 }
 
-$TCA['tt_content']['ctrl']['typeicons']['multicolumn'] = '../typo3conf/ext/multicolumn/tt_content_multicolumn.gif';
+$TCA['tt_content']['ctrl']['typeicons']['multicolumn'] = PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif';
 
 if(tx_multicolumn_div::isTypo3VersionAboveTypo343()) {
-		// expand coreSpriteImageNames
-	$GLOBALS['TBE_STYLES']['spriteIconApi']['coreSpriteImageNames'][] = 'mimetypes-x-content-multicolumn';
-	$TCA['tt_content']['ctrl']['typeicon_classes']['multicolumn'] = 'mimetypes-x-content-multicolumn';
+	t3lib_spritemanager::addTcaTypeIcon('tt_content', 'multicolumn', PATH_tx_multicolumn_rel . 'tt_content_multicolumn.gif');
 }
 
 	// add tx_multicolumn_contentid to tt_content table
@@ -72,9 +70,11 @@ $tempColumns = array (
 	)
 );
 
-t3lib_div::loadTCA('tt_content');
-t3lib_extMgm::addTCAcolumns('tt_content',$tempColumns);
-t3lib_extMgm::addFieldsToPalette('tt_content', 4, 'tx_multicolumn_parentid', 'before:colPos');
+t3lib_extMgm::addTCAcolumns('tt_content', $tempColumns);
+	// for 4.5
+if(!empty($GLOBALS['TCA']['tt_content']['palettes']['general'])) t3lib_extMgm::addFieldsToPalette('tt_content', 'general', 'tx_multicolumn_parentid', 'before:colPos');
+	// compatibility
+if(!empty($GLOBALS['TCA']['tt_content']['palettes'][4])) t3lib_extMgm::addFieldsToPalette('tt_content', 4, 'tx_multicolumn_parentid', 'before:colPos');
 
 if(TYPO3_MODE == 'BE') {
 		// add itemsProcFunc to colPos for dynamic colPos
@@ -86,8 +86,14 @@ if(TYPO3_MODE == 'BE') {
 		'path' => PATH_tx_multicolumn . 'hooks/class.tx_multicolumn_alt_clickmenu.php'
 	);
 }
-$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'tx_multicolumn_tceform->init';
+
+$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunctions'] = array (
+	'default' => $TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc']
+);
 $TCA['tt_content']['columns']['colPos']['config']['multicolumnProc'] = 'buildDynamicCols';
+	// overwrite default ...
+$TCA['tt_content']['columns']['colPos']['config']['itemsProcFunc'] = 'tx_multicolumn_tceform->init';
+
 
 	// request refresh if multicolumn_parent_id is changed
 $TCA['tt_content']['ctrl']['requestUpdate'] .= ',layoutKey,tx_multicolumn_parentid';
