@@ -50,7 +50,7 @@ class tx_multicolumn_pi_sitemap  extends tx_multicolumn_pi_base {
 		if(!empty($uid)) {
 			$elements = tx_multicolumn_db::getContentElementsFromContainer(null, null, $uid);
 			$listData = array (
-				'sitemapItem' =>  $this->renderListItems('sitemapItem',$elements)
+				'sitemapItem' =>  $this->renderListItems('tt_content', 'sitemapItem', $elements)
 			);
 			return $this->renderItem('sitemapList', $listData);
 		}

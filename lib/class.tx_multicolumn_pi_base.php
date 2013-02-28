@@ -28,12 +28,13 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 	/**
 	 * Render an array with data element with $confName
 	 *
+	 * @param	string		$tableName		Table name to use for the given data
 	 * @param	String		$confName		Path to typoscript to render each element with
 	 * @param	Array		$recordsArray	Array which contains elements (array) for typoscript rendering
 	 * @param	Array		$appendData		Additinal data
 	 * @return	String		All items rendered as a string
 	 */
-	public function renderListItems($confName, array $recordsArray, array $appendData = array(), $debug = false) {
+	public function renderListItems($tableName, $confName, array $recordsArray, array $appendData = array(), $debug = false) {
 		$arrayLength= count($recordsArray);
 		$rowNr	= 1;
 		$index = 0;
@@ -61,17 +62,19 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 			
 			// set data
 			$data = array_merge($data, $appendData);
-			$this->cObj->data = $data;
-			$this->cObj->parentRecordNumber = $rowNr;
 			
-			// set uid for current record 
-			$this->cObj->currentRecord = $GLOBALS['TYPO3_CONF_VARS']['SYS']['contentTable'] . ':' . $data['uid'];
-			$content .= $this->cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+			$cObj = t3lib_div::makeInstance('tslib_cObj');
+			/** @var tslib_cObj $cObj */
+			$cObj->start($data, $tableName);
+			$cObj->parentRecordNumber = $rowNr;
 	    
+			$content .= $cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+
+			unset($cObj);
+
 			$rowNr ++;
 		}
 		
-		$this->restoreCobjData();
 		return $content;
 	}
 	
@@ -83,10 +86,11 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 	 * @return	String		All items rendered as a string
 	 */	
 	protected function renderItem($confName, array $data) {
-		$this->cObj->data = $data;
-		$content = $this->cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		/** @var tslib_cObj $cObj */
+		$cObj->start($data);
+		$content = $cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
 		
-		$this->restoreCobjData();
 		return $content;
 	}
 	

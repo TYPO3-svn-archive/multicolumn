@@ -133,8 +133,9 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$this->currentCobjRecordString = $this->cObj->currentRecord;
 		
 		require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
-
-		$this->llPrefixed = tx_multicolumn_div::prefixArray($this->LOCAL_LANG[$this->LLkey], 'lll:');
+		//fallback to default
+		$LLkey = (isset($this->LOCAL_LANG[$this->LLkey])) ? $this->LLkey : 'default';
+		$this->llPrefixed = tx_multicolumn_div::prefixArray($this->LOCAL_LANG[$LLkey], 'lll:');
 		$this->pi_setPiVarDefaults();
 		
 			// Check if sys_language_contentOL is set and take $this->cObj->data['_LOCALIZED_UID']
@@ -201,7 +202,7 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 		$listItemData = $this->buildColumnData();
 				//append config from column 0 for global config container width
 		$listData = $listItemData[0];
-		$listData['content'] = $this->renderListItems('column', $listItemData, $this->llPrefixed);
+		$listData['content'] = $this->renderListItems('_NO_TABLE', 'column', $listItemData, $this->llPrefixed);
 		$listData['makeEqualElementBoxHeight'] = $this->layoutConfiguration['makeEqualElementBoxHeight'];
 		$listData['makeEqualElementColumnHeight'] = $this->layoutConfiguration['makeEqualElementColumnHeight'];
 
@@ -230,7 +231,7 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 				,'columnWidth' => $columnWidth ? ('width:' . $columnWidth . 'px;') : null
 			);
 			$listeItemsArray = t3lib_div::array_merge($listeItemsArray, $this->llPrefixed);
-			$listItemContent = $this->renderListItems('effectBoxItems', $contentElements, $listeItemsArray);
+			$listItemContent = $this->renderListItems('tt_content', 'effectBoxItems', $contentElements, $listeItemsArray);
 		}
 
 		$listData['columnWidth'] = $columnWidth;
@@ -300,7 +301,7 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 				$GLOBALS['TSFE']->register['maxImageWidth'] = $maxImageWidth;
 				$GLOBALS['TSFE']->register['maxImageWidthInText'] = $maxImageWidth;
 
-				$columnData['content'] = $this->renderListItems('columnItem', $contentElements, $this->llPrefixed);
+				$columnData['content'] = $this->renderListItems('tt_content', 'columnItem', $contentElements, $this->llPrefixed);
 			}
 
 			$columnContent[] = $columnData;
