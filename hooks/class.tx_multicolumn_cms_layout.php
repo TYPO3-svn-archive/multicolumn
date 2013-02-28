@@ -29,12 +29,12 @@ class tx_multicolumn_cms_layout {
 	 */
 	public function addDeleteWarning ($params, $pObj) {
 		if(!$params[0] == 'tt_content') return;
-		$LL = tx_multicolumn_div::includeBeLocalLang();
-		$multicolumnUid = false;
 
 			// adjust delete warning
 		if($params['2']['CType'] == 'multicolumn') {
 			$numberOfContentElements = tx_multicolumn_db::getNumberOfContentElementsFromContainer($params['2']['uid']);
+
+			$LL = tx_multicolumn_div::includeBeLocalLang();
 
 				// no children found? return!
 			if(!$numberOfContentElements) {
@@ -73,12 +73,9 @@ class tx_multicolumn_cms_layout {
 				}
 			}
 
-			// restore orginal deleteWarning
-		} else if(isset($llGlobal['default']['deleteWarningOrginal'])) {
-			$this->restoreOrginalDeleteWarning($LL);
+			unset($llGlobal);
 		}
 
-		unset($llGlobal);
 	}
 
 	protected function restoreOrginalDeleteWarning (array $LL) {
