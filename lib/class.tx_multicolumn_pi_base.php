@@ -88,7 +88,7 @@ class tx_multicolumn_pi_base extends tslib_pibase {
 	protected function renderItem($confName, array $data) {
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
 		/** @var tslib_cObj $cObj */
-		$cObj->start($data);
+		$cObj->start($data, '_NO_TABLE');
 		$content = $cObj->cObjGetSingle($this->conf[$confName], $this->conf[$confName.'.']);
 
 		return $content;
