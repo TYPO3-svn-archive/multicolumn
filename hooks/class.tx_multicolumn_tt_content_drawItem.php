@@ -4,6 +4,13 @@ require_once(PATH_typo3 . 'sysext/cms/layout/interfaces/interface.tx_cms_layout_
 class tx_multicolumn_tt_content_drawItem_base {
 
 	/**
+	 * CSS file to use for BE styling
+	 *
+	 * @var string
+	 */
+	protected $cssFile = 'style.css';
+
+	/**
 	 * Mulitcolumn content element
 	 *
 	 * @var		array
@@ -73,7 +80,7 @@ class tx_multicolumn_tt_content_drawItem_base {
 			// return if not multicolumn
 		if ($row['CType'] == 'multicolumn') {
 			// add css file
-			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/style.css', 'stylesheet','screen');
+			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/' . $this->cssFile, 'stylesheet','screen');
 			require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
 			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 
@@ -231,7 +238,7 @@ class tx_multicolumn_tt_content_drawItem_base {
 					$row['bodytext'] = $this->pObj->wordWrapper(t3lib_div::fixed_lgd_cs($row['bodytext'], 50), 25,' ');
 				}
 
-				$content.= '<div ' . (isset($row['_ORIG_uid']) ? ' class="ver-element"' :'') . '>' . $this->pObj->tt_content_drawItem($row, $isRTE) . '</div>';
+				$content.= '<div class="t3-page-ce-body-inner" ' . (isset($row['_ORIG_uid']) ? ' class="ver-element"' :'') . '>' . $this->pObj->tt_content_drawItem($row, $isRTE) . '</div>';
 				$content .= '</div>' . $trailingDiv . '</li>';
 				$item ++;
 			} else { unset($rowArr[$rKey]); }
@@ -293,6 +300,13 @@ if (version_compare(TYPO3_branch, '6.0', '>=')) {
 	class tx_multicolumn_tt_content_drawItem extends tx_multicolumn_tt_content_drawItem_base implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface {
 
 		/**
+		 * CSS file to use for BE styling
+		 *
+		 * @var string
+		 */
+		protected $cssFile = 'style-v6.css';
+
+		/**
 		 * Preprocesses the preview rendering of a content element.
 		 *
 		 * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
@@ -304,6 +318,7 @@ if (version_compare(TYPO3_branch, '6.0', '>=')) {
 		 */
 		public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
 			parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
+			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/style-v6.css', 'stylesheet','screen');
 		}
 	}
 }
