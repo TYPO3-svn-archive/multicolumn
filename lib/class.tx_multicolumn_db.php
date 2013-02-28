@@ -31,7 +31,7 @@ class tx_multicolumn_db {
 	public static function isBackend() {
 		if(TYPO3_MODE == 'BE') return true;
 	}
-	
+
 	/**
 	 * Is the user in a workspace ?
 	 *
@@ -42,7 +42,7 @@ class tx_multicolumn_db {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Get content elements from tt_content table
 	 *
@@ -55,7 +55,7 @@ class tx_multicolumn_db {
 	 * @param	object			tx_cms_layout object
 	 *
 	 * @return	array			Array with database fields
-	 */	
+	 */
 	public static function getContentElementsFromContainer($colPos = null, $pid = null, $mulitColumnParentId, $sysLanguageUid = 0, $showHidden = false, $additionalWhere = null, tx_cms_layout &$cmsLayout = null) {
 			// is workspace active?
 		$isWorkspace = self::isWorkspaceActive();
@@ -68,10 +68,10 @@ class tx_multicolumn_db {
 		if($pid && !$isWorkspace) {
 			$whereClause .= ' AND pid =' . intval($pid);
 		}
-		
+
 		$whereClause .= ' AND tx_multicolumn_parentid=' . intval($mulitColumnParentId);
 		$whereClause .= ' AND sys_language_uid=' . intval($sysLanguageUid);
-		
+
 		if($additionalWhere) {
 			$whereClause .=  ' AND ' . $additionalWhere;
 		}
@@ -79,9 +79,9 @@ class tx_multicolumn_db {
 			// enable fields
 		$whereClause .= self::enableFields($fromTable, $showHidden);
 		if($isWorkspace) {
-			$whereClause = self::getWorkspaceClause($whereClause);	
+			$whereClause = self::getWorkspaceClause($whereClause);
 		}
-		
+
 		$orderBy = 'sorting ASC';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, null, $orderBy);
 
@@ -99,14 +99,14 @@ class tx_multicolumn_db {
 
 		return $output;
 	}
-	
+
 	/**
 	 * Add additional workspace clause if needed
 	 *
 	 * @param	string			whereclause with enableFields
-	 * 
+	 *
 	 * @return	string			whereclause with workspace
-	 */	
+	 */
 	public static function getWorkspaceClause($whereClause) {
 		$table = 'tt_content';
 
@@ -115,7 +115,7 @@ class tx_multicolumn_db {
 			$workspaceClause = ' AND (' . $table . '.t3ver_wsid=' . $workspaceId . ' OR ' . $table . '.t3ver_wsid=0)';
 
 			if(strstr($whereClause, ' AND tt_content.pid > 0')) {
-				$whereClause = str_replace(' AND tt_content.pid > 0', $workspaceClause, $whereClause);	
+				$whereClause = str_replace(' AND tt_content.pid > 0', $workspaceClause, $whereClause);
 			} else {
 				$whereClause = str_replace(' AND tt_content.deleted=0', ' AND tt_content.deleted=0' . $workspaceClause, $whereClause);
 			}
@@ -123,12 +123,12 @@ class tx_multicolumn_db {
 
 		return $whereClause;
 	}
-	
+
 	/**
 	 * Get number of content elements inside a multicolumn container
 	 *
 	 * @param	integer			$mulitColumnParentId tx_multicolumn_parentid
-	 * 
+	 *
 	 * @return	integer			number of columns
 	 */
 	public static function getNumberOfContentElementsFromContainer($mulitColumnId) {
@@ -136,15 +136,15 @@ class tx_multicolumn_db {
 		$fromTable = 'tt_content';
 		$whereClause = 'tt_content.tx_multicolumn_parentId=' .intval($mulitColumnId) .  self::enableFields($fromTable);
 
-		return count($GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause));	
+		return count($GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause));
 
 	}
-	
+
 	/**
 	 * Get number of columns
 	 *
 	 * @param	integer			$mulitColumnParentId tx_multicolumn_parentid
-	 * 
+	 *
 	 * @return	integer			number of columns
 	 */
 	public static function getNumberOfColumnsFromContainer($mulitColumnId) {
@@ -152,42 +152,42 @@ class tx_multicolumn_db {
 		if($row['pi_flexform']) {
 			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 			$flexObj = t3lib_div::makeInstance('tx_multicolumn_flexform', $row['pi_flexform']);
-			
+
 			$layoutConfiguration = tx_multicolumn_div::getLayoutConfiguration($row['pid'], $flexObj);
 			return intval($layoutConfiguration['columns']);
 		}
 	}
-	
+
 	/**
 	 * Get content elemnt
 	 *
 	 * @param	integer			$uid of container element
 	 * @param	string			$additionalWhere additional where
 	 * @param	boolean			$useDeleteClause use delete clause
-	 * 
+	 *
 	 * @return	array			container data
-	 */		
+	 */
 	public static function getContentElement($uid, $selectFields = '*', $additionalWhere = null, $useDeleteClause = true) {
 		if(self::isBackend()) {
 			return t3lib_befunc::getRecordWSOL('tt_content', $uid, $selectFields, $additionalWhere, $useDeleteClause = true);
 		}
-		
+
 		$selectFields = $selectFields;
 		$fromTable = 'tt_content';
 		$whereClause = ' uid=' . intval($uid);
 		if($additionalWhere) $whereClause .= ' ' . $additionalWhere;
 
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);		
+		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
 		if($row) return $row[0];
 	}
-	
+
 	/**
 	 * Get multicolumn content elements from page uid
 	 *
 	 * @param	integer			$pid page id to fetch containers
 	 * @param	integer			$sysLanguageUid language
 	 * @param	integer			$selectFields
-	 * 
+	 *
 	 * @return	array			container data
 	 */
 	public static function getContainersFromPid($pid, $sysLanguageUid = 0, $selectFields = 'uid,header') {
@@ -198,15 +198,15 @@ class tx_multicolumn_db {
 		$whereClause .= self::enableFields('tt_content');
 		$orderBy = 'sorting';
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);			
+		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
 	}
-	
+
 	/**
 	 * Get multicolumn content element from uid
 	 *
 	 * @param	integer			$uid uid of content element
 	 * @param	integer			$selectFields
-	 * 
+	 *
 	 * @return	mixed			array if container found
 	 */
 	public static function getContainerFromUid($uid, $selectFields = 'uid,header', $enableFields = false) {
@@ -214,51 +214,51 @@ class tx_multicolumn_db {
 
 		$whereClause = ' uid=' . intval($uid) . ' AND CType=\'multicolumn\'';
 		if($enableFields) $whereClause .= self::enableFields('tt_content');
-		
-		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);	
+
+		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
 		if(!empty($container)) return $container[0];
 	}
-	
+
 	/**
 	 * Checks if content element has an parent multicolumn content element
 	 *
 	 * @param	integer			$uid ontent element
-	 * 
+	 *
 	 * @return	boolean			true if content element has a multicolumn content element as parent
-	 */	
+	 */
 	public static function contentElementHasAMulticolumnParentContainer($uid) {
 		$fromTable = 'tt_content';
 		$selectFields = 'uid';
 		$whereClause = ' uid=' . intval($uid) . ' AND tx_multicolumn_parentid != 0';
 		$whereClause .= self::enableFields('tt_content');
-		
+
 		$container = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
 		if(!empty($container[0]['uid'])) return true;
 	}
-	
+
 	/**
 	 * Updateds a content element
 	 *
 	 * @param	integer			$uid of element to be updated
 	 * @param	array			$fields_values update value
-	 * 
+	 *
 	 * @return	resource		mysql resource
-	 */	
+	 */
 	public static function updateContentElement($uid, array $fields_values) {
 		$table = 'tt_content';
 		$where = 'tt_content.uid=' . intval($uid);
-		
+
 		$res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, $where, $fields_values);
 	}
-	
+
 	/**
 	 * Checks if a multicolumn container has children
-	 * 
+	 *
 	 * @param	integer		$containerUid 	multicolumn content element uid
 	 * @param	string		$showHidden 	consider hidden elements too
 	 *
 	 * @return	mixed		array if with uid null if nothing found
-	 */	
+	 */
 	public static function containerHasChildren($containerUid, $showHidden = true) {
 		$fromTable = 'tt_content';
 		$selectFields = 'uid,pid,sys_language_uid,CType';
@@ -268,41 +268,41 @@ class tx_multicolumn_db {
 		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
 		if($row) return $row;
 	}
-	
+
 	/**
 	 * Get enableFields frontend / backend
 	 *
 	 * @param	string			$table table name
 	 * @param	boolean			$showHidden show hidden records
 	 * @param	array			$ignoreFields fields to ignore
-	 * 
+	 *
 	 * @return	string			mysql query string
 	 */
 	protected static function enableFields($table, $showHidden = false, $ignoreFields = array()) {
 		$enableFields = is_object($GLOBALS['TSFE']->cObj) ? self::enableFieldsFe($table, $showHidden, $ignoreFields) : self::enableFieldsBe($table, $showHidden, $ignoreFields);
 		return $enableFields;
 	}
-	
+
 	/**
 	 * Get enableFields frontend
 	 *
 	 * @param	string			$table table name
 	 * @param	boolean			$showHidden show hidden records
 	 * @param	array			$ignoreFields fields to ignore
-	 * 
+	 *
 	 * @return	string			mysql query string
 	 */
 	public static function enableFieldsFe($table, $showHidden = false, $ignoreFields = array()) {
 		return $GLOBALS['TSFE']->cObj->enableFields($table, $showHidden, $ignoreFields);
 	}
-	
+
 	/**
 	 * Get enableFields backend
 	 *
 	 * @param	string			$table table name
 	 * @param	boolean			$showHidden show hidden records
 	 * @param	array			$ignoreFields fields to ignore
-	 * 
+	 *
 	 * @return	string			mysql query string
 	 */
 	public static function enableFieldsBe($table, $showHidden = false, $ignoreFields = array()) {

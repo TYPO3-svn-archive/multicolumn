@@ -28,14 +28,14 @@ class tx_multicolumn_pi_sitemap  extends tx_multicolumn_pi_base {
 	public $scriptRelPath = 'pi_sitemap/class.tx_multicolumn_pi_sitemap.php';    // Path to this script relative to the extension dir.
 	public $extKey        = 'multicolumn';    // The extension key.
 	public $pi_checkCHash = true;
-	
+
 	/**
 	 * Current cObj data
 	 *
 	 * @var		array
-	 */	
+	 */
 	protected $currentCobjData;
-	
+
 	/**
 	 * The main method of the PlugIn
 	 *
@@ -45,7 +45,7 @@ class tx_multicolumn_pi_sitemap  extends tx_multicolumn_pi_base {
 	 */
 	public function main($content,$conf)    {
 		$this->init($content, $conf);
-		
+
 		$uid = intval($this->cObj->stdWrap($this->conf['multicolumnContainerUid'], $this->conf['multicolumnContainerUid.']));
 		if(!empty($uid)) {
 			$elements = tx_multicolumn_db::getContentElementsFromContainer(null, null, $uid);
@@ -55,8 +55,8 @@ class tx_multicolumn_pi_sitemap  extends tx_multicolumn_pi_base {
 			return $this->renderItem('sitemapList', $listData);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Initalizes the plugin.
 	 *

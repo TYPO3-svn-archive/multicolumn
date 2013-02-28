@@ -29,11 +29,11 @@ class tx_multicolumn_flexform {
 	 * @var array
 	 */
 	protected $flex = array();
-	
+
 	public function __construct ($flexformString = null) {
 		if($flexformString) $this->flex = t3lib_div::xml2array($flexformString);
 	}
-	
+
 	/**
 	 * Returns the value of flexform setting
 	 *
@@ -46,8 +46,8 @@ class tx_multicolumn_flexform {
 	public function getFlexValue ($sheet, $key) {
 		if(is_array($this->flex['data'])) return $this->flex['data'][$sheet]['lDEF'][$key]['vDEF'];
 	}
-	
-	
+
+
 	/**
 	 * Returns the flexform array
 	 *
@@ -55,7 +55,7 @@ class tx_multicolumn_flexform {
 	 *
 	 * @return	array		Flexform array
 	 *
-	 * */	
+	 * */
 	public function getFlexArray($key = null) {
 		$flexform = array();
 
@@ -63,17 +63,17 @@ class tx_multicolumn_flexform {
 
 			if($key && $this->flex['data'][$key]['lDEF']) {
 				foreach($this->flex['data'][$key]['lDEF'] as $flexKey=>$value) {
-					if($value['vDEF']) $flexform[$flexKey] = $value['vDEF'];	
+					if($value['vDEF']) $flexform[$flexKey] = $value['vDEF'];
 				}
 			} else {
 				$flexform = $this->flex['data'];
 			}
-			
+
 		}
 
 		return $flexform;
 	}
-	
+
 	/**
 	 * Generates the icons for the flexform selector layout
 	 *
@@ -82,7 +82,7 @@ class tx_multicolumn_flexform {
 	 *
 	 * @return	array		Generated items array
 	 *
-	 * */	
+	 * */
 	public function addFieldsToFlexForm(&$params, t3lib_TCEforms $pObj) {
 		$type = $params['config']['txMulitcolumnField'];
 		$pid = ($params['row']['pid'] < 0 && is_array($pObj->cachedTSconfig)) ? tx_multicolumn_div::getBePidFromCachedTsConfig() : $params['row']['pid'];
@@ -90,12 +90,12 @@ class tx_multicolumn_flexform {
 
 		switch ($type) {
 			case 'preSetLayout':
-				if(is_array($tsConfig['layoutPreset.'])) {					
+				if(is_array($tsConfig['layoutPreset.'])) {
 						// enable only specific effects
 					if(!empty($tsConfig['config.']['layoutPreset.']['enableLayouts'])) {
 						$this->filterItems($tsConfig['layoutPreset.'], $tsConfig['config.']['layoutPreset.']['enableLayouts']);
 					}
-					
+
 						// add effectBox to the end
 					if(!empty($tsConfig['layoutPreset.']['effectBox.'])) {
 						$effectBox = $tsConfig['layoutPreset.']['effectBox.'];
@@ -108,18 +108,18 @@ class tx_multicolumn_flexform {
 				break;
 			case 'effect':
 				if(is_array($tsConfig['effectBox.'])) {
-					
+
 						// enable only specific effects
 					if(!empty($tsConfig['config.']['effectBox.']['enableEffects'])) {
 						$this->filterItems($tsConfig['effectBox.'], $tsConfig['config.']['effectBox.']['enableEffects']);
 					}
-					
+
 					$this->buildItems($tsConfig['effectBox.'], $params);
 				}
 				break;
 		}
 	}
-	
+
 	protected function buildItems(array $config, &$params) {
 		foreach($config as $key=>$item) {
 			$params['items'][] = array (
@@ -128,16 +128,16 @@ class tx_multicolumn_flexform {
 					//replace absolute with relative path
 				str_replace(PATH_site, '../', t3lib_div::getFileAbsFileName($item['icon']))
 			);
-		}		
+		}
 	}
-	
+
 	/**
 	 * Filter out items from an array
 	 *
 	 * @param	array		array
 	 * @param	object		comma seperated list
 	 *
-	 * */		
+	 * */
 	protected function filterItems(array &$items, $filterList) {
 		foreach($items as $itemKey => $item) {
 			if(!t3lib_div::inList($filterList, str_replace('.', null, $itemKey))) {

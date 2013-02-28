@@ -27,7 +27,7 @@ final class tx_multicolumn_div {
 	 * Start index of colpos
 	 **/
 	const colPosStart = 10;
-	
+
 	/**
 	 * Get layout configuration options merged between typoscript and flexform options
 	 *
@@ -35,15 +35,15 @@ final class tx_multicolumn_div {
 	 * @param	tx_multicolumn_flexform		$flexform object
 	 *
 	 * @return	array				layout configuration options
-	 */	
+	 */
 	public static function getLayoutConfiguration($pageUid, tx_multicolumn_flexform $flex) {
 			//load default config
 		$config = self::getDefaultLayoutConfiguration();
-		
+
 		$layoutKey = $flex->getFlexValue('preSetLayout', 'layoutKey');
 			//remove . from ts string
 		if($layoutKey) $config['layoutKey'] = substr($layoutKey, 0, -1);
-		
+
 		$tsConfig = self::getTSConfig($pageUid);
 		if(isset($tsConfig[$layoutKey]['config.'])) $tsConfig = $tsConfig[$layoutKey]['config.'];
 
@@ -53,10 +53,10 @@ final class tx_multicolumn_div {
 			//merge with flexconfig
 		$flexConfig = $flex->getFlexArray('advancedLayout');
 		if(is_array($flexConfig)) $config = array_merge($config, $flexConfig);
-		
+
 		return $config;
 	}
-	
+
 	/**
 	 * Get layout configuration options merged between typoscript and flexform options
 	 *
@@ -64,7 +64,7 @@ final class tx_multicolumn_div {
 	 * @param	tx_multicolumn_flexform		$flexform object
 	 *
 	 * @return	array				layout configuration options
-	 */	
+	 */
 	public static function getEffectConfiguration($pageUid, tx_multicolumn_flexform $flex) {
 		$effect = substr($flex->getFlexValue('effectBox', 'effect'), 0, -1);
 		$flexConfig = $flex->getFlexArray('effectBox');
@@ -74,7 +74,7 @@ final class tx_multicolumn_div {
 			$config = $tsConfig[$effect . '.']['config.'];
 			$config['effect'] = $effect;
 			$tsConfigOptions = (!empty($config['defaultOptions'])) ? $config['defaultOptions'] : null;
-				
+
 				// check for options
 			if(!empty($flexConfig['effectOptions'])) {
 				$addComma = (strpos($flexConfig['effectOptions'], ',') === 0 && $tsConfigOptions) ?  null : ',';
@@ -82,7 +82,7 @@ final class tx_multicolumn_div {
 			} else {
 				$config['options']  = $tsConfigOptions;
 			}
-			
+
 			$config['options']  = t3lib_div::minifyJavaScript($config['options']);
 
 			unset($flexConfig['effectOptions'], $flexConfig['effect']);
@@ -92,82 +92,82 @@ final class tx_multicolumn_div {
 			return $config;
 		}
 	}
-	
+
 	/**
 	 * Get prset layout configuration from tsconfig
 	 *
 	 * @param	array				$pageUid to get pageTsConfig
 	 *
 	 * @return	array				Preset layout configuration
-	 */	
+	 */
 	public static function getTSConfig($pageUid, $tsConfigKey = 'layoutPreset') {
 		$tsConfig = isset($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->getPagesTSconfig() : t3lib_BEfunc::getPagesTSconfig($pageUid);
 
 		$tsConfig = empty($tsConfig['tx_multicolumn.'][$tsConfigKey . '.']) ? $tsConfig['tx_multicolumn.'] : $tsConfig['tx_multicolumn.'][$tsConfigKey . '.'];
 		return $tsConfig;
 	}
-	
+
 	/**
 	 * Evaluates current page id from backend context
 	 *
 	 *
 	 * @return	integer		current backed page uid
-	 */	
+	 */
 	public static function getBePidFromCachedTsConfig() {
 		if(is_array($GLOBALS['SOBE']->tceforms->cachedTSconfig)) {
 			$tsConfig = array_pop($GLOBALS['SOBE']->tceforms->cachedTSconfig);
 			return $tsConfig['_CURRENT_PID'];
 		}
 	}
-	
+
 	/**
 	 * If TYPO3 branch is above 4.3
 	 *
 	 * @return	boolean		true if version is above 4.3
-	 */	
+	 */
 	public static function isTypo3VersionAboveTypo343() {
 		if(!defined('TX_MULTICOLUMN_TYPO3_4-3')) return true;
 	}
-	
+
 	/**
 	 * If TYPO3 branch is above 4.4
 	 *
 	 * @return	boolean		true if version is above 4.4
-	 */	
+	 */
 	public static function isTypo3VersionAboveTypo344() {
 		if(!defined('TX_MULTICOLUMN_TYPO3_4-5_OR_ABOVE')) return true;
 	}
-	
+
 	/**
 	 * Calculates the maximal width  of the column in pixel based on {$styles.content.imgtext.colPos0.maxW}
 	 *
 	 * @return	integer			max width of column in pixel
-	 */		
+	 */
 	public static function calculateMaxColumnWidth($columnWidth, $colPosMaxWidth, $numberOfColumns, $columnPadding = 0) {
 		return floor(($colPosMaxWidth / 100) * $columnWidth);
 	}
-	
+
 	/**
 	 * Evaluates the total width of padding in colum
 	 *
-	 * @param	string		css string link 10px 20px 30px;		
+	 * @param	string		css string link 10px 20px 30px;
 	 * @return	integer		totalwidth of padding
-	 */		
+	 */
 	public static function getPaddingTotalWidth($columnPadding) {
 		$padding = preg_split('/ /', trim($columnPadding));
 			//how many css attributes are set?
 		$paddingNum = count($padding);
-			
+
 			//calculate total width
 		$paddingTotalWidth = ($paddingNum == 2) ? intval($padding[1]) * 2 : (intval($padding[1]) + intval($padding[3]));
 		return $paddingTotalWidth;
 	}
-	
+
 	/**
 	 * Returns default Layout configuration options
 	 *
 	 * @return	array			Layout configuration options
-	 */	
+	 */
 	public static function getDefaultLayoutConfiguration() {
 		return array (
 			'layoutKey' => null,
@@ -183,7 +183,7 @@ final class tx_multicolumn_div {
 			'disableStyles' => null
 		);
 	}
-	
+
 	/**
 	 * Prefix the keys in an array
 	 *
@@ -204,7 +204,7 @@ final class tx_multicolumn_div {
 
 		return $newArray;
 	}
-		
+
 	/**
 	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found in that file.
 	 *
@@ -214,16 +214,16 @@ final class tx_multicolumn_div {
 		$llFile = $llFile ? $llFile : 'locallang.xml';
 		return  t3lib_div::readLLXMLfile(PATH_tx_multicolumn . $llFile, $GLOBALS['LANG']->lang);
 	}
-		
+
 	/**
 	 * Checks if backend user has the rights to see multicolumn container
 	 *
 	 * @return	boolean	true if it has access false if not
-	 */	
+	 */
 	public static function beUserHasRightToSeeMultiColumnContainer () {
 		$hasAccess = true;
 		$TSconfig = t3lib_BEfunc::getPagesTSconfig($GLOBALS['SOBE']->id);
-		
+
 			// check remove items
 		if(!empty($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'])) {
 			$hasAccess = t3lib_div::inList($TSconfig['TCEFORM.']['tt_content.']['CType.']['removeItems'], 'multicolumn') ? false : true;
@@ -231,19 +231,19 @@ final class tx_multicolumn_div {
 				return false;
 			}
 		}
-		
+
 			// is admin?
 		if(!empty($GLOBALS['BE_USER']->user['admin']))  {
 			return $hasAccess;
 		}
-		
+
 			// is explicitADmode allow ?
 		if($GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] === 'explicitAllow') {
 			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:ALLOW') ? true : false;
 		} else {
 			$hasAccess = t3lib_div::inList($GLOBALS['BE_USER']->groupData['explicit_allowdeny'], 'tt_content:CType:multicolumn:DENY') ? false : true;
 		}
-		
+
 		return $hasAccess;
 	}
 }

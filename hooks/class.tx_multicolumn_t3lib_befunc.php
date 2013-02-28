@@ -30,7 +30,7 @@ class tx_multicolumn_t3lib_befunc {
 	 * @param	array		$conf: 	tca
 	 * @param	array		$row (reference) The record uid currently processing data for, [integer] or [string] (like 'NEW...')
 	 * @param	array		$fieldArray: (reference) The field array of a record
-	 */	
+	 */
 	public function getFlexFormDS_postProcessDS(&$dataStructArray, $conf, $row, $table, $fieldName) {
 		if($table == 'tt_content' && $row['CType'] == 'multicolumn' && is_array($dataStructArray['sheets'])) {
 			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');

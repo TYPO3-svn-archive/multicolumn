@@ -8,38 +8,38 @@ tx_multicolumn {
 					jQuery {
 						priority = 1
 					}
-					
+
 					fixHeight = EXT:multicolumn/res/layout/makeEqualElementBoxHeight.js
 				}
 			}
-			
+
 			makeEqualElementColumnHeight {
 				includeFiles {
 					jQuery = EXT:multicolumn/res/javascript/jQuery.js
 					jQuery {
 						priority = 1
 					}
-					
+
 					fixColumnHeight = EXT:multicolumn/res/layout/makeEqualElementBoxColumnHeight.js
-				}			
+				}
 			}
 		}
 		effectBox {
 				# set effect key to only allow specific effect (eg. sudoSliderTabSliding,easyAccordion)
-			enableEffects = 
+			enableEffects =
 		}
 		layoutPreset {
 				# setlayout key to only allow specific layout (eg. effectBox,3)
-			enableLayouts = 
+			enableLayouts =
 		}
 	}
-	
+
 	layoutPreset {
 		1 {
 			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.1
 			icon = EXT:multicolumn/res/layout/1.gif
 			config {
-				# include a specific css for your preset layout 
+				# include a specific css for your preset layout
 				#layoutCss = EXT:multicolumn/res/layout/1.css
 
 				# container settings
@@ -66,13 +66,13 @@ tx_multicolumn {
 
 					# Force equal height for each multicolumn item
 				#makeEqualElementBoxHeight = 1
-					
+
 					# Force equal height for each multicolumn column
 				#makeEqualElementColumnHeight = 1
-				
+
 					# disable the calculation of image width => take the result from plugin.tx_multicolumn_pi1.columnWidth
 				#disableAutomaticImageWidthCalculation = 1
-				
+
 			}
 		}
 
@@ -96,7 +96,7 @@ tx_multicolumn {
 			}
 
 		}
-		
+
 		10 {
 			label = LLL:EXT:multicolumn/res/layout/locallang.xml:layout.10
 			icon = EXT:multicolumn/res/layout/10.gif
@@ -104,7 +104,7 @@ tx_multicolumn {
 				columns = 2
 					# option split is allowed!
 				columnWidth = 67 || 33
-				columnPadding = 0 6px 0 0 || 0 0 0 6px 
+				columnPadding = 0 6px 0 0 || 0 0 0 6px
 			}
 		}
 
@@ -116,7 +116,7 @@ tx_multicolumn {
 			}
 		}
 	}
-	
+
 	effectBox {
 			# jquery sudo slider plugin options: http://webbies.dk/Sudo%20Slider/settings.html
 		sudoSliderTabSliding {
@@ -144,7 +144,7 @@ tx_multicolumn {
 				)
 			}
 		}
-		
+
 		sudoSliderTabFade {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab
 			config {
@@ -170,7 +170,7 @@ tx_multicolumn {
 				)
 			}
 		}
-		
+
 		sudoSliderTabFade2 {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.fadingTab2
 			config {
@@ -203,7 +203,7 @@ tx_multicolumn {
 				)
 			}
 		}
-		
+
 		easyAccordion {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.accordion
 			config {
@@ -221,7 +221,7 @@ tx_multicolumn {
 				}
 			}
 		}
-		
+
 		vAccordion {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.vAccordion
 			config {
@@ -241,7 +241,7 @@ tx_multicolumn {
 				)
 			}
 		}
-		
+
 		simpleTabs {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.simpleTabs
 			config {
@@ -256,13 +256,13 @@ tx_multicolumn {
 				cssFiles {
 					simpleTabs = EXT:multicolumn/res/effects/simpleTabs/style.css
 				}
-				
+
 				defaultOptions (
 					fixHeight : false
 				)
-			}		
+			}
 		}
-		
+
 		roundabout {
 			label = LLL:EXT:multicolumn/res/effects/locallang.xml:effectBox.effect.roundabout
 			config {
@@ -278,7 +278,7 @@ tx_multicolumn {
 				cssFiles {
 					sudoSlider = EXT:multicolumn/res/effects/roundabout/roundabout.css
 				}
-				
+
 				defaultOptions (
 					minScale: 0.4,
 					startingChild : 'random',

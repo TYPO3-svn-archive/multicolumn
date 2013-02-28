@@ -29,7 +29,7 @@ class tx_multicolumn_alt_clickmenu {
 	 * @var		clickMenu
 	 */
 	protected $pObj;
-	
+
 	/**
 	 * Adding tx_multicolumn_parentid on new context menu
 	 *
@@ -44,29 +44,29 @@ class tx_multicolumn_alt_clickmenu {
 			$this->pObj = $backRef;
 			$this->rec = $this->pObj->rec;
 			$isMulticolumnContainer = ($this->rec['CType'] == 'multicolumn') ? true : false;
-			
+
 				// has menuitems the new button? add multicolumnparent id to request
 			if ($this->rec['tx_multicolumn_parentid'] && $menuItems['new']) {
 					//add multicolumn_parent_id to new url
 				$this->addMultiColumnParentIdToNewItem($menuItems['new'], $this->rec['tx_multicolumn_parentid']);
 			}
-			
+
 				// is element a multicolumn container ? add column pasting
 			if ($isMulticolumnContainer && $menuItems['pasteafter']) {
 				$multicolumnMenuItems = $this->getMulticolumnPasteIntoItems($uid);
 				$this->addMulticolumnMenuItemsAfterPasteafter($multicolumnMenuItems, $menuItems);
-			}			
+			}
 		}
 
 		return $menuItems;
 	}
-	
+
 	/**
 	 * Adding multicolumn menu items after pasteafter
 	 *
 	 * @param	array		Array with multicolumn menu items
 	 * @param	array		Array with orginal menu items from alt_clickmenu
-	 */	
+	 */
 	protected function addMulticolumnMenuItemsAfterPasteafter(array $multicolumnMenuItems, array &$menuItems) {
 		$sortedItems = array();
 		foreach ($menuItems as $menuKey => $item) {
@@ -77,26 +77,26 @@ class tx_multicolumn_alt_clickmenu {
 				$sortedItems[$menuKey] = $item;
 			}
 		}
-		
+
 		$menuItems = $sortedItems;
 	}
-	
+
 	/**
 	 * Builds multicolumn menu items
 	 *
 	 * @param	integer		multicolumn content element uid
-	 */	
+	 */
 	protected function getMulticolumnPasteIntoItems($multicolumnUid) {
 		$multicolumnMenuItems = array();
 		$multicolumnMenuItems['multicolumnspacer-1'] = 'spacer';
-		
+
 		$multicolumnSelectItems = array();
 		$LL = tx_multicolumn_div::includeBeLocalLang();
 		$pasteIntoLink = $this->getPasteIntoLink($multicolumnUid);
 
 			// get number of columns
 		$columns = tx_multicolumn_db::getNumberOfColumnsFromContainer($multicolumnUid);
-		
+
 		$columnIndex = 0;
 		$columnTitle = $GLOBALS['LANG']->getLLL('multicolumColumn', $LL) . ' ' . $GLOBALS['LANG']->getLLL('cms_layout.columnTitle', $LL);
 
@@ -108,20 +108,20 @@ class tx_multicolumn_alt_clickmenu {
 			$item[3] = str_replace('pasteInto', 'pasteInto&colPos=' . (tx_multicolumn_div::colPosStart + $columnIndex), $item[3]);
 
 			$multicolumnMenuItems['multicolumn-pasteinto-' . $columnIndex] = $item;
-			
+
 			$columnIndex ++;
 		}
-		
+
 		$multicolumnMenuItems['multicolumnspacer-2'] = 'spacer';
 		return $multicolumnMenuItems;
 	}
-	
+
 	/**
 	 * Builds the modified clickMenu->DB_paste link (adding specific colPos and multicolum_parentid)
 	 *
 	 * @param	integer		multicolumn content element uid
-	 * @return	array		Item array, element in $menuItems	
-	 */	
+	 * @return	array		Item array, element in $menuItems
+	 */
 	protected function getPasteIntoLink ($multicolumnUid) {
 		$selItem = $this->pObj->clipObj->getSelectedRecord();
 		$elInfo=array(
@@ -136,13 +136,13 @@ class tx_multicolumn_alt_clickmenu {
 
 		return $item;
 	}
-	
+
 	/**
 	 * Add &defVals[tt_content][tx_multicolumn_parentid]= to new item
 	 *
 	 * @param	array		Array of new item in context menu
 	 * @param	integer		parent id of multicolumn item
-	 */	
+	 */
 	protected function addMultiColumnParentIdToNewItem (array &$newItem, $multicolumnParentId) {
 		$newItem[3] = str_replace('new', 'new&defVals[tt_content][tx_multicolumn_parentid]=' . intval($multicolumnParentId), $newItem[3]);
 	}
