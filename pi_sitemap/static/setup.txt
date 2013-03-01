@@ -83,6 +83,7 @@ tt_content {
 		20 {
 			3 < styles.content.get
 			3 {
+				select.andWhere = sectionIndex=1
 				wrap = <ul class="csc-menu csc-menu-3">|</ul>
 				renderObj = COA
 				renderObj {
