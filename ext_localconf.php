@@ -1,5 +1,11 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
+
+if (!function_exists('user_multicolumn_typo3BranchGreaterOrEquals')) {
+	function user_multicolumn_typo3BranchGreaterOrEquals($version) {
+		return version_compare(TYPO3_branch, $version, '>=');
+	}
+}
 	// define multicolumn path
 define('PATH_tx_multicolumn', t3lib_extMgm::extPath('multicolumn'));
 define('PATH_tx_multicolumn_rel', t3lib_extMgm::extRelPath($_EXTKEY));

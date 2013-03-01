@@ -43,17 +43,23 @@ class tx_multicolumn_pi_sitemap  extends tx_multicolumn_pi_base {
 	 * @param    array        $conf: The PlugIn configuration
 	 * @return    The content that is displayed on the website
 	 */
-	public function main($content,$conf)    {
+	public function main($content, $conf) {
+		$content = '';
+
 		$this->init($content, $conf);
 
 		$uid = intval($this->cObj->stdWrap($this->conf['multicolumnContainerUid'], $this->conf['multicolumnContainerUid.']));
 		if(!empty($uid)) {
-			$elements = tx_multicolumn_db::getContentElementsFromContainer(null, null, $uid);
-			$listData = array (
-				'sitemapItem' =>  $this->renderListItems('tt_content', 'sitemapItem', $elements)
-			);
-			return $this->renderItem('sitemapList', $listData);
+			$elements = tx_multicolumn_db::getContentElementsFromContainer(null, null, $uid, 0, false, 'sectionIndex=1');
+			if (count($elements)) {
+				$listData = array (
+					'sitemapItem' =>  $this->renderListItems('tt_content', 'sitemapItem', $elements)
+				);
+				$content = $this->renderItem('sitemapList', $listData);
+			}
 		}
+
+		return $content;
 	}
 
 

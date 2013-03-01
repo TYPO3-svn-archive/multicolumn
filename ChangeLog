@@ -7,6 +7,7 @@
 	* Fixed bug #45046: content elements with hidden flag, start- or end date may disappear in the Backend
 	* Fixed bug #43788: fix styling for the 6.x Backend (thanks to Tilo Baller)
 	* Fixed bug #32708: column widths are not calculated correctly (thanks to Patrick Kroog)
+	* Fixed bug #39288: section menu does not work in TYPO3>=4.7
 
 2012-02-24 Christoph Buchli  <cbuchli@snowflake.ch>
 	* Added: possibility to add custom CSS-class to the container-<ul>. Thanks to Visual FX.

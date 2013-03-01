@@ -52,49 +52,48 @@ class tx_multicolumn_db {
 	 * @param	integer			$sysLanguageUid sys language uid
 	 * @param	booleand		$showHidden show hidden elements
 	 * @param	string			$additionalWhere add additional where
-	 * @param	object			tx_cms_layout object
+	 * @param	tx_cms_layout			tx_cms_layout object
 	 *
 	 * @return	array			Array with database fields
 	 */
-	public static function getContentElementsFromContainer($colPos = null, $pid = null, $mulitColumnParentId, $sysLanguageUid = 0, $showHidden = false, $additionalWhere = null, tx_cms_layout &$cmsLayout = null) {
+	public static function getContentElementsFromContainer($colPos = null, $pid = null, $mulitColumnParentId, $sysLanguageUid = 0, $showHidden = false, $additionalWhere = null, &$cmsLayout = null) {
+		$output = array();
+
 			// is workspace active?
 		$isWorkspace = self::isWorkspaceActive();
 
 		$selectFields = '*';
 		$fromTable = 'tt_content';
 
-		$whereClause = '1=1';
-		if($colPos) $whereClause .= ' AND colPos=' . intval($colPos);
-		if($pid && !$isWorkspace) {
-			$whereClause .= ' AND pid =' . intval($pid);
+		$whereClause = ($additionalWhere ? $additionalWhere : '1=1');
+		if ($colPos) {
+			$whereClause .= ' AND colPos=' . intval($colPos);
+		}
+		if ($pid && !$isWorkspace) {
+			$whereClause .= ' AND pid=' . intval($pid);
 		}
 
 		$whereClause .= ' AND tx_multicolumn_parentid=' . intval($mulitColumnParentId);
 		$whereClause .= ' AND sys_language_uid=' . intval($sysLanguageUid);
 
-		if($additionalWhere) {
-			$whereClause .=  ' AND ' . $additionalWhere;
-		}
-
 			// enable fields
 		$whereClause .= self::enableFields($fromTable, $showHidden);
-		if($isWorkspace) {
+		if ($isWorkspace) {
 			$whereClause = self::getWorkspaceClause($whereClause);
 		}
 
 		$orderBy = 'sorting ASC';
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, null, $orderBy);
 
 		if (!$GLOBALS['TYPO3_DB']->sql_error()) {
-			if($cmsLayout) {
+			if ($cmsLayout) {
 					//use cms layout object for correct icons
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, '', $orderBy);
 				$output = $cmsLayout->getResult($res,'tt_content', 1);
+				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			} else {
-				while ($output[] = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res));
-				array_pop($output);
+				$output = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, '', $orderBy);
 			}
 
-			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 
 		return $output;
