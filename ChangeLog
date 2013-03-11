@@ -1,3 +1,7 @@
+2013-03-11  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Fixed bug #35319: possible PHP errors in the TCEmain hook
+
 2013-02-28  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #43625: compatibility with TYPO3 6.0 (readLLXMLfile)

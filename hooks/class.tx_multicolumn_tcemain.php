@@ -39,26 +39,28 @@ class tx_multicolumn_tcemain {
 	public function processDatamap_afterDatabaseOperations($status, $table, $id, &$fieldArray, t3lib_TCEmain $pObj) {
 		$GPvar = t3lib_div::_GP('cmd');
 
+		if (is_array($GPvar) && isset($GPvar['tt_content']) && isset($fieldArray['t3_origuid']) && isset($GPvar['tt_content'][$fieldArray['t3_origuid']])) {
 			// element gets localized
-		$localizeToSysLanguageUid = intval($GPvar['tt_content'][$fieldArray['t3_origuid']]['localize']);
-		if($status == 'new' && $fieldArray['CType'] == 'multicolumn' && !empty($localizeToSysLanguageUid)) {
-			$this->pObj = clone $pObj;
+			$localizeToSysLanguageUid = intval($GPvar['tt_content'][$fieldArray['t3_origuid']]['localize']);
+			if ($status == 'new' && $fieldArray['CType'] == 'multicolumn' && !empty($localizeToSysLanguageUid)) {
+				$this->pObj = clone $pObj;
 
-				//get new uid
-			$multiColCeUid = $this->pObj->substNEWwithIDs[$id];
+				// get new uid
+				$multiColCeUid = $this->pObj->substNEWwithIDs[$id];
 
-				//has container children?
-			$parentUid = !empty($fieldArray['l18n_parent']) ? $fieldArray['l18n_parent'] : key($GPvar['tt_content']);
-			if(!empty($parentUid)) {
-				$containerHasChildren = tx_multicolumn_db::containerHasChildren($parentUid);
+				// has container children?
+				$parentUid = !empty($fieldArray['l18n_parent']) ? $fieldArray['l18n_parent'] : key($GPvar['tt_content']);
+				if (!empty($parentUid)) {
+					$containerHasChildren = tx_multicolumn_db::containerHasChildren($parentUid);
 
-				if($multiColCeUid && $containerHasChildren) {
-					$this->localizeMulticolumnChildren($containerHasChildren, $multiColCeUid, $localizeToSysLanguageUid);
+					if ($multiColCeUid && $containerHasChildren) {
+						$this->localizeMulticolumnChildren($containerHasChildren, $multiColCeUid, $localizeToSysLanguageUid);
+					}
 				}
-			}
 
-				//reset rempat stack record for multicolumn item (prevents double call of processDatamap_afterDatabaseOperations)
-			unset($pObj->remapStackRecords['tt_content'][$id]);
+				// reset rempat stack record for multicolumn item (prevents double call of processDatamap_afterDatabaseOperations)
+				unset($pObj->remapStackRecords['tt_content'][$id]);
+			}
 		}
 	}
 
