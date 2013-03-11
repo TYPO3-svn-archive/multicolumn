@@ -261,11 +261,11 @@ class tx_multicolumn_db {
 	public static function containerHasChildren($containerUid, $showHidden = true) {
 		$fromTable = 'tt_content';
 		$selectFields = 'uid,pid,sys_language_uid,CType';
-		$whereClause .= 'tx_multicolumn_parentid =' . intval($containerUid);
+		$whereClause = 'tx_multicolumn_parentid =' . intval($containerUid);
 		$whereClause .= self::enableFields($fromTable, $showHidden);
 
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
-		if($row) return $row;
+		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause);
+		return is_array($row) ? $row : null;
 	}
 
 	/**
