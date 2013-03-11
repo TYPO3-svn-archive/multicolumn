@@ -251,21 +251,34 @@ class tx_multicolumn_db {
 	}
 
 	/**
-	 * Checks if a multicolumn container has children
+	 * Obtains children content elements for the multicolumn container
 	 *
 	 * @param	integer		$containerUid 	multicolumn content element uid
 	 * @param	string		$showHidden 	consider hidden elements too
 	 *
 	 * @return	mixed		array if with uid null if nothing found
 	 */
-	public static function containerHasChildren($containerUid, $showHidden = true) {
+	public static function getContainerChildren($containerUid, $showHidden = true) {
 		$fromTable = 'tt_content';
 		$selectFields = 'uid,pid,sys_language_uid,CType';
-		$whereClause = 'tx_multicolumn_parentid =' . intval($containerUid);
+		$whereClause = 'tx_multicolumn_parentid=' . intval($containerUid);
 		$whereClause .= self::enableFields($fromTable, $showHidden);
 
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause);
-		return is_array($row) ? $row : null;
+		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause);
+	}
+
+	/**
+	 * This function is deprecated. Do not use it.
+	 *
+	 * @param integer $containerUid
+	 * @param string $showHidden
+	 * @return	boolean
+	 * @deprecated Use tx_multicolumn_db::getContainerChildren() instead
+	 */
+	public static function containerHasChildren($containerUid, $showHidden = true) {
+		t3lib_div::logDeprecatedFunction();
+
+		return self::getContainerChildren($containerUid, $showHidden);
 	}
 
 	/**
