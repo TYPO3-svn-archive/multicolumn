@@ -109,7 +109,7 @@ class tx_multicolumn_tcemain {
 			$this->pObj = $pObj;
 
 				// if pasteinto multicolumn container is requested?
-			if($this->getMulticolumnGetAction() == 'pasteInto') {
+			if ($this->getMulticolumnGetAction() == 'pasteInto') {
 				$moveOrCopy = $this->pObj->copyMappingArray['tt_content'][$id] ? 'copy' : 'move';
 				$updateId = ($moveOrCopy == 'copy') ? $this->pObj->copyMappingArray['tt_content'][$id] : $id;
 
@@ -118,7 +118,7 @@ class tx_multicolumn_tcemain {
 				$containerChildren = tx_multicolumn_db::containerHasChildren($id);
 
 					// copy children of a multicolumn container too
-				if($command == 'copy' && $containerChildren) {
+				if ($command == 'copy' && $containerChildren) {
 						// the only way from here without db request to get the destinationPid?
 					$destinationPid = key($this->pObj->cachedTSconfig);
 					$sysLanguageUid = tx_multicolumn_db::getContentElement($this->pObj->copyMappingArray['tt_content'][$id], 'sys_language_uid');
@@ -126,21 +126,33 @@ class tx_multicolumn_tcemain {
 					$this->copyMulticolumnContainer($id, $containerChildren, $destinationPid, $sysLanguageUid['sys_language_uid']);
 
 					// check if content element has a seedy relation to multicolumncontainer?
-				} else if($command == 'copy' && $newUid = intval($this->pObj->copyMappingArray['tt_content'][$id])) {
+				} else if ($command == 'copy' && ($newUid = intval($this->pObj->copyMappingArray['tt_content'][$id]))) {
 					$row = t3lib_BEfunc::getRecordWSOL('tt_content', $newUid);
 
-						// if copy after
-					if($pObj->cmdmap['tt_content'][$id]['copy'] < 0) {
-						$elemetBeforeUid = abs($pObj->cmdmap['tt_content'][$id]['copy']);
-						$elemetBeforeData = tx_multicolumn_db::getContentElement($elemetBeforeUid, 'uid,tx_multicolumn_parentid,colPos');
-					}
+					if (is_array($row)) {
 
-					if($row['tx_multicolumn_parentid'] || $elemetBeforeData['tx_multicolumn_parentid']) {
-						$updateRecordFields = array (
-							'tx_multicolumn_parentid' => $elemetBeforeData['tx_multicolumn_parentid'] ? $elemetBeforeData['tx_multicolumn_parentid'] : 0,
-							'colPos' => $elemetBeforeData['colPos'] ? $elemetBeforeData['colPos'] : 0
+						$elementBeforeData = array(
+							'tx_multicolumn_parentid' => 0,
+							'colPos' => 0
 						);
-						tx_multicolumn_db::updateContentElement($newUid, $updateRecordFields);
+
+						if ($pObj->cmdmap['tt_content'][$id]['copy'] < 0) {
+							// Copying after another element
+							$elementBeforeUid = abs($pObj->cmdmap['tt_content'][$id]['copy']);
+							$elementBeforeData = tx_multicolumn_db::getContentElement($elementBeforeUid, 'uid,tx_multicolumn_parentid,colPos');
+						}
+
+						if ($row['tx_multicolumn_parentid'] || $elementBeforeData['tx_multicolumn_parentid']) {
+							// Update column position if:
+							// (1) was in the multicolumn before
+							//    or
+							// (2) copied after the element in the multicolumn
+							$updateRecordFields = array(
+								'tx_multicolumn_parentid' => $elementBeforeData['tx_multicolumn_parentid'],
+								'colPos' => $elementBeforeData['colPos']
+							);
+							tx_multicolumn_db::updateContentElement($newUid, $updateRecordFields);
+						}
 					}
 				}
 					// delete children too
