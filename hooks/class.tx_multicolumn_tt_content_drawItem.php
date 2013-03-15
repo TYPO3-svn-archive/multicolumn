@@ -292,22 +292,6 @@ class tx_multicolumn_tt_content_drawItem_base {
 	}
 }
 
-class tx_multicolumn_tt_content_drawItem_pre60 extends tx_multicolumn_tt_content_drawItem_base implements tx_cms_layout_tt_content_drawItemHook {
-	/**
-	 * Preprocesses the preview rendering of a content element.
-	 *
-	 * @param	tx_cms_layout		$parentObject: Calling parent object
-	 * @param	boolean				$drawItem: Whether to draw the item using the default functionalities
-	 * @param	string				$headerContent: Header content
-	 * @param	string				$itemContent: Item content
-	 * @param	array				$row: Record row of tt_content
-	 * @return	void
-	 */
-	public function preProcess(tx_cms_layout &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
-		parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
-	}
-}
-
 if (version_compare(TYPO3_branch, '6.0', '>=')) {
 	class tx_multicolumn_tt_content_drawItem extends tx_multicolumn_tt_content_drawItem_base implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface {
 
@@ -331,6 +315,22 @@ if (version_compare(TYPO3_branch, '6.0', '>=')) {
 		public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
 			parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
 			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/style-v6.css', 'stylesheet','screen');
+		}
+	}
+} else {
+	class tx_multicolumn_tt_content_drawItem_pre60 extends tx_multicolumn_tt_content_drawItem_base implements tx_cms_layout_tt_content_drawItemHook {
+		/**
+		 * Preprocesses the preview rendering of a content element.
+		 *
+		 * @param	tx_cms_layout		$parentObject: Calling parent object
+		 * @param	boolean				$drawItem: Whether to draw the item using the default functionalities
+		 * @param	string				$headerContent: Header content
+		 * @param	string				$itemContent: Item content
+		 * @param	array				$row: Record row of tt_content
+		 * @return	void
+		 */
+		public function preProcess(tx_cms_layout &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
+			parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
 		}
 	}
 }

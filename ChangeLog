@@ -1,3 +1,7 @@
+2013-03-15  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Follow up for #71740: fix drawItem hook for Debian (thanks to Christian Futterlieb)
+
 2013-03-11  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #35319: possible PHP errors in the TCEmain hook
