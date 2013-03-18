@@ -27,10 +27,10 @@ class tx_multicolumn_emconfhelper {
 	 * Checks if cms layout is xclassed
 	 *
 	 * @param	array				$params: Field information to be rendered
-	 * @param	t3lib_tsStyleConfig	$pObj: The calling parent object.
+	 * @param t3lib_tsStyleConfig|TYPO3\CMS\Extensionmanager\ViewHelpers\Form\TypoScriptConstantsViewHelper $pObj The calling parent object.
 	 * @return	string				Messages as HTML if something needs to be reported
 	 */
-	public function checkCompatibility(array $params, t3lib_tsStyleConfig $pObj) {
+	public function checkCompatibility(array $params, $pObj) {
 		$GLOBALS['LANG']->includeLLFile('EXT:multicolumn/locallang.xml');
 
 			// check templavoila
