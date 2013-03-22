@@ -439,4 +439,5 @@ class tx_multicolumn_tcemain {
 		return $gpVars['action'];
 	}
 }
+
 ?>
