@@ -173,8 +173,8 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 			$this->layoutConfiguration = tx_multicolumn_div::getLayoutConfiguration(null, $this->flex);
 
 				//include layout css
-			if(!empty($this->layoutConfiguration['layoutCss'])) {
-				$files = is_array($this->layoutConfiguration['layoutCss']) ? $this->layoutConfiguration['layoutCss'] : array('layoutCss' => $this->layoutConfiguration['layoutCss']);
+			if(!empty($this->layoutConfiguration['layoutCss']) || !empty($this->layoutConfiguration['layoutCss.'])) {
+				$files = is_array($this->layoutConfiguration['layoutCss.']) ? $this->layoutConfiguration['layoutCss.'] : array('layoutCss' => $this->layoutConfiguration['layoutCss']);
 				$this->includeCssJsFiles($files);
 			}
 
