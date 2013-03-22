@@ -1,3 +1,7 @@
+2013-03-18  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Released version 2.1.14
+
 2013-03-15  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Follow up for #71740: fix drawItem hook for Debian (thanks to Christian Futterlieb)
