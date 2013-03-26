@@ -436,7 +436,7 @@ class tx_multicolumn_tcemain {
 	protected function getMulticolumnGetAction() {
 		$gpVars = t3lib_div::_GET('tx_multicolumn');
 
-		return $gpVars['action'];
+		return is_array($gpVars) && isset($gpVars['action']) ? $gpVars['action'] : '';
 	}
 }
 
