@@ -252,7 +252,7 @@ class tx_multicolumn_tcemain {
 	 */
 	public function moveRecord_afterAnotherElementPostProcess($table, $uid, $destPid, $origDestPid, $moveRec, $updateFields, t3lib_TCEmain $pObj) {
 		// check if we must update the move record
-		if ($table == 'tt_content' && (is_array($this->isMulticolumnContainer($uid)) || tx_multicolumn_db::contentElementHasAMulticolumnParentContainer($uid) || (($origDestPid < 0) && tx_multicolumn_db::contentElementHasAMulticolumnParentContainer(abs($origDestPid))))) {
+		if ($table == 'tt_content' && ($this->isMulticolumnContainer($uid) || tx_multicolumn_db::contentElementHasAMulticolumnParentContainer($uid) || (($origDestPid < 0) && tx_multicolumn_db::contentElementHasAMulticolumnParentContainer(abs($origDestPid))))) {
 			if (!$this->getMulticolumnGetAction() == 'pasteInto') {
 				$updateRecordFields = array();
 				$updateRecordFields = $this->checkIfElementGetsCopiedOrMovedInsideOrOutsideAMulticolumnContainer($origDestPid, $updateRecordFields);
@@ -421,10 +421,10 @@ class tx_multicolumn_tcemain {
 	 * Check uid if is a multicolumn container
 	 *
 	 * @param int $uid
-	 * @return array
+	 * @return bool
 	 */
 	protected function isMulticolumnContainer($uid) {
-		return tx_multicolumn_db::getContainerFromUid($uid, 'uid');
+		return is_array(tx_multicolumn_db::getContainerFromUid($uid, 'uid'));
 	}
 
 	/**
