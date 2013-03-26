@@ -200,7 +200,7 @@ class tx_multicolumn_db {
 		$whereClause .= self::enableFields('tt_content');
 		$orderBy = 'sorting';
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
+		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, '', $orderBy);
 	}
 
 	/**
@@ -218,7 +218,7 @@ class tx_multicolumn_db {
 			$whereClause .= self::enableFields('tt_content');
 		}
 
-		list($container) = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, null, $orderBy, null);
+		list($container) = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause);
 		return $container;
 	}
 
