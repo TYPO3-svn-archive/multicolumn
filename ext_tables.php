@@ -103,4 +103,5 @@ t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/','Multicolumn');
 
 	// add configuration flexform
 t3lib_extMgm::addPiFlexFormValue('*', 'FILE:EXT:multicolumn/flexform_ds.xml','multicolumn');
+
 ?>
