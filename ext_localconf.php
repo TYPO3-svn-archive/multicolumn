@@ -47,4 +47,5 @@ t3lib_extMgm::addTypoScript('multicolumn', 'setup', '<INCLUDE_TYPOSCRIPT: source
 	// add frontend plugin
 t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_multicolumn_pi1.php','_pi1','list_type', 1);
 t3lib_extMgm::addPItoST43($_EXTKEY,'pi_sitemap/class.tx_multicolumn_pi_sitemap.php','_pi_sitemap','list_type', 1);
+
 ?>
