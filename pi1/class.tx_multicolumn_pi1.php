@@ -47,7 +47,7 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 	 * Incremented in parent cObj->RECORDS
 	 * and cObj->CONTENT before each record rendering.
 	 *
-	 * @var		integere
+	 * @var		int
 	 */
 	protected $currentCobjParentRecordNumber;
 
@@ -100,12 +100,15 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 	 */
 	protected $TSFEmaxWidthBefore;
 
+	/** @var string[] */
+	protected $llPrefixed;
+
 	/**
 	 * The main method of the PlugIn
 	 *
 	 * @param    string        $content: The PlugIn content
 	 * @param    array        $conf: The PlugIn configuration
-	 * @return    The content that is displayed on the website
+	 * @return   string The content that is displayed on the website
 	 */
 	public function main($content,$conf)    {
 		$this->init($content, $conf);
@@ -198,7 +201,6 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 	}
 
 	protected function renderMulticolumnView() {
-		$listData = array();
 		$listItemData = $this->buildColumnData();
 				//append config from column 0 for global config container width
 		$listData = $listItemData[0];
@@ -210,7 +212,6 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 	}
 
 	protected function renderEffectBoxView() {
-		$listData = array();
 		$listData = $this->cObj->data;
 
 		$columnWidth = !empty($this->effectConfiguration['effectBoxWidth']) ? $this->effectConfiguration['effectBoxWidth'] : $this->renderColumnWidth();
@@ -232,6 +233,9 @@ class tx_multicolumn_pi1 extends tx_multicolumn_pi_base  {
 			);
 			$listeItemsArray = t3lib_div::array_merge($listeItemsArray, $this->llPrefixed);
 			$listItemContent = $this->renderListItems('tt_content', 'effectBoxItems', $contentElements, $listeItemsArray);
+		}
+		else {
+			$listItemContent = '';
 		}
 
 		$listData['columnWidth'] = $columnWidth;
