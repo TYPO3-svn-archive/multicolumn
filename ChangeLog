@@ -1,3 +1,7 @@
+2013-04-01  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Fixed bug #46835: fix int_from_ver usage
+
 2013-03-26  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Released version 2.1.14

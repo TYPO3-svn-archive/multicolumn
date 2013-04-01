@@ -12,11 +12,11 @@ define('PATH_tx_multicolumn_rel', t3lib_extMgm::extRelPath($_EXTKEY));
 define('PATH_tx_multicolumn_pi_base', PATH_tx_multicolumn . 'lib/class.tx_multicolumn_pi_base.php');
 
 	// is TYPO3 Version < TYPO3 4-3
-if (t3lib_div::int_from_ver(TYPO3_branch) < t3lib_div::int_from_ver('4.4')) {
+if (version_compare(TYPO3_branch, '4.4', '<')) {
 	define('TX_MULTICOLUMN_TYPO3_4-3', true);
 }
 	// is TYPO3 Version > TYPO3 4-4
-if (t3lib_div::int_from_ver(TYPO3_branch) < t3lib_div::int_from_ver('4.5')) {
+if (version_compare(TYPO3_branch, '4.5', '<=')) {
 	define('TX_MULTICOLUMN_TYPO3_4-5_OR_ABOVE', true);
 }
 	//hooks
