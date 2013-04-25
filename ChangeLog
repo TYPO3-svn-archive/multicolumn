@@ -1,3 +1,7 @@
+2013-04-25  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Fixed bug #47008: wrong query for "lost" content elements
+
 2013-04-01  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #46835: fix int_from_ver usage
