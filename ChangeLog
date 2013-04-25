@@ -1,6 +1,7 @@
 2013-04-25  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #47008: wrong query for "lost" content elements
+	* Clean up file hooks/class.tx_multicolumn_tt_content_drawItem.php
 
 2013-04-01  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 

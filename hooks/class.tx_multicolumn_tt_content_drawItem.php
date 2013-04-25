@@ -1,5 +1,4 @@
 <?php
-require_once(PATH_typo3 . 'sysext/cms/layout/interfaces/interface.tx_cms_layout_tt_content_drawitemhook.php');
 
 class tx_multicolumn_tt_content_drawItem_base {
 
@@ -16,6 +15,9 @@ class tx_multicolumn_tt_content_drawItem_base {
 	 * @var        array
 	 */
 	protected $multiColCe;
+
+	/** @var int */
+	protected $multiColUid;
 
 	/**
 	 * Instance of tx_multicolumn_flexform
@@ -80,9 +82,8 @@ class tx_multicolumn_tt_content_drawItem_base {
 		// return if not multicolumn
 		if ($row['CType'] == 'multicolumn') {
 			// add css file
+			/** @noinspection PhpUndefinedMethodInspection */
 			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/' . $this->cssFile, 'stylesheet', 'screen');
-			require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
-			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 
 			$this->flex = t3lib_div::makeInstance('tx_multicolumn_flexform', $row['pi_flexform']);
 			$this->pObj = $parentObject;
@@ -113,6 +114,7 @@ class tx_multicolumn_tt_content_drawItem_base {
 		//build columns
 		$markup = '</span><table class="multicolumn t3-page-columns"><tr>';
 		$columnIndex = 0;
+		$multicolumnColPos = 0;
 
 		$widthOfAllColumnsInPx = 0;
 		foreach ($this->layoutConfigurationSplited as $columnConfiguration) {
@@ -158,11 +160,13 @@ class tx_multicolumn_tt_content_drawItem_base {
 
 		$newParams = $this->getNewRecordParams($this->multiColCe['pid'], $colPos, $this->multiColCe['uid'], $this->multiColCe['sys_language_uid']);
 		$columnNumber = $columnIndex + 1;
+		/** @noinspection PhpUndefinedMethodInspection */
 		$columnLabel = $this->isEffectBox ? $GLOBALS['LANG']->getLLL('cms_layout.effectBox', $this->LL) : $GLOBALS['LANG']->getLLL('cms_layout.columnTitle', $this->LL) . ' ' . $columnNumber;
 
 		$markup .= $this->pObj->tt_content_drawColHeader($columnLabel, NULL, $newParams);
 
 		if (version_compare(TYPO3_branch, '6.0', '>=')) {
+			/** @noinspection PhpUndefinedMethodInspection */
 			$markup .= '<a href="#" onclick="' . htmlspecialchars($newParams) . '" title="' . $GLOBALS['LANG']->getLL('newRecordHere', 1) . '">' . t3lib_iconWorks::getSpriteIcon('actions-document-new') . '</a>';
 		}
 
@@ -172,20 +176,24 @@ class tx_multicolumn_tt_content_drawItem_base {
 	}
 
 	/**
-	 * Builds the contentElement for the column
+	 * Builds the overview of content elements for the column
 	 *
 	 * @param    integer            $colPos
 	 * @param    integer            $pid page id
 	 * @param    integer            $mulitColumnParentId parent id of multicolumn content element
 	 * @param    integer            $sysLanguageUid sys language uid
+	 * @return string
 	 */
 	protected function buildColumnContentElements($colPos, $pid, $mulitColumnParentId, $sysLanguageUid) {
+		$result = '';
 		$showHidden = $this->pObj->tt_contentConfig['showHidden'] ? TRUE : FALSE;
 
 		$elements = tx_multicolumn_db::getContentElementsFromContainer($colPos, $pid, $mulitColumnParentId, $sysLanguageUid, $showHidden, NULL, $this->pObj);
 		if ($elements) {
-			return $this->renderContentElements($elements);
+			$result = $this->renderContentElements($elements);
 		}
+
+		return $result;
 	}
 
 	/**
@@ -195,6 +203,7 @@ class tx_multicolumn_tt_content_drawItem_base {
 	 * @return    string            $column markup
 	 */
 	protected function buildLostContentElementsRow($lastColumnNumber) {
+		$markup = '';
 		$additionalWhere = $additionalWhere = ' deleted = 0 AND (colPos >' . intval($lastColumnNumber) . ' OR colPos < ' . tx_multicolumn_div::colPosStart . ') AND tx_multicolumn_parentid = ' . $this->multiColUid;
 
 		$elements = tx_multicolumn_db::getContentElementsFromContainer(NULL, NULL, $this->multiColUid, $this->multiColCe['sys_language_uid'], TRUE, $additionalWhere, $this->pObj);
@@ -202,14 +211,14 @@ class tx_multicolumn_tt_content_drawItem_base {
 		if ($elements) {
 			$markup = '<div class="lostContentElementContainer">';
 
+			/** @noinspection PhpUndefinedMethodInspection */
 			$flashMessage = t3lib_div::makeInstance('t3lib_FlashMessage', $GLOBALS['LANG']->getLLL('cms_layout.lostElements.message', $this->LL), $GLOBALS['LANG']->getLLL('cms_layout.lostElements.title', $this->LL), t3lib_FlashMessage::WARNING);
 			$markup .= $flashMessage->render();
 
 			$markup .= $this->renderContentElements($elements, 'lostContentElements', TRUE);
 			$markup .= '</div>';
-
-			return $markup;
 		}
+		return $markup;
 	}
 
 	/**
@@ -246,7 +255,7 @@ class tx_multicolumn_tt_content_drawItem_base {
 					// restore next three
 					$this->pObj->tt_contentData['nextThree'] = $currentNextThree;
 				} else {
-					$content .= $this->addMultiColumnParentIdToCeHeader($this->pObj->tt_content_drawHeader($row, $space, $this->pObj->defLangBinding && $lP > 0, TRUE));
+					$content .= $this->addMultiColumnParentIdToCeHeader($this->pObj->tt_content_drawHeader($row, $space, FALSE, TRUE));
 				}
 				// pre crop bodytext
 				if ($row['bodytext']) {
@@ -280,10 +289,10 @@ class tx_multicolumn_tt_content_drawItem_base {
 	/**
 	 * Generates the url for the insertRecord links. Special value tx_multicolumn is considered here...
 	 *
-	 * @param    integer        record id
-	 * @param    integer        Column position value.
-	 * @param    integer        content id, reference where this content element belongs to
-	 * @param    integer        System language
+	 * @param    integer        $pid record id
+	 * @param    integer        $colPos Column position value.
+	 * @param    integer        $mulitColumnParentId content id, reference where this content element belongs to
+	 * @param    integer        $sysLanguageUid System language
 	 * @return    string
 	 */
 	function getNewRecordParams($pid, $colPos, $mulitColumnParentId, $sysLanguageUid = 0) {
@@ -320,6 +329,7 @@ if (version_compare(TYPO3_branch, '6.0', '>=')) {
 		 */
 		public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
 			parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
+			/** @noinspection PhpUndefinedMethodInspection */
 			$GLOBALS['TBE_TEMPLATE']->getPageRenderer()->addCssFile('../../../../typo3conf/ext/multicolumn/res/backend/style-v6.css', 'stylesheet', 'screen');
 		}
 	}
