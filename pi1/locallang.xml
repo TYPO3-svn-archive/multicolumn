@@ -9,7 +9,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="error.typoscript.title">Multicolumn-Typoscript is missing!</label>
-			<label index="error.typoscript.message">Please include Multicolumn Typoscript in the Web>Templates module under "Include static (from extensions)".</label>
+			<label index="error.typoscript.message">Please include Multicolumn Typoscript in the Web&gt;Templates module under "Include static (from extensions)".</label>
 			<label index="prev">Previous</label>
 			<label index="next">Next</label>
 		</languageKey>
