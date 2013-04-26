@@ -1,3 +1,7 @@
+2013-04-26  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Released version 2.1.15 (TYPO3 6.1 compatible)
+
 2013-04-25  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Fixed bug #47008: wrong query for "lost" content elements
