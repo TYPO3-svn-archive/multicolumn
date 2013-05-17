@@ -1,3 +1,7 @@
+2013-05-17  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+  	* Fixed issue #47907: Interface 'tx_cms_layout_tt_content_drawItemHook' not found
+
 2013-04-26  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Released version 2.1.15 (TYPO3 6.1 compatible)
