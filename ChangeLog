@@ -1,3 +1,7 @@
+2013-05-21  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Remove require_once for an interface (causes issues with TYPO3 6.2)
+
 2013-05-17  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
   	* Fixed issue #47907: Interface 'tx_cms_layout_tt_content_drawItemHook' not found

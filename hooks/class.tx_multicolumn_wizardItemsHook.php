@@ -22,7 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_typo3 . 'interfaces/interface.cms_newcontentelementwizarditemshook.php');
 class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook {
 	/**
 	 * modifies WizardItems array
