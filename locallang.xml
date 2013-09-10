@@ -10,7 +10,7 @@
 			<label index="pi1_plus_wiz_description">This content element allows you to create dynamic columns.</label>
 			<label index="cms_layout.effectBox">Effect Box column</label>
 			<label index="cms_layout.columnTitle">Column</label>
-			<label index="cms_layout.lostElements.title">Lost contentelements</label>
+			<label index="cms_layout.lostElements.title">Lost content elements</label>
 			<label index="cms_layout.lostElements.message">Following elements has no relation to a multicolumn column. You can edit the element and switch to an other column or simply cut and paste with the element context menu.</label>
 			<label index="cms_layout.deleteWarning">(This multicolumn container has %s content element(s) which will be deleted, too!)</label>
 			<label index="multicolumColumn">Multicolumn column:</label>
@@ -32,7 +32,7 @@
 			<label index="cms_layout.lostElements.message">Folgende Inhaltselemente gehören keiner Spalte an. Sie können das Inhaltselement bearbeiten und einer neuen Spalte zuweisen oder mit dem Element-Kontext-Menu verschieben.</label>
 			<label index="multicolumColumn">Multispalte:</label>
 			<label index="multicolumColumn.clickmenu">Spalte</label>
-			
+
 			<label index="emconfhelper.title">Uppsala! Es besteht ein Konflikt mit der Erweiterung</label>
 		</languageKey>
 	</data>
