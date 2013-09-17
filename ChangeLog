@@ -1,3 +1,7 @@
+2013-09-17  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Released version 2.1.16
+
 2013-05-21  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Remove require_once for an interface (causes issues with TYPO3 6.2)
