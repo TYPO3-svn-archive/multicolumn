@@ -1,3 +1,7 @@
+2013-10-07  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
+
+	* Remove require_once for tslib_pibase (TYPO3 6.2 compatibility)
+
 2013-09-17  Dmitry Dulepov  <dmitry.dulepov@gmail.com>
 
 	* Released version 2.1.16

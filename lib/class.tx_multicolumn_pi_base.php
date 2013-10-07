@@ -20,8 +20,7 @@
 *  GNU General Public License for more details.
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
-*  */
-require_once( PATH_tslib . 'class.tslib_pibase.php' );
+*/
 
 class tx_multicolumn_pi_base extends tslib_pibase {
 
