@@ -84,15 +84,13 @@ class tx_multicolumn_db {
 
 		$orderBy = 'sorting ASC';
 
-		if (!$GLOBALS['TYPO3_DB']->sql_error()) {
-			if ($cmsLayout) {
-				// use cms layout object for correct icons
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, '', $orderBy);
-				$output = $cmsLayout->getResult($res, 'tt_content', 1);
-				$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			} else {
-				$output = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, '', $orderBy);
-			}
+		if ($cmsLayout) {
+			// use cms layout object for correct icons
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $fromTable, $whereClause, '', $orderBy);
+			$output = $cmsLayout->getResult($res, 'tt_content', 1);
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		} else {
+			$output = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($selectFields, $fromTable, $whereClause, '', $orderBy);
 		}
 
 		return $output;
@@ -148,7 +146,6 @@ class tx_multicolumn_db {
 		$result = 0;
 		$row = self::getContentElement($mulitColumnId);
 		if ($row['pi_flexform']) {
-			require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_flexform.php');
 			$flexObj = t3lib_div::makeInstance('tx_multicolumn_flexform', $row['pi_flexform']);
 			/** @var tx_multicolumn_flexform $flexObj */
 			$layoutConfiguration = tx_multicolumn_div::getLayoutConfiguration($row['pid'], $flexObj);
