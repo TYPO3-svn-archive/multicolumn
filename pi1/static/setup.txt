@@ -1,5 +1,5 @@
 temp.effectBoxImageRendering {
-	text = 
+	text =
 	text.20 =
 	text.wrap =
 	layout = TEXT
@@ -24,7 +24,7 @@ temp.effectBoxImageRendering {
 	}
 
 	renderMethod = simple
-	
+
 }
 
 
@@ -49,17 +49,17 @@ plugin.tx_multicolumn_pi1 {
 			}
 				# to do add configuration option to prevent clear
 			clearfix = clearfix
-			
+
 			makeEqualElementBoxHeight = multicolumnContainerFixHeight
 			makeEqualElementBoxHeight {
 				if.isTrue.field = makeEqualElementBoxHeight
 			}
-			
+
 			makeEqualElementColumnHeight = multicolumnContainerfixColumnHeight
 			makeEqualElementColumnHeight {
 				if.isTrue.field = makeEqualElementColumnHeight
 			}
-			
+
 
 				# layout class
 			layout = multicolumnLayout{field:layoutKey}
@@ -123,11 +123,11 @@ plugin.tx_multicolumn_pi1 {
 				value (
 					<div class="columnItems" style="{register:padding}">
 						{field:content}
-					</div>				
+					</div>
 				)
 			}
 		}
-		
+
 		2 = LOAD_REGISTER
 		2 {
 			styles = style="{register:width} {register:margin}"
@@ -201,13 +201,13 @@ plugin.tx_multicolumn_pi1 {
 
 			10 = < tt_content
 			10 {
-				stdWrap.innerWrap.cObject = 
+				stdWrap.innerWrap.cObject =
 				image {
 					20 < temp.effectBoxImageRendering
 				}
 				textpic {
 					20 < temp.effectBoxImageRendering
-					
+
 					30 = TEXT
 					30 {
 						if.isTrue.field = bodytext
@@ -254,21 +254,21 @@ plugin.tx_multicolumn_pi1 {
 
 			10 {
 				stdWrap.dataWrap = <dd class="effectBoxItem effectBoxItem{field:recordNumber} effectBoxItemContent {field:isFirst} {field:isLast}">|</dd>
-				
+
 					# remove lib.stdheader from element
 				image.10 = TEXT
 					# remove lib.stdheader from element
 				textpic.10 = TEXT
 			}
 		}
-		
+
 		vAccordion < .default
 		vAccordion = COA
 		vAccordion {
 			stdWrap {
 				dataWrap = <li class="effectBoxItem effectBoxItem{field:recordNumber} {field:isFirst} {field:isLast}">|</li>
 			}
-			
+
 			10 = COA
 			10 {
 				stdWrap.prepend = TEXT
@@ -277,10 +277,10 @@ plugin.tx_multicolumn_pi1 {
 					field = header
 					required = 1
 				}
-						
-				wrap = <div class="effectBoxItemContent"><div class="innerWrap">|</div></div>	
+
+				wrap = <div class="effectBoxItemContent"><div class="innerWrap">|</div></div>
 				required = 1
-				
+
 				10 >
 				10 =< tt_content
 				10 {
@@ -291,15 +291,15 @@ plugin.tx_multicolumn_pi1 {
 				}
 			}
 		}
-		
+
 		simpleTabs = COA
 		simpleTabs {
 			stdWrap.dataWrap = <li class="tabItem tabItem{field:recordNumber} clearfix"><div class="innerTab"><span class="simpleTabNavigationItemContent" style="display: none;">{field:header}</span>|</div></li>
-			
+
 			10 = < tt_content
 			10 {
 				uploads {
-					10 = 
+					10 =
 				}
 				list {
 					10 =
@@ -314,19 +314,19 @@ plugin.tx_multicolumn_pi1 {
 					10 =
 				}
 				bullets {
-					10 = 
+					10 =
 				}
 				table {
 					10 =
 				}
 				multimedia {
-					10 = 
+					10 =
 				}
 				mailform {
 					10 =
 				}
 				search {
-					10 = 
+					10 =
 				}
 				login {
 					10 =
@@ -339,7 +339,7 @@ plugin.tx_multicolumn_pi1 {
 				}
 			}
 		}
-		
+
 		roundabout = COA
 		roundabout {
 			stdWrap {
@@ -348,11 +348,11 @@ plugin.tx_multicolumn_pi1 {
 
 			10 = < tt_content
 			10 {
-				stdWrap.innerWrap.cObject = 
+				stdWrap.innerWrap.cObject =
 				image {
 					20 < temp.effectBoxImageRendering
 					20 {
-						
+
 					}
 				}
 				textpic {
@@ -361,14 +361,14 @@ plugin.tx_multicolumn_pi1 {
 						maxW.cObject =
 						maxW = 20
 						maxW.override.data =
-					
+
 						maxWInText = 20
 						maxWInText.override.data =
-						
+
 						maxWInText.cObject = TEXT
 						maxWInText.cObject.value = 196
 					}
-					
+
 					30 = TEXT
 					30 {
 						if.isTrue.field = bodytext
@@ -377,7 +377,7 @@ plugin.tx_multicolumn_pi1 {
 						wrap = <div class="effectBoxText">|</div>
 					}
 				}
-			}		
+			}
 		}
 	}
 
@@ -403,33 +403,33 @@ plugin.tx_multicolumn_pi1 {
 			field = effectBoxItems
 			dataWrap = <dl style="{field:columnWidth}">|</dl>
 		}
-		
+
 		vAccordion = TEXT
 		vAccordion {
 			required = 1
 			field = effectBoxItems
 			dataWrap = <ul class="vAccordion" id="effectBox_{field:uid}">|</ul>
 		}
-		
+
 		simpleTabs = TEXT
 		simpleTabs {
 			if.isTrue.field = effectBoxItems
 			insertData = 1
 			value (
 				<div class="simpleTabNavigationContainer">
-					
+
 				</div>
 				<ul class="simpleTabsContainer clearfix">
 					{field:effectBoxItems}
 				</ul>
 			)
 		}
-		
+
 		roundabout = TEXT
 		roundabout {
 			if.isTrue.field = effectBoxItems
 			insertData = 1
-			
+
 			value (
 <ul class="effectBoxList">
 	{field:effectBoxItems}
@@ -447,9 +447,9 @@ plugin.tx_multicolumn_pi1 {
 			</span>
 		</li>
 	</ul>
-	
+
 	<div class="pointNav">
-	
+
 	</div>
 </div>
 			)

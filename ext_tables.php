@@ -1,6 +1,6 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
-	
+
 	// add CType multicolumn
 t3lib_div::loadTCA('tt_content');
 $TCA['tt_content']['types']['multicolumn'] = array (
@@ -12,7 +12,7 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 	$multicolumnAdded = false;
 	$firstDivChecked = false;
 	$sortedItems = array();
-		
+
 	foreach ($TCA['tt_content']['columns']['CType']['config']['items'] as $key => $item) {
 		if($item[1] == '--div--' && $firstDivChecked &! $multicolumnAdded) {
 			$sortedItems[] = array (
@@ -22,7 +22,7 @@ if(is_array($TCA['tt_content']['columns']['CType']['config']['items'])) {
 			);
 			$multicolumnAdded = true;
 		}
-	
+
 		$firstDivChecked = true;
 		$sortedItems[] = $item;
 	}
@@ -39,19 +39,19 @@ if(tx_multicolumn_div::isTypo3VersionAboveTypo343()) {
 
 	// add tx_multicolumn_contentid to tt_content table
 $tempColumns = array (
-	'tx_multicolumn_parentid' => array (		
-		'exclude' => 1,		
-		'label' => 'LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_parentid',		
+	'tx_multicolumn_parentid' => array (
+		'exclude' => 1,
+		'label' => 'LLL:EXT:multicolumn/locallang_db.xml:tt_content.tx_multicolumn_parentid',
 		'config' => array (
 			'type' => 'select',
-			'foreign_table' => 'tt_content',    
+			'foreign_table' => 'tt_content',
 			'foreign_table_where' => 'AND tt_content.uid=###REC_FIELD_tx_multicolumn_parentid###',
 			'itemsProcFunc' => 'tx_multicolumn_tceform->init',
 			'multicolumnProc' => 'buildMulticolumnList',
 			'items' => array (
-				array()	
+				array()
 			),
-			'size' => 1,	
+			'size' => 1,
 			'minitems' => 0,
 			'maxitems' => 1,
 			'wizards' => array(
@@ -79,8 +79,8 @@ if(!empty($GLOBALS['TCA']['tt_content']['palettes'][4])) t3lib_extMgm::addFields
 if(TYPO3_MODE == 'BE') {
 		// add itemsProcFunc to colPos for dynamic colPos
 	require_once(PATH_tx_multicolumn . 'lib/class.tx_multicolumn_tceform.php');
-	
-		// add clickmenu expansion	
+
+		// add clickmenu expansion
 	$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][]=array(
 		'name' => 'tx_multicolumn_alt_clickmenu',
 		'path' => PATH_tx_multicolumn . 'hooks/class.tx_multicolumn_alt_clickmenu.php'
@@ -100,7 +100,8 @@ $TCA['tt_content']['ctrl']['requestUpdate'] .= ',layoutKey,tx_multicolumn_parent
 
 	// add typoscript
 t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/','Multicolumn');
-	
+
 	// add configuration flexform
 t3lib_extMgm::addPiFlexFormValue('*', 'FILE:EXT:multicolumn/flexform_ds.xml','multicolumn');
+
 ?>

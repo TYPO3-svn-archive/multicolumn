@@ -23,7 +23,7 @@
 ***************************************************************/
 
 class tx_multicolumn_tce_eval {
-		
+
 	/**
 	 * Returns input value
 	 *
@@ -32,7 +32,7 @@ class tx_multicolumn_tce_eval {
 	public function returnFieldJS() {
 		return 'return (value ? value : null);';
 	}
-	
+
 	/**
 	 * Checks if input value of advanced layout column is greater than $returnValue
 	 *
@@ -42,11 +42,11 @@ class tx_multicolumn_tce_eval {
 		if($id = t3lib_div::_GP('popViewId')) {
 			$conf = tx_multicolumn_div::getTSConfig($id, 'config');
 			$maxNumberOfColumns = $conf['advancedLayouts.']['maxNumberOfColumns'];
-			
+
 			$returnValue = ($inputValue > $maxNumberOfColumns) ? $maxNumberOfColumns : $inputValue;
 		}
-			
+
 		return $returnValue ? $returnValue : ($inputValue ? $inputValue : null);
-	}	
+	}
 }
 ?>

@@ -22,7 +22,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_typo3 . 'interfaces/interface.cms_newcontentelementwizarditemshook.php');
+if (!class_exists('cms_newContentElementWizardsHook')) {
+	t3lib_div::requireOnce(PATH_typo3 . 'interfaces/interface.cms_newcontentelementwizarditemshook.php');
+}
+
 class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook {
 	/**
 	 * modifies WizardItems array
@@ -40,7 +43,7 @@ class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook
 			$this->addMulticolumnParentId($wizardItems);
 		}
 	}
-	
+
 	/* Processing the wizard items array
 	 *
 	 * @param	array		$wizardItems: The wizard items
@@ -59,11 +62,11 @@ class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook
 			),
 			'params' => '&defVals[tt_content][CType]=multicolumn'
 		);
-	
+
 		$sortedItems = array();
-		
+
 		$position = $this->getWizardItemPosition($wizardItems);
-		
+
 		foreach ($wizardItems as $key => &$item) {
 			$sortedItems[$key] = $item;
 			if($key == $position) $sortedItems['common_multicolumn'] = $multicolumnElement;
@@ -71,12 +74,12 @@ class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook
 
 		$wizardItems = $sortedItems;
 	}
-	
+
 	/* Evaluates the position of the multicolumn element in the wizardItem list
 	 *
 	 * @param	array		$wizardItems: The wizard items
 	 * @return	string		The array key to insert
-	 */	
+	 */
 	protected function getWizardItemPosition (array $wizardItems) {
 		foreach ($wizardItems as $key => &$item) {
 			if(!strstr($key ,'common')) return $lastKey;
@@ -91,17 +94,17 @@ class tx_multicolumn_wizardItemsHook implements cms_newContentElementWizardsHook
 	 */
 	protected function includeLocalLang()	{
 		$llFile = PATH_tx_multicolumn.'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$LOCAL_LANG = tx_multicolumn_div::readLLfile($llFile, $GLOBALS['LANG']->lang);
 
 		return $LOCAL_LANG;
 	}
-	
+
 	/**
 	 * add mulitcolumn parentid to wizard params
 	 *
 	 * @param	array					array of Wizard Items
 	 * @return	void
-	 */	
+	 */
 	protected function addMulticolumnParentId (array &$wizardItems) {
 		foreach ($wizardItems as &$wizardItem) {
 			if($wizardItem['params']) {

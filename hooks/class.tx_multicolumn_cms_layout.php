@@ -22,32 +22,32 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 class tx_multicolumn_cms_layout {
-	
+
 	/**
 	 * Expands the delete warning with "(This multicolumn container has X content elements(s)...)
 	 * before you delete a records
 	 */
 	public function addDeleteWarning ($params, $pObj) {
 		if(!$params[0] == 'tt_content') return;
-		$LL = tx_multicolumn_div::includeBeLocalLang();
-		$multicolumnUid = false;
-		
-			// adjust delete warning	
+
+			// adjust delete warning
 		if($params['2']['CType'] == 'multicolumn') {
 			$numberOfContentElements = tx_multicolumn_db::getNumberOfContentElementsFromContainer($params['2']['uid']);
+
+			$LL = tx_multicolumn_div::includeBeLocalLang();
 
 				// no children found? return!
 			if(!$numberOfContentElements) {
 				$this->restoreOrginalDeleteWarning($LL);
 				return;
 			}
-			
+
 			$llGlobal = &$GLOBALS['LOCAL_LANG'];
 
 				// add multicolumn delete warning
 			foreach($LL as $llKey => $ll) {
 				$deleteWarningOrginal = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];
-				
+
 				$cmsLayoutDeleteWarning = $ll['cms_layout.deleteWarning'];
 				if(is_array($cmsLayoutDeleteWarning)) {
 					$cmsLayoutDeleteWarning = $cmsLayoutDeleteWarning[0]['target'];
@@ -60,9 +60,9 @@ class tx_multicolumn_cms_layout {
 						$llValue = $deleteWarning[0];
 					}
 				} else {
-					$llGlobal[$llKey]['deleteWarningOrginal'] = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];	
+					$llGlobal[$llKey]['deleteWarningOrginal'] = isset($llGlobal[$llKey]['deleteWarningOrginal']) ? $llGlobal[$llKey]['deleteWarningOrginal'] : $llGlobal[$llKey]['deleteWarning'];
 				}
-				
+
 				if(is_array($llGlobal[$llKey]['deleteWarning'])) {
 					foreach($llGlobal[$llKey]['deleteWarning'] as &$llValue) {
 						$llValue['source'] = $deleteWarningOrginal[0]['source'] . chr(10) . $deleteWarningMulticolumn;
@@ -73,18 +73,15 @@ class tx_multicolumn_cms_layout {
 				}
 			}
 
-			// restore orginal deleteWarning
-		} else if(isset($llGlobal['default']['deleteWarningOrginal'])) {
-			$this->restoreOrginalDeleteWarning($LL);
+			unset($llGlobal);
 		}
-		
-		unset($llGlobal);
+
 	}
-	
+
 	protected function restoreOrginalDeleteWarning (array $LL) {
 		foreach($LL as $llKey => $ll) {
 			if($GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal']) $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarning'] = $GLOBALS['LOCAL_LANG'][$llKey]['deleteWarningOrginal'];
-		}	
+		}
 	}
 }
 ?>
