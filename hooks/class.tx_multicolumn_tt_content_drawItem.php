@@ -350,7 +350,9 @@ if (version_compare(TYPO3_branch, '6.0', '>=')) {
 		 * @return    void
 		 */
 		public function preProcess(tx_cms_layout &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
+			$outerTtContentDataArray = $parentObject->tt_contentData;
 			parent::preProcess_base($parentObject, $drawItem, $headerContent, $itemContent, $row);
+			$parentObject->tt_contentData = $outerTtContentDataArray;
 		}
 	}
 }
